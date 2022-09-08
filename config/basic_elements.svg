@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    version="1.1" baseProfile="full"
+    width="500mm" height="500mm"
+    viewBox="-20 -20 700 700">
+    <title>Basic Elements</title>
+    <desc>Graphical Elements, which a tatted figure consists of. Can be extended.</desc>
+
+
+<!-- Grundelemente -->
+<!-- Wichtig ist, dass der Punkt, um den später gedreht wird, auf (0,0) liegt -->
+<!-- ### START PART TO BE COPIED ### -->
+<g fill="none" stroke-linecap="round"><path id="ring1"  d="M 0,0   Q -40,30 -40,60    A 20,20 0, 1, 0 40,60   Q 40,30 0,0" /></g>  <!-- Tropfen, Spitze oben -->
+<g fill="none" stroke-linecap="round"><path id="ring2"  d="M 0,0   Q -36,36 -36,72    A 17,17 0, 1, 0 36,72  Q 36,36 0,0" /></g>  <!-- Tropfen, Spitze oben -->
+<g fill="none" stroke-linecap="round"><path id="ring3"  d="M 0,0   Q -28,43 -28,87    A 14,14 0, 1, 0 28,87   Q 28,43 0,0" /></g>  <!-- Tropfen, Spitze oben -->
+<g fill="none" stroke-linecap="round"><path id="chain1" d="M 0,0   Q 60,-50 120,0" /></g>   <!-- Bogen, leicht nach oben gewölbt -->
+<g fill="none" stroke-linecap="round"><path id="chain2" d="M 0,0   Q 60, 50 120,0" /></g>   <!-- Bogen, leicht nach unten gewölbt -->
+<g fill="none" stroke-linecap="round"><path id="chain3" d="M 0,0   Q 41,-69 83,0" /></g>    <!-- Bogen, mittel nach oben gewölbt -->
+<g fill="none" stroke-linecap="round"><path id="chain4" d="M 0,0   Q 41, 69 83,0" /></g>    <!-- Bogen, mittel nach unten gewölbt -->
+<g fill="none" stroke-linecap="round"><path id="chain5" d="M 0,0   Q 30,-74 59,0" /></g>    <!-- Bogen, stark nach oben gewölbt -->
+<g fill="none" stroke-linecap="round"><path id="chain6" d="M 0,0   Q 30, 74 59,0" /></g>    <!-- Bogen, stark nach unten gewölbt -->
+<g fill="none" stroke-linecap="round"><path id="picot"  d="M 0,0   Q -6,10 -6,16     A 6,6 0, 1, 0 6,16     Q 6,10 0,0"  /></g> <!-- Zierpicot, normal groß, Spitze oben -->
+<!-- ### END PART TO BE COPIED ### -->
+
+<!-- Output -->
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(20 45)"   xlink:href="#ring1"/></g><text x="0" y="20">ring1</text>
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(120 45)"  xlink:href="#ring2"/></g><text x="100" y="20">ring2</text>
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(220 45)"  xlink:href="#ring3"/></g><text x="200" y="20">ring3</text>
+
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(320 100)" xlink:href="#chain1"/></g><text x="360" y="20">chain1</text>
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(320 140)" xlink:href="#chain2"/></g><text x="360" y="220">chain2</text>
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(470 100)" xlink:href="#chain3"/></g><text x="490" y="20">chain3</text>
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(470 140)" xlink:href="#chain4"/></g><text x="490" y="220">chain4</text>
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(570 100)" xlink:href="#chain5"/></g><text x="580" y="20">chain5</text>
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(570 140)" xlink:href="#chain6"/></g><text x="580" y="220">chain6</text>
+
+</svg>
