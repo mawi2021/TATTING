@@ -213,118 +213,145 @@
 <line y1="1960"   x1="0" y2="1960"   x2="2000" stroke="lightgrey" stroke-width="1px" />
 <line y1="1980"   x1="0" y2="1980"   x2="2000" stroke="lightgrey" stroke-width="1px" />
 <!-- Grundelemente -->
-<g fill="none" stroke-linecap="round"><path id="ring1"  d="M 0,0   Q -40,30 -40,60    A 20,20 0, 1, 0 40,60   Q 40,30 0,0" /></g>  <!-- Tropfen, Spitze oben -->
-<g fill="none" stroke-linecap="round"><path id="ring2"  d="M 0,0   Q -36,36 -36,72    A 17,17 0, 1, 0 36,72  Q 36,36 0,0" /></g>  <!-- Tropfen, Spitze oben -->
-<g fill="none" stroke-linecap="round"><path id="ring3"  d="M 0,0   Q -28,43 -28,87    A 14,14 0, 1, 0 28,87   Q 28,43 0,0" /></g>  <!-- Tropfen, Spitze oben -->
-<g fill="none" stroke-linecap="round"><path id="chain1" d="M 0,0   Q 60,-50 120,0" /></g>   <!-- Bogen, leicht nach oben gewölbt -->
-<g fill="none" stroke-linecap="round"><path id="chain2" d="M 0,0   Q 60, 50 120,0" /></g>   <!-- Bogen, leicht nach unten gewölbt -->
-<g fill="none" stroke-linecap="round"><path id="chain3" d="M 0,0   Q 41,-69 83,0" /></g>    <!-- Bogen, mittel nach oben gewölbt -->
-<g fill="none" stroke-linecap="round"><path id="chain4" d="M 0,0   Q 41, 69 83,0" /></g>    <!-- Bogen, mittel nach unten gewölbt -->
-<g fill="none" stroke-linecap="round"><path id="chain5" d="M 0,0   Q 30,-74 59,0" /></g>    <!-- Bogen, stark nach oben gewölbt -->
-<g fill="none" stroke-linecap="round"><path id="chain6" d="M 0,0   Q 30, 74 59,0" /></g>    <!-- Bogen, stark nach unten gewölbt -->
-<g fill="none" stroke-linecap="round"><path id="picot"  d="M 0,0   Q -6,10 -6,16     A 6,6 0, 1, 0 6,16     Q 6,10 0,0"  /></g> <!-- Zierpicot, normal groß, Spitze oben -->
+<g fill="none" stroke-linecap="round"><path id="Ra"  d="M 0,0   Q -40,30 -40,60    A 1,1 0, 1, 0 40,60   Q 40,30 0,0" /></g>    <!-- Tropfen, Spitze oben -->
+<g fill="none" stroke-linecap="round"><path id="Rb" d="M 0,0   Q -36,36 -36,72    A 1,1 0, 1, 0 36,72   Q 36,36 0,0" /></g>     <!-- Tropfen, Spitze oben -->
+<g fill="none" stroke-linecap="round"><path id="Rc" d="M 0,0   Q -28,43 -28,87    A 1,1 0, 1, 0 28,87   Q 28,43 0,0" /></g>     <!-- Tropfen, Spitze oben -->
+<g fill="none" stroke-linecap="round"><path id="Cf" d="M 0,0   Q 90,-188 180,0" /></g>  <!-- Bogen, nach oben gewölbt -->
+<g fill="none" stroke-linecap="round"><path id="Ce" d="M 0,0   Q 108,-150 216,0" /></g> <!-- Bogen, nach oben gewölbt -->
+<g fill="none" stroke-linecap="round"><path id="Cd" d="M 0,0   Q 120,-116 240,0" /></g> <!-- Bogen, nach oben gewölbt -->
+<g fill="none" stroke-linecap="round"><path id="Cc" d="M 0,0   Q 130,-72 260,0" /></g>  <!-- Bogen, nach oben gewölbt -->
+<g fill="none" stroke-linecap="round"><path id="Cb" d="M 0,0   Q 135,-35 270,0" /></g>  <!-- Bogen, nach oben gewölbt -->
+<g fill="none" stroke-linecap="round"><path id="Ca" d="M 0,0   Q 136,-2 273,0" /></g>   <!-- Bogen, nach oben gewölbt -->
+<g fill="none" stroke-linecap="round"><path id="Cg" d="M 0,0   Q 75,-214 150,0" /></g>  <!-- Bogen, nach unten gewölbt -->
+<g fill="none" stroke-linecap="round"><path id="ca" d="M 0,0   Q 90,188 180,0" /></g>   <!-- Bogen, nach unten gewölbt -->
+<g fill="none" stroke-linecap="round"><path id="cb" d="M 0,0   Q 108,150 216,0" /></g>  <!-- Bogen, nach unten gewölbt -->
+<g fill="none" stroke-linecap="round"><path id="cc" d="M 0,0   Q 120,116 240,0" /></g>  <!-- Bogen, nach unten gewölbt -->
+<g fill="none" stroke-linecap="round"><path id="cd" d="M 0,0   Q 130,72 260,0" /></g>   <!-- Bogen, nach unten gewölbt -->
+<g fill="none" stroke-linecap="round"><path id="ce" d="M 0,0   Q 135,35 270,0" /></g>   <!-- Bogen, nach unten gewölbt -->
+<g fill="none" stroke-linecap="round"><path id="cf" d="M 0,0   Q 136,2 273,0" /></g>    <!-- Bogen, nach unten gewölbt -->
+<g fill="none" stroke-linecap="round"><path id="cg" d="M 0,0   Q 75,214 150,0" /></g>   <!-- Bogen, nach unten gewölbt -->
 
 <!-- Individueller Teil -->
 <g id="R1" fill="none" stroke-linecap="round">
-   <use transform="scale(0.23 0.23)" xlink:href="#ring1"/>
-   <use transform="translate(-7.82 8.05) rotate(120) scale(0.23 0.23)" xlink:href="#picot"/>
-   <use transform="translate(-8.51 17.25) rotate(72) scale(0.23 0.23)" xlink:href="#picot"/>
-   <use transform="translate(0.0 23.0) rotate(0) scale(0.115 0.115)" xlink:href="#picot"/>
-   <use transform="translate(8.51 17.25) rotate(288) scale(0.23 0.23)" xlink:href="#picot"/>
-   <use transform="translate(7.82 8.05) rotate(240) scale(0.115 0.115)" xlink:href="#picot"/>
+   <use transform="scale(0.2 0.2)" xlink:href="#Rb"/>
 </g>
 <g id="R2" fill="none" stroke-linecap="round">
-   <use transform="scale(0.23 0.23)" xlink:href="#ring1"/>
-   <use transform="translate(-7.82 8.05) rotate(120) scale(0.115 0.115)" xlink:href="#picot"/>
-   <use transform="translate(-8.51 17.25) rotate(72) scale(0.23 0.23)" xlink:href="#picot"/>
-   <use transform="translate(0.0 23.0) rotate(0) scale(0.23 0.23)" xlink:href="#picot"/>
-   <use transform="translate(8.51 17.25) rotate(288) scale(0.23 0.23)" xlink:href="#picot"/>
-   <use transform="translate(7.82 8.05) rotate(240) scale(0.115 0.115)" xlink:href="#picot"/>
+   <use transform="scale(0.2 0.2)" xlink:href="#Rb"/>
 </g>
 <g id="R3" fill="none" stroke-linecap="round">
-   <use transform="scale(0.23 0.23)" xlink:href="#ring1"/>
-   <use transform="translate(-7.82 8.05) rotate(120) scale(0.115 0.115)" xlink:href="#picot"/>
-   <use transform="translate(-8.51 17.25) rotate(72) scale(0.23 0.23)" xlink:href="#picot"/>
-   <use transform="translate(0.0 23.0) rotate(0) scale(0.115 0.115)" xlink:href="#picot"/>
-   <use transform="translate(8.51 17.25) rotate(288) scale(0.23 0.23)" xlink:href="#picot"/>
-   <use transform="translate(7.82 8.05) rotate(240) scale(0.23 0.23)" xlink:href="#picot"/>
+   <use transform="scale(0.2 0.2)" xlink:href="#Rb"/>
 </g>
 <g id="R4" fill="none" stroke-linecap="round">
-   <use transform="scale(0.23 0.23)" xlink:href="#ring2"/>
-   <use transform="translate(-7.82 8.05) rotate(120) scale(0.23 0.23)" xlink:href="#picot"/>
-   <use transform="translate(-8.51 17.25) rotate(72) scale(0.23 0.23)" xlink:href="#picot"/>
-   <use transform="translate(0.0 23.0) rotate(0) scale(0.115 0.115)" xlink:href="#picot"/>
-   <use transform="translate(8.51 17.25) rotate(288) scale(0.23 0.23)" xlink:href="#picot"/>
-   <use transform="translate(7.82 8.05) rotate(240) scale(0.115 0.115)" xlink:href="#picot"/>
+   <use transform="scale(0.2 0.2)" xlink:href="#Rb"/>
 </g>
 <g id="R5" fill="none" stroke-linecap="round">
-   <use transform="scale(0.23 0.23)" xlink:href="#ring2"/>
-   <use transform="translate(-7.82 8.05) rotate(120) scale(0.23 0.23)" xlink:href="#picot"/>
-   <use transform="translate(-8.51 17.25) rotate(72) scale(0.23 0.23)" xlink:href="#picot"/>
-   <use transform="translate(0.0 23.0) rotate(0) scale(0.115 0.115)" xlink:href="#picot"/>
-   <use transform="translate(8.51 17.25) rotate(288) scale(0.23 0.23)" xlink:href="#picot"/>
-   <use transform="translate(7.82 8.05) rotate(240) scale(0.23 0.23)" xlink:href="#picot"/>
+   <use transform="scale(0.2 0.2)" xlink:href="#Ra"/>
 </g>
 <g id="R6" fill="none" stroke-linecap="round">
-   <use transform="scale(0.23 0.23)" xlink:href="#ring3"/>
-   <use transform="translate(-7.82 8.05) rotate(120) scale(0.23 0.23)" xlink:href="#picot"/>
-   <use transform="translate(-8.51 17.25) rotate(72) scale(0.23 0.23)" xlink:href="#picot"/>
-   <use transform="translate(0.0 23.0) rotate(0) scale(0.115 0.115)" xlink:href="#picot"/>
-   <use transform="translate(8.51 17.25) rotate(288) scale(0.23 0.23)" xlink:href="#picot"/>
-   <use transform="translate(7.82 8.05) rotate(240) scale(0.115 0.115)" xlink:href="#picot"/>
+   <use transform="scale(0.2 0.2)" xlink:href="#Rc"/>
 </g>
-<g id="c1" fill="none" stroke-linecap="round"><use transform="scale(0.72 0.72)" xlink:href="#chain2"/></g>
-<g id="c2" fill="none" stroke-linecap="round"><use transform="scale(0.96 0.96)" xlink:href="#chain4"/></g>
-<g id="c4" fill="none" stroke-linecap="round"><use transform="scale(1.04 1.04)" xlink:href="#chain4"/></g>
-<g id="c5" fill="none" stroke-linecap="round"><use transform="scale(1.26 1.26)" xlink:href="#chain6"/></g>
 <g id="R7" fill="none" stroke-linecap="round">
-   <use transform="scale(0.25 0.25)" xlink:href="#ring1"/>
+   <use transform="scale(0.4 0.4)" xlink:href="#Ra"/>
 </g>
 <g id="R8" fill="none" stroke-linecap="round">
-   <use transform="scale(0.25 0.25)" xlink:href="#ring2"/>
+   <use transform="scale(0.4 0.4)" xlink:href="#Rb"/>
 </g>
 <g id="R9" fill="none" stroke-linecap="round">
-   <use transform="scale(0.25 0.25)" xlink:href="#ring3"/>
+   <use transform="scale(0.4 0.4)" xlink:href="#Rc"/>
 </g>
-<g id="C1" fill="none" stroke-linecap="round"><use transform="scale(0.5 0.5)" xlink:href="#chain1"/></g>
-<g id="C2" fill="none" stroke-linecap="round"><use transform="scale(0.5 0.5)" xlink:href="#chain3"/></g>
-<g id="C3" fill="none" stroke-linecap="round"><use transform="scale(0.5 0.5)" xlink:href="#chain5"/></g>
+<g id="c1" fill="none" stroke-linecap="round">
+   <use transform="scale(0.4 0.4)" xlink:href="#ca"/>
+</g>
+<g id="c2" fill="none" stroke-linecap="round">
+   <use transform="scale(0.4 0.4)" xlink:href="#cb"/>
+</g>
+<g id="c3" fill="none" stroke-linecap="round">
+   <use transform="scale(0.4 0.4)" xlink:href="#cc"/>
+</g>
+<g id="c4" fill="none" stroke-linecap="round">
+   <use transform="scale(0.4 0.4)" xlink:href="#cd"/>
+</g>
+<g id="c5" fill="none" stroke-linecap="round">
+   <use transform="scale(0.4 0.4)" xlink:href="#ce"/>
+</g>
+<g id="c6" fill="none" stroke-linecap="round">
+   <use transform="scale(0.4 0.4)" xlink:href="#cf"/>
+</g>
+<g id="c7" fill="none" stroke-linecap="round">
+   <use transform="scale(0.4 0.4)" xlink:href="#cg"/>
+</g>
+<g id="c8" fill="none" stroke-linecap="round">
+   <use transform="scale(0.2 0.2)" xlink:href="#cb"/>
+</g>
+<g id="b1" fill="none" stroke-linecap="round"><use xlink:href="#R4" transform="translate(0 0)  rotate(90.0)"/><use xlink:href="#R4" transform="translate(0.0 0.0)  rotate(180.0)"/><use xlink:href="#R4" transform="translate(0.0 0.0)  rotate(270.0)"/><use xlink:href="#c7" transform="translate(0.0 0.0)  rotate(0)"/><use xlink:href="#R4" transform="translate(60.0 0.0)  rotate(90.0)"/><use xlink:href="#R4" transform="translate(60.0 0.0)  rotate(180.0)"/><use xlink:href="#R4" transform="translate(60.0 0.0)  rotate(270.0)"/></g>
+<!-- Ausgabe -->
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(500 30)" xlink:href="#b1"/></g>
+<g id="b2" fill="none" stroke-linecap="round"><use xlink:href="#R4" transform="translate(0 0)  rotate(90.0)"/><use xlink:href="#R4" transform="translate(0.0 0.0)  rotate(180.0)"/><use xlink:href="#R4" transform="translate(0.0 0.0)  rotate(270.0)"/><use xlink:href="#c1" transform="translate(0.0 0.0)  rotate(0)"/><use xlink:href="#R4" transform="translate(72.0 0.0)  rotate(90.0)"/><use xlink:href="#R4" transform="translate(72.0 0.0)  rotate(180.0)"/><use xlink:href="#R4" transform="translate(72.0 0.0)  rotate(270.0)"/></g>
+<!-- Ausgabe -->
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(500 100)" xlink:href="#b2"/></g>
+<g id="b3" fill="none" stroke-linecap="round"><use xlink:href="#R4" transform="translate(0 0)  rotate(90.0)"/><use xlink:href="#R4" transform="translate(0.0 0.0)  rotate(180.0)"/><use xlink:href="#R4" transform="translate(0.0 0.0)  rotate(270.0)"/><use xlink:href="#c2" transform="translate(0.0 0.0)  rotate(0)"/><use xlink:href="#R4" transform="translate(86.4 0.0)  rotate(90.0)"/><use xlink:href="#R4" transform="translate(86.4 0.0)  rotate(180.0)"/><use xlink:href="#R4" transform="translate(86.4 0.0)  rotate(270.0)"/></g>
+<!-- Ausgabe -->
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(500 160)" xlink:href="#b3"/></g>
+<g id="b4" fill="none" stroke-linecap="round"><use xlink:href="#R4" transform="translate(0 0)  rotate(90.0)"/><use xlink:href="#R4" transform="translate(0.0 0.0)  rotate(180.0)"/><use xlink:href="#R4" transform="translate(0.0 0.0)  rotate(270.0)"/><use xlink:href="#c3" transform="translate(0.0 0.0)  rotate(0)"/><use xlink:href="#R4" transform="translate(96.0 0.0)  rotate(90.0)"/><use xlink:href="#R4" transform="translate(96.0 0.0)  rotate(180.0)"/><use xlink:href="#R4" transform="translate(96.0 0.0)  rotate(270.0)"/></g>
+<!-- Ausgabe -->
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(500 200)" xlink:href="#b4"/></g>
+<g id="b5" fill="none" stroke-linecap="round"><use xlink:href="#R4" transform="translate(0 0)  rotate(90.0)"/><use xlink:href="#R4" transform="translate(0.0 0.0)  rotate(180.0)"/><use xlink:href="#R4" transform="translate(0.0 0.0)  rotate(270.0)"/><use xlink:href="#c4" transform="translate(0.0 0.0)  rotate(0)"/><use xlink:href="#R4" transform="translate(104.0 0.0)  rotate(90.0)"/><use xlink:href="#R4" transform="translate(104.0 0.0)  rotate(180.0)"/><use xlink:href="#R4" transform="translate(104.0 0.0)  rotate(270.0)"/></g>
+<!-- Ausgabe -->
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(500 250)" xlink:href="#b5"/></g>
+<g id="b6" fill="none" stroke-linecap="round"><use xlink:href="#R4" transform="translate(0 0)  rotate(90.0)"/><use xlink:href="#R4" transform="translate(0.0 0.0)  rotate(180.0)"/><use xlink:href="#R4" transform="translate(0.0 0.0)  rotate(270.0)"/><use xlink:href="#c5" transform="translate(0.0 0.0)  rotate(0)"/><use xlink:href="#R4" transform="translate(108.0 0.0)  rotate(90.0)"/><use xlink:href="#R4" transform="translate(108.0 0.0)  rotate(180.0)"/><use xlink:href="#R4" transform="translate(108.0 0.0)  rotate(270.0)"/></g>
+<!-- Ausgabe -->
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(500 300)" xlink:href="#b6"/></g>
+<g id="b7" fill="none" stroke-linecap="round"><use xlink:href="#R4" transform="translate(0 0)  rotate(90.0)"/><use xlink:href="#R4" transform="translate(0.0 0.0)  rotate(180.0)"/><use xlink:href="#R4" transform="translate(0.0 0.0)  rotate(270.0)"/><use xlink:href="#c6" transform="translate(0.0 0.0)  rotate(0)"/><use xlink:href="#R4" transform="translate(109.2 0.0)  rotate(90.0)"/><use xlink:href="#R4" transform="translate(109.2 0.0)  rotate(180.0)"/><use xlink:href="#R4" transform="translate(109.2 0.0)  rotate(270.0)"/></g>
+<!-- Ausgabe -->
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(500 350)" xlink:href="#b7"/></g>
 <g id="X1" fill="none" stroke-linecap="round"><use xlink:href="#R7" transform="translate(0 0)  rotate(0)"/></g>
 <!-- Ausgabe -->
-<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(10 0)" xlink:href="#X1"/></g>
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(20 0)" xlink:href="#X1"/></g>
 <g id="X2" fill="none" stroke-linecap="round"><use xlink:href="#R8" transform="translate(0 0)  rotate(0)"/></g>
 <!-- Ausgabe -->
-<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(30 0)" xlink:href="#X2"/></g>
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(60 0)" xlink:href="#X2"/></g>
 <g id="X3" fill="none" stroke-linecap="round"><use xlink:href="#R9" transform="translate(0 0)  rotate(0)"/></g>
 <!-- Ausgabe -->
-<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(50 0)" xlink:href="#X3"/></g>
-<g id="X4" fill="none" stroke-linecap="round"><use xlink:href="#C1" transform="translate(0 0)  rotate(0)"/></g>
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(100 0)" xlink:href="#X3"/></g>
+<g id="X4" fill="none" stroke-linecap="round"><use xlink:href="#c1" transform="translate(0 0)  rotate(0)"/></g>
 <!-- Ausgabe -->
-<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(50 0)" xlink:href="#X4"/></g>
-<g id="X5" fill="none" stroke-linecap="round"><use xlink:href="#C2" transform="translate(0 0)  rotate(0)"/></g>
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(120 0)" xlink:href="#X4"/></g>
+<g id="X5" fill="none" stroke-linecap="round"><use xlink:href="#c2" transform="translate(0 0)  rotate(0)"/></g>
 <!-- Ausgabe -->
-<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(90 0)" xlink:href="#X5"/></g>
-<g id="X6" fill="none" stroke-linecap="round"><use xlink:href="#C3" transform="translate(0 0)  rotate(0)"/></g>
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(120 0)" xlink:href="#X5"/></g>
+<g id="X6" fill="none" stroke-linecap="round"><use xlink:href="#c3" transform="translate(0 0)  rotate(0)"/></g>
 <!-- Ausgabe -->
 <g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(120 0)" xlink:href="#X6"/></g>
+<g id="X4a" fill="none" stroke-linecap="round"><use xlink:href="#c4" transform="translate(0 0)  rotate(0)"/></g>
+<!-- Ausgabe -->
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(120 0)" xlink:href="#X4a"/></g>
+<g id="X5a" fill="none" stroke-linecap="round"><use xlink:href="#c5" transform="translate(0 0)  rotate(0)"/></g>
+<!-- Ausgabe -->
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(120 0)" xlink:href="#X5a"/></g>
+<g id="X6a" fill="none" stroke-linecap="round"><use xlink:href="#c6" transform="translate(0 0)  rotate(0)"/></g>
+<!-- Ausgabe -->
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(120 0)" xlink:href="#X6a"/></g>
+<g id="X7a" fill="none" stroke-linecap="round"><use xlink:href="#c7" transform="translate(0 0)  rotate(0)"/></g>
+<!-- Ausgabe -->
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(120 0)" xlink:href="#X7a"/></g>
+<g id="F0" fill="none" stroke-linecap="round"><use xlink:href="#R4" transform="translate(0 0)  rotate(90.0)"/><use xlink:href="#R4" transform="translate(0.0 0.0)  rotate(180.0)"/><use xlink:href="#R4" transform="translate(0.0 0.0)  rotate(270.0)"/><use xlink:href="#c7" transform="translate(0.0 0.0)  rotate(0)"/><use xlink:href="#R4" transform="translate(60.0 0.0)  rotate(90.0)"/><use xlink:href="#R4" transform="translate(60.0 0.0)  rotate(180.0)"/><use xlink:href="#R4" transform="translate(60.0 0.0)  rotate(270.0)"/></g>
 <g id="F2" fill="none" stroke-linecap="round"><use xlink:href="#R6" transform="translate(0 0)  rotate(90.0)"/><use xlink:href="#R6" transform="translate(0.0 0.0)  rotate(180.0)"/><use xlink:href="#R6" transform="translate(0.0 0.0)  rotate(270.0)"/><use xlink:href="#c4" transform="translate(0.0 0.0)  rotate(0)"/></g>
-<g id="F0" fill="none" stroke-linecap="round"><use xlink:href="#R6" transform="translate(0 0)  rotate(85.0)"/><use xlink:href="#R6" transform="translate(0.0 0.0)  rotate(145.0)"/><use xlink:href="#R6" transform="translate(0.0 0.0)  rotate(215.0)"/><use xlink:href="#R6" transform="translate(0.0 0.0)  rotate(275.0)"/><use xlink:href="#c1" transform="translate(0.0 0.0)  rotate(0)"/></g>
 <g id="F1" fill="none" stroke-linecap="round"><use xlink:href="#R4" transform="translate(0 0)  rotate(265.0)"/><use xlink:href="#R4" transform="translate(0.0 0.0)  rotate(180.0)"/><use xlink:href="#R5" transform="translate(0.0 0.0)  rotate(95.0)"/><use xlink:href="#c2" transform="translate(0.0 0.0)  rotate(0)"/></g>
-<g id="F8" fill="none" stroke-linecap="round"><use xlink:href="#R1" transform="translate(0 0)  rotate(280.0)"/><use xlink:href="#R1" transform="translate(0.0 0.0)  rotate(180.0)"/><use xlink:href="#R3" transform="translate(0.0 0.0)  rotate(80.0)"/><use xlink:href="#c5" transform="translate(0.0 0.0)  rotate(0)"/></g>
-<g id="F9" fill="none" stroke-linecap="round"><use xlink:href="#R1" transform="translate(0 0)  rotate(280.0)"/><use xlink:href="#R2" transform="translate(0.0 0.0)  rotate(180.0)"/><use xlink:href="#R3" transform="translate(0.0 0.0)  rotate(80.0)"/><use xlink:href="#c5" transform="translate(0.0 0.0)  rotate(10.0)"/></g>
-<g id="Z3" fill="none" stroke-linecap="round"><use xlink:href="#F2" transform="translate(0 0)  rotate(0)"/><use xlink:href="#F2" transform="translate(86.112 0.0)  rotate(0)"/><use xlink:href="#F2" transform="translate(172.224 0.0)  rotate(0)"/><use xlink:href="#F2" transform="translate(258.336 0.0)  rotate(0)"/><use xlink:href="#F2" transform="translate(344.448 0.0)  rotate(0)"/></g>
+<g id="F8" fill="none" stroke-linecap="round"><use xlink:href="#R1" transform="translate(0 0)  rotate(280.0)"/><use xlink:href="#R1" transform="translate(0.0 0.0)  rotate(180.0)"/><use xlink:href="#R3" transform="translate(0.0 0.0)  rotate(80.0)"/><use xlink:href="#c2" transform="translate(0.0 0.0)  rotate(0)"/></g>
+<g id="F9" fill="none" stroke-linecap="round"><use xlink:href="#R1" transform="translate(0 0)  rotate(280.0)"/><use xlink:href="#R2" transform="translate(0.0 0.0)  rotate(180.0)"/><use xlink:href="#R3" transform="translate(0.0 0.0)  rotate(80.0)"/><use xlink:href="#c8" transform="translate(0.0 0.0)  rotate(10.0)"/></g>
+<g id="Z3" fill="none" stroke-linecap="round"><use xlink:href="#F2" transform="translate(0 0)  rotate(0)"/><use xlink:href="#F2" transform="translate(104.0 0.0)  rotate(0)"/><use xlink:href="#F2" transform="translate(208.0 0.0)  rotate(0)"/><use xlink:href="#F2" transform="translate(312.0 0.0)  rotate(0)"/></g>
 <!-- Ausgabe -->
 <g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(40 100)" xlink:href="#Z3"/></g>
-<g id="Z0" fill="none" stroke-linecap="round"><use xlink:href="#F0" transform="translate(0 0)  rotate(0)"/><use xlink:href="#F0" transform="translate(86.39999999999999 0.0)  rotate(0)"/><use xlink:href="#F0" transform="translate(172.79999999999998 0.0)  rotate(0)"/><use xlink:href="#F0" transform="translate(259.2 0.0)  rotate(0)"/><use xlink:href="#F0" transform="translate(345.59999999999997 0.0)  rotate(0)"/></g>
+<g id="Z0" fill="none" stroke-linecap="round"><use xlink:href="#F0" transform="translate(0 0)  rotate(0)"/><use xlink:href="#F0" transform="translate(60.0 0.0)  rotate(0)"/><use xlink:href="#F0" transform="translate(120.0 0.0)  rotate(0)"/><use xlink:href="#F0" transform="translate(180.0 0.0)  rotate(0)"/></g>
 <!-- Ausgabe -->
 <g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(40 160)" xlink:href="#Z0"/></g>
-<g id="Z1" fill="none" stroke-linecap="round"><use xlink:href="#F1" transform="translate(0 0)  rotate(0)"/><use xlink:href="#F1" transform="translate(79.48799999999999 0.0)  rotate(0)"/><use xlink:href="#F1" transform="translate(158.97599999999997 0.0)  rotate(0)"/><use xlink:href="#F1" transform="translate(238.46399999999994 0.0)  rotate(0)"/><use xlink:href="#F1" transform="translate(317.95199999999994 0.0)  rotate(0)"/><use xlink:href="#F1" transform="translate(397.43999999999994 0.0)  rotate(0)"/></g>
+<g id="Z1" fill="none" stroke-linecap="round"><use xlink:href="#F1" transform="translate(0 0)  rotate(0)"/><use xlink:href="#F1" transform="translate(86.4 0.0)  rotate(0)"/><use xlink:href="#F1" transform="translate(172.8 0.0)  rotate(0)"/><use xlink:href="#F1" transform="translate(259.20000000000005 0.0)  rotate(0)"/><use xlink:href="#F1" transform="translate(345.6 0.0)  rotate(0)"/></g>
 <!-- Ausgabe -->
 <g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(40 220)" xlink:href="#Z1"/></g>
-<g id="Z8" fill="none" stroke-linecap="round"><use xlink:href="#F8" transform="translate(0 0)  rotate(0)"/><use xlink:href="#F8" transform="translate(74.088 0.0)  rotate(0)"/><use xlink:href="#F8" transform="translate(148.176 0.0)  rotate(0)"/><use xlink:href="#F8" transform="translate(222.26399999999998 0.0)  rotate(0)"/><use xlink:href="#F8" transform="translate(296.352 0.0)  rotate(0)"/><use xlink:href="#F8" transform="translate(370.43999999999994 0.0)  rotate(0)"/><use xlink:href="#F8" transform="translate(444.5279999999999 0.0)  rotate(0)"/></g>
+<g id="Z8" fill="none" stroke-linecap="round"><use xlink:href="#F8" transform="translate(0 0)  rotate(0)"/><use xlink:href="#F8" transform="translate(86.4 0.0)  rotate(0)"/><use xlink:href="#F8" transform="translate(172.8 0.0)  rotate(0)"/><use xlink:href="#F8" transform="translate(259.20000000000005 0.0)  rotate(0)"/><use xlink:href="#F8" transform="translate(345.6 0.0)  rotate(0)"/></g>
 <!-- Ausgabe -->
 <g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(40 280)" xlink:href="#Z8"/></g>
-<g id="Z9" fill="none" stroke-linecap="round"><use xlink:href="#F9" transform="translate(0 0)  rotate(0)"/><use xlink:href="#F9" transform="translate(72.96243680516847 12.865246186987534)  rotate(20.0)"/><use xlink:href="#F9" transform="translate(137.12452692074996 49.90924618698753)  rotate(40.0)"/><use xlink:href="#F9" transform="translate(184.7473753472063 106.66394688878637)  rotate(60.0)"/><use xlink:href="#F9" transform="translate(210.08696372591842 176.28389377757273)  rotate(80.0)"/><use xlink:href="#F9" transform="translate(210.08696372591842 250.37189377757272)  rotate(100.0)"/><use xlink:href="#F9" transform="translate(184.7473753472063 319.9918406663591)  rotate(120.0)"/><use xlink:href="#F9" transform="translate(137.12452692075 376.746541368158)  rotate(140.0)"/><use xlink:href="#F9" transform="translate(72.96243680516851 413.790541368158)  rotate(160.0)"/><use xlink:href="#F9" transform="translate(5.240252676230739e-14 426.65578755514554)  rotate(180.0)"/><use xlink:href="#F9" transform="translate(-72.96243680516841 413.790541368158)  rotate(200.0)"/><use xlink:href="#F9" transform="translate(-137.1245269207499 376.74654136815803)  rotate(220.0)"/><use xlink:href="#F9" transform="translate(-184.74737534720623 319.9918406663592)  rotate(240.0)"/><use xlink:href="#F9" transform="translate(-210.0869637259184 250.3718937775729)  rotate(260.0)"/><use xlink:href="#F9" transform="translate(-210.0869637259184 176.2838937775729)  rotate(280.0)"/><use xlink:href="#F9" transform="translate(-184.74737534720626 106.66394688878651)  rotate(300.0)"/><use xlink:href="#F9" transform="translate(-137.12452692074993 49.90924618698767)  rotate(320.0)"/><use xlink:href="#F9" transform="translate(-72.96243680516847 12.865246186987651)  rotate(340.0)"/></g>
+<g id="Z9" fill="none" stroke-linecap="round"><use xlink:href="#F9" transform="translate(0 0)  rotate(0)"/><use xlink:href="#F9" transform="translate(42.54369493012739 7.5016012752113905)  rotate(20.0)"/><use xlink:href="#F9" transform="translate(79.95599237361515 29.10160127521139)  rotate(40.0)"/><use xlink:href="#F9" transform="translate(107.72441711207364 62.19472121795123)  rotate(60.0)"/><use xlink:href="#F9" transform="translate(122.49968730374253 102.78944243590247)  rotate(80.0)"/><use xlink:href="#F9" transform="translate(122.49968730374255 145.98944243590248)  rotate(100.0)"/><use xlink:href="#F9" transform="translate(107.72441711207367 186.58416365385372)  rotate(120.0)"/><use xlink:href="#F9" transform="translate(79.95599237361517 219.67728359659358)  rotate(140.0)"/><use xlink:href="#F9" transform="translate(42.54369493012743 241.2772835965936)  rotate(160.0)"/><use xlink:href="#F9" transform="translate(4.3520742565306136e-14 248.77888487180502)  rotate(180.0)"/><use xlink:href="#F9" transform="translate(-42.543694930127344 241.27728359659363)  rotate(200.0)"/><use xlink:href="#F9" transform="translate(-79.9559923736151 219.6772835965936)  rotate(220.0)"/><use xlink:href="#F9" transform="translate(-107.72441711207361 186.58416365385378)  rotate(240.0)"/><use xlink:href="#F9" transform="translate(-122.4996873037425 145.98944243590253)  rotate(260.0)"/><use xlink:href="#F9" transform="translate(-122.49968730374252 102.78944243590253)  rotate(280.0)"/><use xlink:href="#F9" transform="translate(-107.72441711207365 62.19472121795128)  rotate(300.0)"/><use xlink:href="#F9" transform="translate(-79.95599237361515 29.101601275211433)  rotate(320.0)"/><use xlink:href="#F9" transform="translate(-42.54369493012741 7.501601275211422)  rotate(340.0)"/></g>
 <!-- Ausgabe -->
 <g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(180 340)" xlink:href="#Z9"/></g>
 </svg>

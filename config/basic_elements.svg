@@ -10,29 +10,137 @@
 
 <!-- Grundelemente -->
 <!-- Wichtig ist, dass der Punkt, um den später gedreht wird, auf (0,0) liegt -->
+<!-- Skalierungsfaktoren für Bögen (quadratische Gleichung): Doppelte Höhe => *0,69 / Dreifache Höhe => *0,49 -->
 <!-- ### START PART TO BE COPIED ### -->
-<g fill="none" stroke-linecap="round"><path id="ring1"  d="M 0,0   Q -40,30 -40,60    A 20,20 0, 1, 0 40,60   Q 40,30 0,0" /></g>  <!-- Tropfen, Spitze oben -->
-<g fill="none" stroke-linecap="round"><path id="ring2"  d="M 0,0   Q -36,36 -36,72    A 17,17 0, 1, 0 36,72  Q 36,36 0,0" /></g>  <!-- Tropfen, Spitze oben -->
-<g fill="none" stroke-linecap="round"><path id="ring3"  d="M 0,0   Q -28,43 -28,87    A 14,14 0, 1, 0 28,87   Q 28,43 0,0" /></g>  <!-- Tropfen, Spitze oben -->
-<g fill="none" stroke-linecap="round"><path id="chain1" d="M 0,0   Q 60,-50 120,0" /></g>   <!-- Bogen, leicht nach oben gewölbt -->
-<g fill="none" stroke-linecap="round"><path id="chain2" d="M 0,0   Q 60, 50 120,0" /></g>   <!-- Bogen, leicht nach unten gewölbt -->
-<g fill="none" stroke-linecap="round"><path id="chain3" d="M 0,0   Q 41,-69 83,0" /></g>    <!-- Bogen, mittel nach oben gewölbt -->
-<g fill="none" stroke-linecap="round"><path id="chain4" d="M 0,0   Q 41, 69 83,0" /></g>    <!-- Bogen, mittel nach unten gewölbt -->
-<g fill="none" stroke-linecap="round"><path id="chain5" d="M 0,0   Q 30,-74 59,0" /></g>    <!-- Bogen, stark nach oben gewölbt -->
-<g fill="none" stroke-linecap="round"><path id="chain6" d="M 0,0   Q 30, 74 59,0" /></g>    <!-- Bogen, stark nach unten gewölbt -->
+<g fill="none" stroke-linecap="round"><path id="Ra"  d="M 0,0   Q -40,30 -40,60    A 1,1 0, 1, 0 40,60   Q 40,30 0,0" /></g>    <!-- Tropfen, Spitze oben -->
+<!--[0,0] [-6,5,135] [-12,10,135] [-18,15,135] [-23,20,130] [-26,25,125] [-31,30,125] [-34,35,120] [-36,40,115] [-38,45,110] [-39,50,105] [-40,55,98] [-40,60,90] [-40,65,85] [-39,70,78] [-37,75,72] [-35,80,64] [-32,85,55] [-27,90,45] [-22,93,35] [-17,96,25] [-12,98,15] [-6,99,10] [0,100,0] [6,99,350] [12,98,345] [17,96,335] [22,93,325] [27,90,315] [32,85,305] [35,80,296] [37,75,288] [39,70,282] [40,65,275] [40,60,270] [40,55,262] [39,50,255] [38,45,250] [36,40,245] [34,35,240] [31,30,235] [27,25,235] [23,20,230] [18,15,225] [12,10,225] [6,5,225] [0,0,225]-->
+<g fill="none" stroke-linecap="round"><path id="Rb" d="M 0,0   Q -36,36 -36,72    A 1,1 0, 1, 0 36,72   Q 36,36 0,0" /></g>     <!-- Tropfen, Spitze oben -->
+<!--[0,0] [-6,5,135] [-11,11,135] [-15,16,135] [-19,21,130] [-22,26,125] [-25,31,125] [-28,36,120] [-30,42,115] [-32,47,110] [-34,53,105] [-35,58,98] [-36,63,90] [-37,69,85] [-37,74,78] [-36,79,72] [-34,84,64] [-32,89,55] [-29,94,45] [-25,99,45] [-21,102,35] [-16,105,25] [-11,107,15] [-6,108,10] [0,108,0] [6,108,350] [11,107,345] [16,105,335] [21,102,325] [25,99,320] [29,94,315] [32,89,305] [34,84,296] [36,79,288] [37,74,282] [37,69,275] [36,63,270] [35,58,262] [34,53,255] [32,47,250] [30,42,245] [28,36,240] [25,31,235] [22,26,235] [19,21,230] [15,16,225] [11,11,225] [6,5,225] [0,0,225]-->
+<g fill="none" stroke-linecap="round"><path id="Rc" d="M 0,0   Q -28,43 -28,87    A 1,1 0, 1, 0 28,87   Q 28,43 0,0" /></g>     <!-- Tropfen, Spitze oben -->
+<!--[0,0] [0,0,135] [-6,5,135] [-12,10,135]-->
+<g fill="none" stroke-linecap="round"><path id="Cf" d="M 0,0   Q 90,-188 180,0" /></g>  <!-- Bogen, nach oben gewölbt -->
+<!--[180,0] [0,0,135] [-6,5,135] [-12,10,135]-->
+<g fill="none" stroke-linecap="round"><path id="Ce" d="M 0,0   Q 108,-150 216,0" /></g> <!-- Bogen, nach oben gewölbt -->
+<!--[216,0] [0,0,135] [-6,5,135] [-12,10,135]-->
+<g fill="none" stroke-linecap="round"><path id="Cd" d="M 0,0   Q 120,-116 240,0" /></g> <!-- Bogen, nach oben gewölbt -->
+<!--[240,0] [0,0,135] [-6,5,135] [-12,10,135]-->
+<g fill="none" stroke-linecap="round"><path id="Cc" d="M 0,0   Q 130,-72 260,0" /></g>  <!-- Bogen, nach oben gewölbt -->
+<!--[260,0] [0,0,135] [-6,5,135] [-12,10,135]-->
+<g fill="none" stroke-linecap="round"><path id="Cb" d="M 0,0   Q 135,-35 270,0" /></g>  <!-- Bogen, nach oben gewölbt -->
+<!--[270,0] [0,0,135] [-6,5,135] [-12,10,135]-->
+<g fill="none" stroke-linecap="round"><path id="Ca" d="M 0,0   Q 136,-2 273,0" /></g>   <!-- Bogen, nach oben gewölbt -->
+<!--[273,0] [0,0,135] [-6,5,135] [-12,10,135]-->
+<g fill="none" stroke-linecap="round"><path id="Cg" d="M 0,0   Q 75,-214 150,0" /></g>  <!-- Bogen, nach unten gewölbt -->
+<!--[250,0] [0,0,135] [-6,5,135] [-12,10,135]-->
+<g fill="none" stroke-linecap="round"><path id="ca" d="M 0,0   Q 90,188 180,0" /></g>   <!-- Bogen, nach unten gewölbt -->
+<!--[180,0] [0,0,135] [-6,5,135] [-12,10,135]-->
+<g fill="none" stroke-linecap="round"><path id="cb" d="M 0,0   Q 108,150 216,0" /></g>  <!-- Bogen, nach unten gewölbt -->
+<!--[216,0] [0,0,135] [-6,5,135] [-12,10,135]-->
+<g fill="none" stroke-linecap="round"><path id="cc" d="M 0,0   Q 120,116 240,0" /></g>  <!-- Bogen, nach unten gewölbt -->
+<!--[240,0] [0,0,135] [-6,5,135] [-12,10,135]-->
+<g fill="none" stroke-linecap="round"><path id="cd" d="M 0,0   Q 130,72 260,0" /></g>   <!-- Bogen, nach unten gewölbt -->
+<!--[260,0] [0,0,135] [-6,5,135] [-12,10,135]-->
+<g fill="none" stroke-linecap="round"><path id="ce" d="M 0,0   Q 135,35 270,0" /></g>   <!-- Bogen, nach unten gewölbt -->
+<!--[270,0] [0,0,135] [-6,5,135] [-12,10,135]-->
+<g fill="none" stroke-linecap="round"><path id="cf" d="M 0,0   Q 136,2 273,0" /></g>    <!-- Bogen, nach unten gewölbt -->
+<!--[273,0] [0,0,135] [-6,5,135] [-12,10,135]-->
+<g fill="none" stroke-linecap="round"><path id="cg" d="M 0,0   Q 75,214 150,0" /></g>   <!-- Bogen, nach unten gewölbt -->
+<!--[150,0] [0,0,135] [-6,5,135] [-12,10,135]-->
 <g fill="none" stroke-linecap="round"><path id="picot"  d="M 0,0   Q -6,10 -6,16     A 6,6 0, 1, 0 6,16     Q 6,10 0,0"  /></g> <!-- Zierpicot, normal groß, Spitze oben -->
+<!--[150,0] [0,0,135] [-6,5,135] [-12,10,135]-->
 <!-- ### END PART TO BE COPIED ### -->
 
-<!-- Output -->
-<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(20 45)"   xlink:href="#ring1"/></g><text x="0" y="20">ring1</text>
-<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(120 45)"  xlink:href="#ring2"/></g><text x="100" y="20">ring2</text>
-<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(220 45)"  xlink:href="#ring3"/></g><text x="200" y="20">ring3</text>
+<!-- Waagerechte -->
+<line y1="0"   x1="0" y2="0"   x2="2000" stroke="lightgrey" stroke-width="1px" />
+<line y1="20"   x1="0" y2="20"   x2="2000" stroke="lightgrey" stroke-width="1px" />
+<line y1="40"   x1="0" y2="40"   x2="2000" stroke="lightgrey" stroke-width="1px" />
+<line y1="60"   x1="0" y2="60"   x2="2000" stroke="lightgrey" stroke-width="1px" />
+<line y1="80"   x1="0" y2="80"   x2="2000" stroke="lightgrey" stroke-width="1px" />
+<line y1="100"   x1="0" y2="100"   x2="2000" stroke="lightgrey" stroke-width="1px" />
+<line y1="120"   x1="0" y2="120"   x2="2000" stroke="lightgrey" stroke-width="1px" />
+<line y1="140"   x1="0" y2="140"   x2="2000" stroke="lightgrey" stroke-width="1px" />
+<line y1="160"   x1="0" y2="160"   x2="2000" stroke="lightgrey" stroke-width="1px" />
+<line y1="180"   x1="0" y2="180"   x2="2000" stroke="lightgrey" stroke-width="1px" />
+<line y1="200"   x1="0" y2="200"   x2="2000" stroke="lightgrey" stroke-width="1px" />
+<line y1="220"   x1="0" y2="220"   x2="2000" stroke="lightgrey" stroke-width="1px" />
+<line y1="240"   x1="0" y2="240"   x2="2000" stroke="lightgrey" stroke-width="1px" />
+<line y1="260"   x1="0" y2="260"   x2="2000" stroke="lightgrey" stroke-width="1px" />
+<line y1="280"   x1="0" y2="280"   x2="2000" stroke="lightgrey" stroke-width="1px" />
+<line y1="300"   x1="0" y2="300"   x2="2000" stroke="lightgrey" stroke-width="1px" />
+<line y1="320"   x1="0" y2="320"   x2="2000" stroke="lightgrey" stroke-width="1px" />
+<line y1="340"   x1="0" y2="340"   x2="2000" stroke="lightgrey" stroke-width="1px" />
+<line y1="360"   x1="0" y2="360"   x2="2000" stroke="lightgrey" stroke-width="1px" />
+<line y1="380"   x1="0" y2="380"   x2="2000" stroke="lightgrey" stroke-width="1px" />
+<line y1="400"   x1="0" y2="400"   x2="2000" stroke="lightgrey" stroke-width="1px" />
+<line y1="420"   x1="0" y2="420"   x2="2000" stroke="lightgrey" stroke-width="1px" />
+<line y1="440"   x1="0" y2="440"   x2="2000" stroke="lightgrey" stroke-width="1px" />
+<line y1="460"   x1="0" y2="460"   x2="2000" stroke="lightgrey" stroke-width="1px" />
+<line y1="480"   x1="0" y2="480"   x2="2000" stroke="lightgrey" stroke-width="1px" />
+<line y1="500"   x1="0" y2="500"   x2="2000" stroke="lightgrey" stroke-width="1px" />
+<!-- Senkrechte -->
+<line x1="0"   y1="0" x2="0"   y2="2000" stroke="lightgrey" stroke-width="1px" />
+<line x1="20"   y1="0" x2="20"   y2="2000" stroke="lightgrey" stroke-width="1px" />
+<line x1="40"   y1="0" x2="40"   y2="2000" stroke="lightgrey" stroke-width="1px" />
+<line x1="60"   y1="0" x2="60"   y2="2000" stroke="lightgrey" stroke-width="1px" />
+<line x1="80"   y1="0" x2="80"   y2="2000" stroke="lightgrey" stroke-width="1px" />
+<line x1="100"   y1="0" x2="100"   y2="2000" stroke="lightgrey" stroke-width="1px" />
+<line x1="120"   y1="0" x2="120"   y2="2000" stroke="lightgrey" stroke-width="1px" />
+<line x1="140"   y1="0" x2="140"   y2="2000" stroke="lightgrey" stroke-width="1px" />
+<line x1="160"   y1="0" x2="160"   y2="2000" stroke="lightgrey" stroke-width="1px" />
+<line x1="180"   y1="0" x2="180"   y2="2000" stroke="lightgrey" stroke-width="1px" />
+<line x1="200"   y1="0" x2="200"   y2="2000" stroke="lightgrey" stroke-width="1px" />
+<line x1="220"   y1="0" x2="220"   y2="2000" stroke="lightgrey" stroke-width="1px" />
+<line x1="240"   y1="0" x2="240"   y2="2000" stroke="lightgrey" stroke-width="1px" />
+<line x1="260"   y1="0" x2="260"   y2="2000" stroke="lightgrey" stroke-width="1px" />
+<line x1="280"   y1="0" x2="280"   y2="2000" stroke="lightgrey" stroke-width="1px" />
+<line x1="300"   y1="0" x2="300"   y2="2000" stroke="lightgrey" stroke-width="1px" />
+<line x1="320"   y1="0" x2="320"   y2="2000" stroke="lightgrey" stroke-width="1px" />
+<line x1="340"   y1="0" x2="340"   y2="2000" stroke="lightgrey" stroke-width="1px" />
+<line x1="360"   y1="0" x2="360"   y2="2000" stroke="lightgrey" stroke-width="1px" />
+<line x1="380"   y1="0" x2="380"   y2="2000" stroke="lightgrey" stroke-width="1px" />
+<line x1="400"   y1="0" x2="400"   y2="2000" stroke="lightgrey" stroke-width="1px" />
+<line x1="420"   y1="0" x2="420"   y2="2000" stroke="lightgrey" stroke-width="1px" />
+<line x1="440"   y1="0" x2="440"   y2="2000" stroke="lightgrey" stroke-width="1px" />
+<line x1="460"   y1="0" x2="460"   y2="2000" stroke="lightgrey" stroke-width="1px" />
+<line x1="480"   y1="0" x2="480"   y2="2000" stroke="lightgrey" stroke-width="1px" />
+<line x1="500"   y1="0" x2="500"   y2="2000" stroke="lightgrey" stroke-width="1px" />
+<line x1="520"   y1="0" x2="520"   y2="2000" stroke="lightgrey" stroke-width="1px" />
+<line x1="540"   y1="0" x2="540"   y2="2000" stroke="lightgrey" stroke-width="1px" />
+<line x1="560"   y1="0" x2="560"   y2="2000" stroke="lightgrey" stroke-width="1px" />
+<line x1="580"   y1="0" x2="580"   y2="2000" stroke="lightgrey" stroke-width="1px" />
+<line x1="600"   y1="0" x2="600"   y2="2000" stroke="lightgrey" stroke-width="1px" />
+<line x1="620"   y1="0" x2="620"   y2="2000" stroke="lightgrey" stroke-width="1px" />
+<line x1="640"   y1="0" x2="640"   y2="2000" stroke="lightgrey" stroke-width="1px" />
+<line x1="660"   y1="0" x2="660"   y2="2000" stroke="lightgrey" stroke-width="1px" />
+<line x1="680"   y1="0" x2="680"   y2="2000" stroke="lightgrey" stroke-width="1px" />
+<line x1="700"   y1="0" x2="700"   y2="2000" stroke="lightgrey" stroke-width="1px" />
+<line x1="720"   y1="0" x2="720"   y2="2000" stroke="lightgrey" stroke-width="1px" />
+<line x1="740"   y1="0" x2="740"   y2="2000" stroke="lightgrey" stroke-width="1px" />
+<line x1="760"   y1="0" x2="760"   y2="2000" stroke="lightgrey" stroke-width="1px" />
+<line x1="780"   y1="0" x2="780"   y2="2000" stroke="lightgrey" stroke-width="1px" />
+<line x1="800"   y1="0" x2="800"   y2="2000" stroke="lightgrey" stroke-width="1px" />
 
-<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(320 100)" xlink:href="#chain1"/></g><text x="360" y="20">chain1</text>
-<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(320 140)" xlink:href="#chain2"/></g><text x="360" y="220">chain2</text>
-<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(470 100)" xlink:href="#chain3"/></g><text x="490" y="20">chain3</text>
-<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(470 140)" xlink:href="#chain4"/></g><text x="490" y="220">chain4</text>
-<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(570 100)" xlink:href="#chain5"/></g><text x="580" y="20">chain5</text>
-<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(570 140)" xlink:href="#chain6"/></g><text x="580" y="220">chain6</text>
+<!-- Output -->
+<!-- Rings -->
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(40 40)"   xlink:href="#Ra"/></g><text x="30"  y="20">Ra</text>
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(140 40)"  xlink:href="#Rb"/></g><text x="130" y="20">Rb</text>
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(240 40)"  xlink:href="#Rc"/></g><text x="230" y="20">Rc</text>
+
+<!-- Chains -->
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(0 280)" xlink:href="#Ca"/></g><text x="170" y="300">Ca</text>
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(0 280)" xlink:href="#Cb"/></g><text x="205" y="300">Cb</text>
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(0 280)" xlink:href="#Cc"/></g><text x="230" y="300">Cc</text>
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(0 280)" xlink:href="#Cd"/></g><text x="250" y="300">Cd</text>
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(0 280)" xlink:href="#Ce"/></g><text x="270" y="300">Ce</text>
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(0 280)" xlink:href="#Cf"/></g><text x="280" y="280">Cf</text>
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(0 280)" xlink:href="#Cg"/></g><text x="150" y="300">Cf</text>
+
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(0 350)" xlink:href="#ca"/></g><text x="170" y="340">ca</text>
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(0 350)" xlink:href="#cb"/></g><text x="205" y="340">cb</text>
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(0 350)" xlink:href="#cc"/></g><text x="230" y="340">cc</text>
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(0 350)" xlink:href="#cd"/></g><text x="250" y="340">cd</text>
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(0 350)" xlink:href="#ce"/></g><text x="270" y="340">ce</text>
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(0 350)" xlink:href="#cf"/></g><text x="280" y="355">cf</text>
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(0 350)" xlink:href="#cg"/></g><text x="150" y="340">cf</text>
 
 </svg>

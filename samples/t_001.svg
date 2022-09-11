@@ -213,27 +213,27 @@
 <line y1="1960"   x1="0" y2="1960"   x2="2000" stroke="lightgrey" stroke-width="1px" />
 <line y1="1980"   x1="0" y2="1980"   x2="2000" stroke="lightgrey" stroke-width="1px" />
 <!-- Grundelemente -->
-<g fill="none" stroke-linecap="round"><path id="ring1"  d="M 0,0   Q -40,30 -40,60    A 20,20 0, 1, 0 40,60   Q 40,30 0,0" /></g>  <!-- Tropfen, Spitze oben -->
-<g fill="none" stroke-linecap="round"><path id="ring2"  d="M 0,0   Q -36,36 -36,72    A 17,17 0, 1, 0 36,72  Q 36,36 0,0" /></g>  <!-- Tropfen, Spitze oben -->
-<g fill="none" stroke-linecap="round"><path id="ring3"  d="M 0,0   Q -28,43 -28,87    A 14,14 0, 1, 0 28,87   Q 28,43 0,0" /></g>  <!-- Tropfen, Spitze oben -->
-<g fill="none" stroke-linecap="round"><path id="chain1" d="M 0,0   Q 60,-50 120,0" /></g>   <!-- Bogen, leicht nach oben gewölbt -->
-<g fill="none" stroke-linecap="round"><path id="chain2" d="M 0,0   Q 60, 50 120,0" /></g>   <!-- Bogen, leicht nach unten gewölbt -->
-<g fill="none" stroke-linecap="round"><path id="chain3" d="M 0,0   Q 41,-69 83,0" /></g>    <!-- Bogen, mittel nach oben gewölbt -->
-<g fill="none" stroke-linecap="round"><path id="chain4" d="M 0,0   Q 41, 69 83,0" /></g>    <!-- Bogen, mittel nach unten gewölbt -->
-<g fill="none" stroke-linecap="round"><path id="chain5" d="M 0,0   Q 30,-74 59,0" /></g>    <!-- Bogen, stark nach oben gewölbt -->
-<g fill="none" stroke-linecap="round"><path id="chain6" d="M 0,0   Q 30, 74 59,0" /></g>    <!-- Bogen, stark nach unten gewölbt -->
+<g fill="none" stroke-linecap="round"><path id="Ra"  d="M 0,0   Q -40,30 -40,60    A 20,20 0, 1, 0 40,60   Q 40,30 0,0" /></g>  <!-- Tropfen, Spitze oben -->
+<g fill="none" stroke-linecap="round"><path id="Rb" d="M 0,0   Q -36,36 -36,72    A 17,17 0, 1, 0 36,72   Q 36,36 0,0" /></g>   <!-- Tropfen, Spitze oben -->
+<g fill="none" stroke-linecap="round"><path id="Rc" d="M 0,0   Q -28,43 -28,87    A 14,14 0, 1, 0 28,87   Q 28,43 0,0" /></g>   <!-- Tropfen, Spitze oben -->
+<g fill="none" stroke-linecap="round"><path id="Ca" d="M 0,0   Q 60,-50 120,0" /></g>                                           <!-- Bogen, leicht nach oben gewölbt -->
+<g fill="none" stroke-linecap="round"><path id="ca" d="M 0,0   Q 60, 50 120,0" /></g>                                           <!-- Bogen, leicht nach unten gewölbt -->
+<g fill="none" stroke-linecap="round"><path id="Cb" d="M 0,0   Q 41,-69 83,0" /></g>                                            <!-- Bogen, mittel nach oben gewölbt -->
+<g fill="none" stroke-linecap="round"><path id="cb" d="M 0,0   Q 41, 69 83,0" /></g>                                            <!-- Bogen, mittel nach unten gewölbt -->
+<g fill="none" stroke-linecap="round"><path id="Cc" d="M 0,0   Q 30,-74 59,0" /></g>                                            <!-- Bogen, stark nach oben gewölbt -->
+<g fill="none" stroke-linecap="round"><path id="cc" d="M 0,0   Q 30, 74 59,0" /></g>                                            <!-- Bogen, stark nach unten gewölbt -->
 <g fill="none" stroke-linecap="round"><path id="picot"  d="M 0,0   Q -6,10 -6,16     A 6,6 0, 1, 0 6,16     Q 6,10 0,0"  /></g> <!-- Zierpicot, normal groß, Spitze oben -->
 
 <!-- Individueller Teil -->
 <g id="R1" fill="none" stroke-linecap="round">
-   <use transform="scale(0.19 0.19)" xlink:href="#ring1"/>
+   <use transform="scale(0.19 0.19)" xlink:href="#Ra"/>
    <use transform="translate(-7.41 13.3) rotate(78) scale(0.095 0.095)" xlink:href="#picot"/>
    <use transform="translate(0.0 19.0) rotate(0) scale(0.19 0.19)" xlink:href="#picot"/>
    <use transform="translate(7.6 12.35) rotate(275) scale(0.095 0.095)" xlink:href="#picot"/>
 </g>
-<g id="C1" fill="none" stroke-linecap="round"><use transform="scale(0.2 0.2)" xlink:href="#chain1"/></g>
-<g id="F1" fill="none" stroke-linecap="round"><use xlink:href="#R1" transform="translate(0 0)  rotate(0)"/><use xlink:href="#C1" transform="translate(0.0 0.0)  rotate(16.0)"/></g>
-<g id="Z" fill="none" stroke-linecap="round"><use xlink:href="#F1" transform="translate(0 0)  rotate(0)"/><use xlink:href="#F1" transform="translate(23.070280702519653 6.61529653960798)  rotate(30.0)"/><use xlink:href="#F1" transform="translate(39.74208159353559 23.879451747735608)  rotate(60.0)"/><use xlink:href="#F1" transform="translate(45.548207087927615 47.166549178359524)  rotate(90.0)"/><use xlink:href="#F1" transform="translate(38.93291054831963 70.23682988087918)  rotate(120.0)"/><use xlink:href="#F1" transform="translate(21.668755340192014 86.90863077189512)  rotate(150.0)"/><use xlink:href="#F1" transform="translate(-1.6183420904319044 92.71475626628714)  rotate(180.0)"/><use xlink:href="#F1" transform="translate(-24.68862279295156 86.09945972667916)  rotate(210.0)"/><use xlink:href="#F1" transform="translate(-41.3604236839675 68.83530451855152)  rotate(240.0)"/><use xlink:href="#F1" transform="translate(-47.16654917835954 45.54820708792761)  rotate(270.0)"/><use xlink:href="#F1" transform="translate(-40.55125263875156 22.477926385407955)  rotate(300.0)"/><use xlink:href="#F1" transform="translate(-23.287097430623938 5.80612549439202)  rotate(330.0)"/></g>
+<g id="C1" fill="none" stroke-linecap="round"><use transform="scale(0.2 0.2)" xlink:href="#Ca"/></g>
+<g id="F1" fill="none" stroke-linecap="round"><use xlink:href="#R1" transform="translate(0 0)  rotate(0)"/><use xlink:href="#C1" transform="translate(0.0 0.0)  rotate(15.0)"/></g>
+<g id="Z" fill="none" stroke-linecap="round"><use xlink:href="#F1" transform="translate(0 0)  rotate(0)"/><use xlink:href="#F1" transform="translate(23.18221983093764 6.211657082460498)  rotate(30.0)"/><use xlink:href="#F1" transform="translate(40.15278257941478 23.18221983093764)  rotate(60.0)"/><use xlink:href="#F1" transform="translate(46.36443966187528 46.36443966187528)  rotate(90.0)"/><use xlink:href="#F1" transform="translate(40.15278257941478 69.54665949281292)  rotate(120.0)"/><use xlink:href="#F1" transform="translate(23.182219830937647 86.51722224129006)  rotate(150.0)"/><use xlink:href="#F1" transform="translate(7.549516567451064e-15 92.72887932375056)  rotate(180.0)"/><use xlink:href="#F1" transform="translate(-23.182219830937633 86.51722224129006)  rotate(210.0)"/><use xlink:href="#F1" transform="translate(-40.152782579414776 69.54665949281292)  rotate(240.0)"/><use xlink:href="#F1" transform="translate(-46.36443966187529 46.36443966187528)  rotate(270.0)"/><use xlink:href="#F1" transform="translate(-40.1527825794148 23.18221983093764)  rotate(300.0)"/><use xlink:href="#F1" transform="translate(-23.182219830937655 6.211657082460499)  rotate(330.0)"/></g>
 <!-- Ausgabe -->
 <g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(100 50)" xlink:href="#Z"/></g>
 </svg>

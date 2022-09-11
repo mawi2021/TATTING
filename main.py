@@ -1,84 +1,34 @@
 # Run: C:\Users\D026557\AppData\Local\Programs\Python\Python39\python.exe main.py
+# import asyncio.windows_events
 import re  # regular expressions)"/> 
 import math
 import ctypes # for messages
+import json
 
 # TODO:
-#   Koordinaten für Picot-Ansatzpunkte in config/basic_elements.svg in Kommentare auslagern und entsprechend einlesen
-#   Schmalere Ringe >> Picot-Positionen Koordinatenliste erstellen
-#   Picots auf Bögen
+#   Picot-Positionen Koordinatenliste erstellen
 #   Abfrage nach Dateiname statt statisch im Programm
 #   Parameter zum Aussehen, bspw. 
 #   - bei Ausgaben Farbe mitgeben
 #   - bei Ausgaben Strichstärke mitgeben
-#   - Grid anzeigen/unterdrücken
-#   - "Name" oder "Nummer" einer Figur mitgeben, die bei der Ausgabe in/nahe der Figur ausgegeben wird
+#   - "Name" oder "Nummer" einer Figur mitgeben, die bei der Ausgabe in/nahe der Figur als Text ausgegeben wird
 #   - Anzahl Knoten in Figur-Abschnitte als Zahl eintragen
-#   Grid mit Millimerachse passend machen
 #   Anpassung Bildgröße (xmax, ymax) entsprechend der ausgegebenen Objekte oder Eingabe der Länge/Breite durch den User
 #   Kommentare im Code in Englisch
-#   "Zahlen" h´für Berechnungen als Konstanten und ggf. Auslagern in Konfigurationsdatei
 #   Grafische Oberfläche
-#   Deploy to new GIT Project
+#   Gesamtanleitung pro Runde/Figur ausgeben
 
 class Main():
     def __init__(self):
         self.elems = []
-        self.filename = "samples/t_001."
-        self.scale_b = 0.69
-        self.scale_c = 0.49
+        self.filename = "samples/t_005."
         # Bezieht sich auf einen Ring der Form a mit Spitze bei (0,0), x in {-40,40} und y in {0,100}
         # Angabe Tripel [x, y, winkel (in Grad)], wie das Picot am Ring (außen) klebt
         # Erstellung per Augenmaß. Im besseren Fall sollte dies an jeweils gleichgroßen Bogensegmenten passieren oder gar 
         # allgemeingültig berechnet werden, was ggf. bei zusammengesetzten Grundfiguren problematisch wäre
-        self.picotA = []
-        self.picotA.append([0,0,135])
-        self.picotA.append([-6,5,135])
-        self.picotA.append([-12,10,135])
-        self.picotA.append([-18,15,135])
-        self.picotA.append([-23,20,130])
-        self.picotA.append([-27,25,125])
-        self.picotA.append([-31,30,125,])
-        self.picotA.append([-34,35,120,])
-        self.picotA.append([-36,40,115])
-        self.picotA.append([-38,45,110])  
-        self.picotA.append([-39,50,105])
-        self.picotA.append([-40,55,98])
-        self.picotA.append([-40,60,90])
-        self.picotA.append([-40,65,85])
-        self.picotA.append([-39,70,78])
-        self.picotA.append([-37,75,72])        
-        self.picotA.append([-35,80,64])
-        self.picotA.append([-32,85,55])
-        self.picotA.append([-27,90,45])
-        self.picotA.append([-22,93,35])
-        self.picotA.append([-17,96,25])
-        self.picotA.append([-12,98,15])   
-        self.picotA.append([-6,99,10])        
-        self.picotA.append([0,100,0])        
-        self.picotA.append([6,99,350])    
-        self.picotA.append([12,98,345])
-        self.picotA.append([17,96,335])
-        self.picotA.append([22,93,325])
-        self.picotA.append([27,90,315])
-        self.picotA.append([32,85,305])
-        self.picotA.append([35,80,296])
-        self.picotA.append([37,75,288])
-        self.picotA.append([39,70,282])
-        self.picotA.append([40,65,275])
-        self.picotA.append([40,60,270])
-        self.picotA.append([40,55,262])
-        self.picotA.append([39,50,255])
-        self.picotA.append([38,45,250])
-        self.picotA.append([36,40,245])
-        self.picotA.append([34,35,240])
-        self.picotA.append([31,30,235])
-        self.picotA.append([27,25,235])
-        self.picotA.append([23,20,230])
-        self.picotA.append([18,15,225])
-        self.picotA.append([12,10,225])
-        self.picotA.append([6,5,225])
-        self.picotA.append([0,0,225])
+        self.picot = {}
+        self.scale = 100
+        self.grid = 'yes' # String!
 
         self.create_meta()
         
@@ -90,6 +40,17 @@ class Main():
 
         self.add_closure()
     def create_meta(self):
+        # Search for Meta-Information
+        with open(self.filename+'txt', encoding="utf-8") as f:
+            for line in f.readlines():
+                line = line.replace("\n", "")
+                if len(line) == 0 or line[0] == '#': continue
+                pos = line.find(':')
+                if pos == -1:
+                    if line[:5] == 'grid=':
+                        self.grid = line[5:]
+        f.close()
+
         with open(self.filename+'svg', 'w', encoding="utf-8") as f:
             f.write('<?xml version="1.0" encoding="UTF-8"?>\n')
             f.write('<svg xmlns="http://www.w3.org/2000/svg"\n')
@@ -103,18 +64,46 @@ class Main():
             f.write('\n<!-- Koordinatensystem -->\n')
             f.write('<!-- Senkrechte -->\n')
 
-            for i in range(100):
-                f.write('<line x1="' + str(i*20) + '"   y1="0" x2="' + str(i*20) + '"   y2="2000" stroke="lightgrey" stroke-width="1px" />\n')
+            if self.grid == 'yes':
+                for i in range(100):
+                    f.write('<line x1="' + str(i*20) + '"   y1="0" x2="' + str(i*20) + '"   y2="2000" stroke="lightgrey" stroke-width="1px" />\n')
 
-            f.write('<!-- Waagerechte -->\n')
-            for i in range(100):
-                f.write('<line y1="' + str(i*20) + '"   x1="0" y2="' + str(i*20) + '"   x2="2000" stroke="lightgrey" stroke-width="1px" />\n')
+                f.write('<!-- Waagerechte -->\n')
+                for i in range(100):
+                    f.write('<line y1="' + str(i*20) + '"   x1="0" y2="' + str(i*20) + '"   x2="2000" stroke="lightgrey" stroke-width="1px" />\n')
 
             # Read basic elements from /config/basic_elements.svg file and replace it here
             found = False
+            next_is_coord = False
+            fig_id = ''
             f.write('<!-- Grundelemente -->\n')
-            with open('config/basic_elements.svg', 'r', encoding="utf-8") as fr:
+            with open('config/basic_elements.svg', 'r', encoding="utf-8") as fr:                
                 for line in fr.readlines():
+                    if line == '' or line == '\n':
+                        continue
+
+                    if next_is_coord:
+                        line = line[+4:-4]
+                        coord_arr = line.split(' ')
+                        self.picot[fig_id] = []
+                        first = True
+                        for coord in coord_arr:
+                            coord = json.loads(coord)
+                            if first:
+                                dx = coord[0]
+                                dy = coord[1]
+                                element = {}
+                                element["id"] = fig_id
+                                element["dx"] = dx
+                                element["dy"] = dy
+                                element["nodes"] = 1
+                                self.elems.append(element)
+                                first = False
+                                continue
+                            self.picot[fig_id].append(coord)
+                        next_is_coord = False
+                        continue
+
                     if line.startswith('<!-- ### START PART TO BE COPIED ### -->'):
                         found = True
                         continue
@@ -123,6 +112,11 @@ class Main():
                         continue
                     if not found: continue
                     f.write(line)
+                    reg = re.search('id=\"[^\"]*\"', line)
+                    if reg == None: continue
+                    fig_id = reg.group(0)
+                    fig_id = fig_id[4:-1]
+                    next_is_coord = True
             fr.close()
 
             f.write('\n<!-- Individueller Teil -->\n')
@@ -144,6 +138,10 @@ class Main():
 
         # Search for id, figure variant, definition, output coordinates
         pos = line.find(':')
+
+        if pos == -1:
+            return
+
         element["id"] = line[:pos].strip()
         # Variant of ring or chain (a, b, c, ...)
         pos1 = element["id"].find('[')
@@ -184,21 +182,15 @@ class Main():
                 '\nSyntax error, e.g. check space, colons and brackets', 'Error', 0)
             exit()
        
-        # Ring (start + end on top) #
-        if element["id"][0] == 'R': 
-            scale = element["nodes"] / 100
-            element["dx"] = 0
-            element["dy"] = 0
-            if element["variant"] == 'a':
-                figure = 'ring1'
-            elif element["variant"] == 'b':
-                figure = 'ring2'
-            elif element["variant"] == 'c':
-                figure = 'ring3'
-            else:
-                ctypes.windll.user32.MessageBoxW(0, 'Error in line:\n   ' + line + 
-                  '\nExpected one of the variants "a", "b" or "c" as second character instead of ' + element["id"][1], 'Error', 0)
-                exit()
+        # Ring (start + end on top) or Chain with mid on top (start left) #
+        if element["id"][0] in ('R', 'c', 'C'):
+            scale = element["nodes"] / self.scale # size of figure
+            figure = element["id"][0] + element["variant"]
+            for el in self.elems:
+                if el["id"] == figure:
+                    element["dx"] = scale * int(el["dx"])
+                    element["dy"] = scale * int(el["dy"])
+                    exit
 
             line = '<g id="' + element["id"] + '" fill="none" stroke-linecap="round">\n' + \
                     '   <use transform="scale(' + str(scale) + ' ' + str(scale) + ')" xlink:href="#' + figure + '"/>\n'
@@ -211,43 +203,19 @@ class Main():
                 except:
                     # calculate coords, where to add
                     pos = pos + 1
-                    idx = int(round(46 * pos / element["nodes"])) - 1 # 46 = number of entries in self.picotA
-                    place = self.picotA[idx]
+                    idx = int(round((len(self.picot[figure])-1) * pos / element["nodes"])) - 1
+                    place = self.picot[figure][idx]
                     if el == 'P':
                         scale_picot = scale
                     elif el == 'p':
                         scale_picot = scale / 2
-                    line = line + '   <use transform="translate(' + str(scale*place[0]) + ' ' + str(scale*place[1]) + \
+                    x = scale * float(place[0])
+                    y = scale * float(place[1])
+                    line = line + '   <use transform="translate(' + str(x) + ' ' + str(y) + \
                         ') rotate(' + str(place[2]) + ') scale(' + str(scale_picot) + ' ' + str(scale_picot) + ')" xlink:href="#picot"/>\n'
 
             line = line + '</g>\n'
 
-        # Chain with mid on top (start left) #
-        elif element["id"][0] == 'C':
-            scale = element["nodes"] / 50
-            element["dx"] = 120 * scale
-            element["dy"] = 0
-            if element["variant"] == 'a':
-                line = '<g id="' + element["id"] + '" fill="none" stroke-linecap="round"><use transform="scale(' + str(scale) + ' ' + str(scale) + ')" xlink:href="#chain1"/></g>\n'
-            elif element["variant"] == 'b':
-                element["dx"] = element["dx"] * self.scale_b
-                line = '<g id="' + element["id"] + '" fill="none" stroke-linecap="round"><use transform="scale(' + str(scale) + ' ' + str(scale) + ')" xlink:href="#chain3"/></g>\n'
-            elif element["variant"] == 'c':
-                element["dx"] = element["dx"] * self.scale_c
-                line = '<g id="' + element["id"] + '" fill="none" stroke-linecap="round"><use transform="scale(' + str(scale) + ' ' + str(scale) + ')" xlink:href="#chain5"/></g>\n'
-        # Chain with mid at the bottom (start left) #
-        elif element["id"][0] == 'c':
-            scale = element["nodes"] / 50
-            element["dx"] = 120 * scale
-            element["dy"] = 0
-            if element["variant"] == 'a':
-                line = '<g id="' + element["id"] + '" fill="none" stroke-linecap="round"><use transform="scale(' + str(scale) + ' ' + str(scale) + ')" xlink:href="#chain2"/></g>\n'
-            elif element["variant"] == 'b':
-                element["dx"] = element["dx"] * self.scale_b
-                line = '<g id="' + element["id"] + '" fill="none" stroke-linecap="round"><use transform="scale(' + str(scale) + ' ' + str(scale) + ')" xlink:href="#chain4"/></g>\n'
-            elif element["variant"] == 'c':
-                element["dx"] = element["dx"] * self.scale_c
-                line = '<g id="' + element["id"] + '" fill="none" stroke-linecap="round"><use transform="scale(' + str(scale) + ' ' + str(scale) + ')" xlink:href="#chain6"/></g>\n'
         # (Teil-) Figuren #
         else:
             dx = 0
