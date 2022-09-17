@@ -213,27 +213,41 @@
 <line y1="1960"   x1="0" y2="1960"   x2="2000" stroke="lightgrey" stroke-width="1px" />
 <line y1="1980"   x1="0" y2="1980"   x2="2000" stroke="lightgrey" stroke-width="1px" />
 <!-- Grundelemente -->
-<g fill="none" stroke-linecap="round"><path id="Ra"  d="M 0,0   Q -40,30 -40,60    A 20,20 0, 1, 0 40,60   Q 40,30 0,0" /></g>  <!-- Tropfen, Spitze oben -->
-<g fill="none" stroke-linecap="round"><path id="Rb" d="M 0,0   Q -36,36 -36,72    A 17,17 0, 1, 0 36,72   Q 36,36 0,0" /></g>   <!-- Tropfen, Spitze oben -->
-<g fill="none" stroke-linecap="round"><path id="Rc" d="M 0,0   Q -28,43 -28,87    A 14,14 0, 1, 0 28,87   Q 28,43 0,0" /></g>   <!-- Tropfen, Spitze oben -->
-<g fill="none" stroke-linecap="round"><path id="Ca" d="M 0,0   Q 60,-50 120,0" /></g>                                           <!-- Bogen, leicht nach oben gewölbt -->
-<g fill="none" stroke-linecap="round"><path id="ca" d="M 0,0   Q 60, 50 120,0" /></g>                                           <!-- Bogen, leicht nach unten gewölbt -->
-<g fill="none" stroke-linecap="round"><path id="Cb" d="M 0,0   Q 41,-69 83,0" /></g>                                            <!-- Bogen, mittel nach oben gewölbt -->
-<g fill="none" stroke-linecap="round"><path id="cb" d="M 0,0   Q 41, 69 83,0" /></g>                                            <!-- Bogen, mittel nach unten gewölbt -->
-<g fill="none" stroke-linecap="round"><path id="Cc" d="M 0,0   Q 30,-74 59,0" /></g>                                            <!-- Bogen, stark nach oben gewölbt -->
-<g fill="none" stroke-linecap="round"><path id="cc" d="M 0,0   Q 30, 74 59,0" /></g>                                            <!-- Bogen, stark nach unten gewölbt -->
+<g fill="none" stroke-linecap="round"><path id="Ra"  d="M 0,0   Q -40,30 -40,60    A 1,1 0, 1, 0 40,60   Q 40,30 0,0" /></g>    <!-- Tropfen, Spitze oben -->
+<g fill="none" stroke-linecap="round"><path id="Rb" d="M 0,0   Q -36,36 -36,72    A 1,1 0, 1, 0 36,72   Q 36,36 0,0" /></g>     <!-- Tropfen, Spitze oben -->
+<g fill="none" stroke-linecap="round"><path id="Rc" d="M 0,0   Q -28,43 -28,87    A 1,1 0, 1, 0 28,87   Q 28,43 0,0" /></g>     <!-- Tropfen, Spitze oben -->
+<g fill="none" stroke-linecap="round"><path id="Cf" d="M 0,0   Q 90,-188 180,0" /></g>  <!-- Bogen, nach oben gewölbt -->
+<g fill="none" stroke-linecap="round"><path id="Ce" d="M 0,0   Q 108,-150 216,0" /></g> <!-- Bogen, nach oben gewölbt -->
+<g fill="none" stroke-linecap="round"><path id="Cd" d="M 0,0   Q 120,-116 240,0" /></g> <!-- Bogen, nach oben gewölbt -->
+<g fill="none" stroke-linecap="round"><path id="Cc" d="M 0,0   Q 130,-72 260,0" /></g>  <!-- Bogen, nach oben gewölbt -->
+<g fill="none" stroke-linecap="round"><path id="Cb" d="M 0,0   Q 135,-35 270,0" /></g>  <!-- Bogen, nach oben gewölbt -->
+<g fill="none" stroke-linecap="round"><path id="Ca" d="M 0,0   Q 136,-2 273,0" /></g>   <!-- Bogen, nach oben gewölbt -->
+<g fill="none" stroke-linecap="round"><path id="Cg" d="M 0,0   Q 75,-214 150,0" /></g>  <!-- Bogen, nach unten gewölbt -->
+<g fill="none" stroke-linecap="round"><path id="ca" d="M 0,0   Q 90,188 180,0" /></g>   <!-- Bogen, nach unten gewölbt -->
+<g fill="none" stroke-linecap="round"><path id="cb" d="M 0,0   Q 108,150 216,0" /></g>  <!-- Bogen, nach unten gewölbt -->
+<g fill="none" stroke-linecap="round"><path id="cc" d="M 0,0   Q 120,116 240,0" /></g>  <!-- Bogen, nach unten gewölbt -->
+<g fill="none" stroke-linecap="round"><path id="cd" d="M 0,0   Q 130,72 260,0" /></g>   <!-- Bogen, nach unten gewölbt -->
+<g fill="none" stroke-linecap="round"><path id="ce" d="M 0,0   Q 135,35 270,0" /></g>   <!-- Bogen, nach unten gewölbt -->
+<g fill="none" stroke-linecap="round"><path id="cf" d="M 0,0   Q 136,2 273,0" /></g>    <!-- Bogen, nach unten gewölbt -->
+<g fill="none" stroke-linecap="round"><path id="cg" d="M 0,0   Q 75,214 150,0" /></g>   <!-- Bogen, nach unten gewölbt -->
 <g fill="none" stroke-linecap="round"><path id="picot"  d="M 0,0   Q -6,10 -6,16     A 6,6 0, 1, 0 6,16     Q 6,10 0,0"  /></g> <!-- Zierpicot, normal groß, Spitze oben -->
 
 <!-- Individueller Teil -->
 <g id="R1" fill="none" stroke-linecap="round">
-   <use transform="scale(0.19 0.19)" xlink:href="#Ra"/>
-   <use transform="translate(-7.41 13.3) rotate(78) scale(0.095 0.095)" xlink:href="#picot"/>
-   <use transform="translate(0.0 19.0) rotate(0) scale(0.19 0.19)" xlink:href="#picot"/>
-   <use transform="translate(7.6 12.35) rotate(275) scale(0.095 0.095)" xlink:href="#picot"/>
+   <use transform="scale(0.76 0.76)" xlink:href="#Ra"/>
+   <use transform="translate(-19.76 19.0) rotate(125) scale(0.76 0.76)" xlink:href="#picot"/>
+   <use transform="translate(-29.64 53.2) rotate(78) scale(0.38 0.38)" xlink:href="#picot"/>
+   <use transform="translate(0.0 76.0) rotate(0) scale(0.76 0.76)" xlink:href="#picot"/>
+   <use transform="translate(29.64 53.2) rotate(282) scale(0.38 0.38)" xlink:href="#picot"/>
+   <use transform="translate(17.48 15.2) rotate(230) scale(0.76 0.76)" xlink:href="#picot"/>
 </g>
-<g id="C1" fill="none" stroke-linecap="round"><use transform="scale(0.2 0.2)" xlink:href="#Ca"/></g>
+<g id="C1" fill="none" stroke-linecap="round">
+   <use transform="scale(0.4 0.4)" xlink:href="#Ce"/>
+   <use transform="translate(-4.800000000000001 4.0) rotate(135) scale(0.4 0.4)" xlink:href="#picot"/>
+   <use transform="translate(0.0 0.0) rotate(135) scale(0.4 0.4)" xlink:href="#picot"/>
+</g>
 <g id="F1" fill="none" stroke-linecap="round"><use xlink:href="#R1" transform="translate(0 0)  rotate(0)"/><use xlink:href="#C1" transform="translate(0.0 0.0)  rotate(15.0)"/></g>
-<g id="Z" fill="none" stroke-linecap="round"><use xlink:href="#F1" transform="translate(0 0)  rotate(0)"/><use xlink:href="#F1" transform="translate(23.18221983093764 6.211657082460498)  rotate(30.0)"/><use xlink:href="#F1" transform="translate(40.15278257941478 23.18221983093764)  rotate(60.0)"/><use xlink:href="#F1" transform="translate(46.36443966187528 46.36443966187528)  rotate(90.0)"/><use xlink:href="#F1" transform="translate(40.15278257941478 69.54665949281292)  rotate(120.0)"/><use xlink:href="#F1" transform="translate(23.182219830937647 86.51722224129006)  rotate(150.0)"/><use xlink:href="#F1" transform="translate(7.549516567451064e-15 92.72887932375056)  rotate(180.0)"/><use xlink:href="#F1" transform="translate(-23.182219830937633 86.51722224129006)  rotate(210.0)"/><use xlink:href="#F1" transform="translate(-40.152782579414776 69.54665949281292)  rotate(240.0)"/><use xlink:href="#F1" transform="translate(-46.36443966187529 46.36443966187528)  rotate(270.0)"/><use xlink:href="#F1" transform="translate(-40.1527825794148 23.18221983093764)  rotate(300.0)"/><use xlink:href="#F1" transform="translate(-23.182219830937655 6.211657082460499)  rotate(330.0)"/></g>
+<g id="Z" fill="none" stroke-linecap="round"><use xlink:href="#F1" transform="translate(0 0)  rotate(0)"/><use xlink:href="#F1" transform="translate(83.4559913913755 22.361965496857792)  rotate(30.0)"/><use xlink:href="#F1" transform="translate(144.5500172858932 83.45599139137549)  rotate(60.0)"/><use xlink:href="#F1" transform="translate(166.911982782751 166.911982782751)  rotate(90.0)"/><use xlink:href="#F1" transform="translate(144.5500172858932 250.36797417412652)  rotate(120.0)"/><use xlink:href="#F1" transform="translate(83.45599139137552 311.4620000686442)  rotate(150.0)"/><use xlink:href="#F1" transform="translate(8.881784197001252e-15 333.823965565502)  rotate(180.0)"/><use xlink:href="#F1" transform="translate(-83.45599139137549 311.4620000686442)  rotate(210.0)"/><use xlink:href="#F1" transform="translate(-144.5500172858932 250.36797417412652)  rotate(240.0)"/><use xlink:href="#F1" transform="translate(-166.91198278275104 166.911982782751)  rotate(270.0)"/><use xlink:href="#F1" transform="translate(-144.55001728589326 83.4559913913755)  rotate(300.0)"/><use xlink:href="#F1" transform="translate(-83.45599139137556 22.3619654968578)  rotate(330.0)"/></g>
 <!-- Ausgabe -->
-<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(100 50)" xlink:href="#Z"/></g>
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(300 50)" xlink:href="#Z"/></g>
 </svg>

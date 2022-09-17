@@ -31,7 +31,7 @@
 <g fill="none" stroke-linecap="round"><path id="Ca" d="M 0,0   Q 136,-2 273,0" /></g>   <!-- Bogen, nach oben gewölbt -->
 <!--[273,0] [0,0,135] [-6,5,135] [-12,10,135]-->
 <g fill="none" stroke-linecap="round"><path id="Cg" d="M 0,0   Q 75,-214 150,0" /></g>  <!-- Bogen, nach unten gewölbt -->
-<!--[250,0] [0,0,135] [-6,5,135] [-12,10,135]-->
+<!--[150,0] [0,0,135] [-6,5,135] [-12,10,135]-->
 <g fill="none" stroke-linecap="round"><path id="ca" d="M 0,0   Q 90,188 180,0" /></g>   <!-- Bogen, nach unten gewölbt -->
 <!--[180,0] [0,0,135] [-6,5,135] [-12,10,135]-->
 <g fill="none" stroke-linecap="round"><path id="cb" d="M 0,0   Q 108,150 216,0" /></g>  <!-- Bogen, nach unten gewölbt -->
@@ -133,7 +133,7 @@
 <g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(0 280)" xlink:href="#Cd"/></g><text x="250" y="300">Cd</text>
 <g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(0 280)" xlink:href="#Ce"/></g><text x="270" y="300">Ce</text>
 <g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(0 280)" xlink:href="#Cf"/></g><text x="280" y="280">Cf</text>
-<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(0 280)" xlink:href="#Cg"/></g><text x="150" y="300">Cf</text>
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(0 280)" xlink:href="#Cg"/></g><text x="150" y="300">Cg</text>
 
 <g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(0 350)" xlink:href="#ca"/></g><text x="170" y="340">ca</text>
 <g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(0 350)" xlink:href="#cb"/></g><text x="205" y="340">cb</text>
@@ -141,6 +141,6 @@
 <g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(0 350)" xlink:href="#cd"/></g><text x="250" y="340">cd</text>
 <g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(0 350)" xlink:href="#ce"/></g><text x="270" y="340">ce</text>
 <g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(0 350)" xlink:href="#cf"/></g><text x="280" y="355">cf</text>
-<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(0 350)" xlink:href="#cg"/></g><text x="150" y="340">cf</text>
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(0 350)" xlink:href="#cg"/></g><text x="150" y="340">cg</text>
 
 </svg>
