@@ -1,5 +1,7 @@
 R1[a]: P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P
-R2[b]: P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P 
+R2[b]: P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P 
+R3[c]: P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P
 
-Z1(40,20):R1
-Z2(120,20):R2
+Z1(80,20):R1
+Z2(240,20):R2
+Z3(380,20):R3

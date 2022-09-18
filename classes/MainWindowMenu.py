@@ -48,3 +48,21 @@ class MainWindowMenu(QMenuBar):
         self.redrawAction.triggered.connect(parent.onRedraw)
         self.redrawAction.setShortcut(QKeySequence("Ctrl+R"))
         editMenu.addAction(self.redrawAction)
+
+        # ----- V I E W ------------------------------------------------------------------------- #
+        viewMenu = self.addMenu("View")
+
+        self.zoomInAction = QAction(QIcon("icons/zoom_in2.png"), "Zoom In", self)
+        self.zoomInAction.triggered.connect(parent.onZoomIn)
+        self.zoomInAction.setShortcut(QKeySequence("Ctrl++"))
+        viewMenu.addAction(self.zoomInAction)
+
+        self.zoomOutAction = QAction(QIcon("icons/zoom_out2.png"), "Zoom Out", self)
+        self.zoomOutAction.triggered.connect(parent.onZoomOut)
+        self.zoomOutAction.setShortcut(QKeySequence("Ctrl+-"))
+        viewMenu.addAction(self.zoomOutAction)
+
+        self.gridAction = QAction(QIcon("icons/..."), "Toggle Gridlines", self)
+        self.gridAction.triggered.connect(parent.onGrid)
+        self.gridAction.setShortcut(QKeySequence("Ctrl+G"))
+        viewMenu.addAction(self.gridAction)

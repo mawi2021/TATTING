@@ -17,35 +17,35 @@
 <g fill="none" stroke-linecap="round"><path id="Rb" d="M 0,0   Q -36,36 -36,72    A 1,1 0, 1, 0 36,72   Q 36,36 0,0" /></g>     <!-- Tropfen, Spitze oben -->
 <!--[0,0] [-6,5,135] [-11,11,135] [-15,16,135] [-19,21,130] [-22,26,125] [-25,31,125] [-28,36,120] [-30,42,115] [-32,47,110] [-34,53,105] [-35,58,98] [-36,63,90] [-37,69,85] [-37,74,78] [-36,79,72] [-34,84,64] [-32,89,55] [-29,94,45] [-25,99,45] [-21,102,35] [-16,105,25] [-11,107,15] [-6,108,10] [0,108,0] [6,108,350] [11,107,345] [16,105,335] [21,102,325] [25,99,320] [29,94,315] [32,89,305] [34,84,296] [36,79,288] [37,74,282] [37,69,275] [36,63,270] [35,58,262] [34,53,255] [32,47,250] [30,42,245] [28,36,240] [25,31,235] [22,26,235] [19,21,230] [15,16,225] [11,11,225] [6,5,225] [0,0,225]-->
 <g fill="none" stroke-linecap="round"><path id="Rc" d="M 0,0   Q -28,43 -28,87    A 1,1 0, 1, 0 28,87   Q 28,43 0,0" /></g>     <!-- Tropfen, Spitze oben -->
-<!--[0,0] [0,0,135] [-6,5,135] [-12,10,135]-->
-<g fill="none" stroke-linecap="round"><path id="Cf" d="M 0,0   Q 90,-188 180,0" /></g>  <!-- Bogen, nach oben gewölbt -->
+<!--[0,0] [-6,5,135] [-11,11,135] [-15,16,135] [-19,21,130] [-22,26,125] [-25,31,125] [-28,36,120] [-30,42,115] [-32,47,110] [-34,53,105] [-35,58,98] [-36,63,90] [-37,69,85] [-37,74,78] [-36,79,72] [-34,84,64] [-32,89,55] [-29,94,45] [-25,99,45] [-21,102,35] [-16,105,25] [-11,107,15] [-6,108,10] [0,108,0] [6,108,350] [11,107,345] [16,105,335] [21,102,325] [25,99,320] [29,94,315] [32,89,305] [34,84,296] [36,79,288] [37,74,282] [37,69,275] [36,63,270] [35,58,262] [34,53,255] [32,47,250] [30,42,245] [28,36,240] [25,31,235] [22,26,235] [19,21,230] [15,16,225] [11,11,225] [6,5,225] [0,0,225]-->
+<g fill="none" stroke-linecap="round"><path id="Ca" d="M 0,0   Q 75,-214 150,0" /></g>  <!-- Bogen, nach oben gewölbt -->
+<!--[150,0] [0,0,135] [-6,5,135] [-12,10,135]-->
+<g fill="none" stroke-linecap="round"><path id="Cb" d="M 0,0   Q 90,-188 180,0" /></g>  <!-- Bogen, nach oben gewölbt -->
 <!--[180,0] [0,0,135] [-6,5,135] [-12,10,135]-->
-<g fill="none" stroke-linecap="round"><path id="Ce" d="M 0,0   Q 108,-150 216,0" /></g> <!-- Bogen, nach oben gewölbt -->
+<g fill="none" stroke-linecap="round"><path id="Cc" d="M 0,0   Q 108,-150 216,0" /></g> <!-- Bogen, nach oben gewölbt -->
 <!--[216,0] [0,0,135] [-6,5,135] [-12,10,135]-->
 <g fill="none" stroke-linecap="round"><path id="Cd" d="M 0,0   Q 120,-116 240,0" /></g> <!-- Bogen, nach oben gewölbt -->
 <!--[240,0] [0,0,135] [-6,5,135] [-12,10,135]-->
-<g fill="none" stroke-linecap="round"><path id="Cc" d="M 0,0   Q 130,-72 260,0" /></g>  <!-- Bogen, nach oben gewölbt -->
+<g fill="none" stroke-linecap="round"><path id="Ce" d="M 0,0   Q 130,-72 260,0" /></g>  <!-- Bogen, nach oben gewölbt -->
 <!--[260,0] [0,0,135] [-6,5,135] [-12,10,135]-->
-<g fill="none" stroke-linecap="round"><path id="Cb" d="M 0,0   Q 135,-35 270,0" /></g>  <!-- Bogen, nach oben gewölbt -->
+<g fill="none" stroke-linecap="round"><path id="Cf" d="M 0,0   Q 135,-35 270,0" /></g>  <!-- Bogen, nach oben gewölbt -->
 <!--[270,0] [0,0,135] [-6,5,135] [-12,10,135]-->
-<g fill="none" stroke-linecap="round"><path id="Ca" d="M 0,0   Q 136,-2 273,0" /></g>   <!-- Bogen, nach oben gewölbt -->
+<g fill="none" stroke-linecap="round"><path id="Cg" d="M 0,0   Q 136,-2 273,0" /></g>   <!-- Bogen, nach oben gewölbt -->
 <!--[273,0] [0,0,135] [-6,5,135] [-12,10,135]-->
-<g fill="none" stroke-linecap="round"><path id="Cg" d="M 0,0   Q 75,-214 150,0" /></g>  <!-- Bogen, nach unten gewölbt -->
+<g fill="none" stroke-linecap="round"><path id="ca" d="M 0,0   Q 75,214 150,0" /></g>   <!-- Bogen, nach unten gewölbt -->
 <!--[150,0] [0,0,135] [-6,5,135] [-12,10,135]-->
-<g fill="none" stroke-linecap="round"><path id="ca" d="M 0,0   Q 90,188 180,0" /></g>   <!-- Bogen, nach unten gewölbt -->
+<g fill="none" stroke-linecap="round"><path id="cb" d="M 0,0   Q 90,188 180,0" /></g>   <!-- Bogen, nach unten gewölbt -->
 <!--[180,0] [0,0,135] [-6,5,135] [-12,10,135]-->
-<g fill="none" stroke-linecap="round"><path id="cb" d="M 0,0   Q 108,150 216,0" /></g>  <!-- Bogen, nach unten gewölbt -->
+<g fill="none" stroke-linecap="round"><path id="cc" d="M 0,0   Q 108,150 216,0" /></g>  <!-- Bogen, nach unten gewölbt -->
 <!--[216,0] [0,0,135] [-6,5,135] [-12,10,135]-->
-<g fill="none" stroke-linecap="round"><path id="cc" d="M 0,0   Q 120,116 240,0" /></g>  <!-- Bogen, nach unten gewölbt -->
+<g fill="none" stroke-linecap="round"><path id="cd" d="M 0,0   Q 120,116 240,0" /></g>  <!-- Bogen, nach unten gewölbt -->
 <!--[240,0] [0,0,135] [-6,5,135] [-12,10,135]-->
-<g fill="none" stroke-linecap="round"><path id="cd" d="M 0,0   Q 130,72 260,0" /></g>   <!-- Bogen, nach unten gewölbt -->
+<g fill="none" stroke-linecap="round"><path id="ce" d="M 0,0   Q 130,72 260,0" /></g>   <!-- Bogen, nach unten gewölbt -->
 <!--[260,0] [0,0,135] [-6,5,135] [-12,10,135]-->
-<g fill="none" stroke-linecap="round"><path id="ce" d="M 0,0   Q 135,35 270,0" /></g>   <!-- Bogen, nach unten gewölbt -->
+<g fill="none" stroke-linecap="round"><path id="cf" d="M 0,0   Q 135,35 270,0" /></g>   <!-- Bogen, nach unten gewölbt -->
 <!--[270,0] [0,0,135] [-6,5,135] [-12,10,135]-->
-<g fill="none" stroke-linecap="round"><path id="cf" d="M 0,0   Q 136,2 273,0" /></g>    <!-- Bogen, nach unten gewölbt -->
+<g fill="none" stroke-linecap="round"><path id="cg" d="M 0,0   Q 136,2 273,0" /></g>    <!-- Bogen, nach unten gewölbt -->
 <!--[273,0] [0,0,135] [-6,5,135] [-12,10,135]-->
-<g fill="none" stroke-linecap="round"><path id="cg" d="M 0,0   Q 75,214 150,0" /></g>   <!-- Bogen, nach unten gewölbt -->
-<!--[150,0] [0,0,135] [-6,5,135] [-12,10,135]-->
 <g fill="none" stroke-linecap="round"><path id="picot"  d="M 0,0   Q -6,10 -6,16     A 6,6 0, 1, 0 6,16     Q 6,10 0,0"  /></g> <!-- Zierpicot, normal groß, Spitze oben -->
 <!--[150,0] [0,0,135] [-6,5,135] [-12,10,135]-->
 <!-- ### END PART TO BE COPIED ### -->
@@ -122,25 +122,25 @@
 
 <!-- Output -->
 <!-- Rings -->
-<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(40 40)"   xlink:href="#Ra"/></g><text x="30"  y="20">Ra</text>
-<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(140 40)"  xlink:href="#Rb"/></g><text x="130" y="20">Rb</text>
-<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(240 40)"  xlink:href="#Rc"/></g><text x="230" y="20">Rc</text>
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(40 40)"   xlink:href="#Ra"/></g><text x="20"  y="20">Rx[a]</text>
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(140 40)"  xlink:href="#Rb"/></g><text x="120" y="20">Rx[b]</text>
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(240 40)"  xlink:href="#Rc"/></g><text x="220" y="20">Rx[c]</text>
 
 <!-- Chains -->
-<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(0 280)" xlink:href="#Ca"/></g><text x="170" y="300">Ca</text>
-<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(0 280)" xlink:href="#Cb"/></g><text x="205" y="300">Cb</text>
-<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(0 280)" xlink:href="#Cc"/></g><text x="230" y="300">Cc</text>
-<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(0 280)" xlink:href="#Cd"/></g><text x="250" y="300">Cd</text>
-<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(0 280)" xlink:href="#Ce"/></g><text x="270" y="300">Ce</text>
-<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(0 280)" xlink:href="#Cf"/></g><text x="280" y="280">Cf</text>
-<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(0 280)" xlink:href="#Cg"/></g><text x="150" y="300">Cg</text>
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(0 280)" xlink:href="#Ca"/></g><text x="130" y="300">Cx[a]</text>
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(0 280)" xlink:href="#Cb"/></g><text x="160" y="320">Cx[b]</text>
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(0 280)" xlink:href="#Cc"/></g><text x="200" y="300">Cx[c]</text>
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(0 280)" xlink:href="#Cd"/></g><text x="220" y="320">Cx[d]</text>
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(0 280)" xlink:href="#Ce"/></g><text x="250" y="300">Cx[e]</text>
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(0 280)" xlink:href="#Cf"/></g><text x="260" y="320">Cx[f]</text>
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(0 280)" xlink:href="#Cg"/></g><text x="280" y="285">Cx[g]</text>
 
-<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(0 350)" xlink:href="#ca"/></g><text x="170" y="340">ca</text>
-<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(0 350)" xlink:href="#cb"/></g><text x="205" y="340">cb</text>
-<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(0 350)" xlink:href="#cc"/></g><text x="230" y="340">cc</text>
-<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(0 350)" xlink:href="#cd"/></g><text x="250" y="340">cd</text>
-<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(0 350)" xlink:href="#ce"/></g><text x="270" y="340">ce</text>
-<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(0 350)" xlink:href="#cf"/></g><text x="280" y="355">cf</text>
-<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(0 350)" xlink:href="#cg"/></g><text x="150" y="340">cg</text>
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(0 370)" xlink:href="#ca"/></g><text x="130" y="340">cx[a]</text>
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(0 370)" xlink:href="#cb"/></g><text x="160" y="360">cx[b]</text>
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(0 370)" xlink:href="#cc"/></g><text x="200" y="340">cx[c]</text>
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(0 370)" xlink:href="#cd"/></g><text x="220" y="360">cx[d]</text>
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(0 370)" xlink:href="#ce"/></g><text x="250" y="340">cx[e]</text>
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(0 370)" xlink:href="#cf"/></g><text x="260" y="360">cx[f]</text>
+<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round"><use transform="translate(0 370)" xlink:href="#cg"/></g><text x="280" y="375">cx[g]</text>
 
 </svg>

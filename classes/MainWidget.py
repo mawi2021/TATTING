@@ -1,7 +1,8 @@
-from PyQt5.QtWidgets import QWidget, QSplitter, QTextEdit, QHBoxLayout, QFileDialog
+from PyQt5.QtWidgets import QWidget, QSplitter, QTextEdit, QHBoxLayout, QFileDialog, QScrollArea
+from PyQt5 import QtWidgets
 from PyQt5 import QtSvg
 from PyQt5.QtCore import Qt
-from os.path import exists
+#from os.path import exists
 import re  # regular expressions)"/> 
 import math
 import ctypes # for messages
@@ -10,6 +11,8 @@ import json
 # TODO:
 # - Text in formatted HTML instead of plain text
 # - HTML formatting in config file (font size, font color, font family)
+# - Numbers and names of figures written
+# - Graphical elements created by drag&drop via icons in toolbox-bar
 
 class MainWidget(QWidget):
     def __init__(self, parent):
@@ -18,10 +21,17 @@ class MainWidget(QWidget):
 
         # ----- Constants ----------------------------------------------------------------------- #
         # TODO: read values from config file
-        self.top = 50
-        self.left = 50
-        self.width = 1400
-        self.height = 1000
+        self.elems = []
+        self.picot = {}
+        self.scale = 20    # realistic view with A4 paper in background an 5mm grid lines
+        self.grid  = 'yes' # String!
+        self.svg   = ''    # Content of SVG data
+        self.paperwidthMM = 3000
+        self.paperheightMM = 3000
+        self.pix_x = self.paperwidthMM * 10
+        self.pix_y = self.paperheightMM * 10
+        self.kast = 50 # => 5mm = 1 Kästchen (when ViewBox has 10 times pixel as mm of "paper" size)
+        self.defaultColor = 'black'
 
         # Instruction as Text #
         self.textWidget = QTextEdit()
@@ -30,12 +40,20 @@ class MainWidget(QWidget):
         # Instruction as SVG Image #
         self.svgWidget = QtSvg.QSvgWidget() #"samples/t_001.svg")
         self.svgWidget.setGeometry(50,50,759,668)
+        self.svgWidget.renderer().setAspectRatioMode(Qt.KeepAspectRatio)
+        self.svgWidget.setSizePolicy(QtWidgets.QSizePolicy(0,0))
         self.svgFilename = ''
+
+        self.scrollArea = QScrollArea()
+        self.scrollArea.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        self.scrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        self.scrollArea.setWidgetResizable(True)
+        self.scrollArea.setWidget(self.svgWidget)
 
         # Combine Instructions with Splitter
         designSplitter = QSplitter(Qt.Horizontal)
         designSplitter.addWidget(self.textWidget)
-        designSplitter.addWidget(self.svgWidget)
+        designSplitter.addWidget(self.scrollArea)
         designSplitter.setSizes([50,150])
 
         hbox = QHBoxLayout()
@@ -43,6 +61,7 @@ class MainWidget(QWidget):
         self.layout = hbox
         self.setLayout(self.layout)
 
+    # ===== PUBLIC METHODS ====================================================================== #
     def onOpen(self):
         # Reguest filename #
         fileDlg = QFileDialog()
@@ -62,6 +81,48 @@ class MainWidget(QWidget):
         else:
             self.svgFilename = self.txtFilename + '.svg'
 
+        self.open()
+    def onRedraw(self):
+        # Read plain text instructions #
+        content = self.textWidget.toPlainText()
+        lines = content.split('\n')
+        self.svg = ''
+        self.elems = []
+        self.picot = {}
+
+        # Recalculate svg string #
+        self._create_meta(lines)
+        for line in lines:
+            self._add(line)
+        self.svg = self.svg + '</svg>'
+
+        # Show SVG string #
+        self.svgWidget.load(bytearray(self.svg, encoding='utf-8'))
+        self.svgWidget.resize(round(self.paperwidthMM * 10), round(self.paperheightMM * 10))
+    def onSave(self):
+        content = self.textWidget.toPlainText()
+        
+        with open(self.txtFilename, 'w', encoding="utf-8") as f:
+            f.write(content)
+        f.close() 
+
+        with open(self.svgFilename, 'w', encoding="utf-8") as f:
+            f.write(self.svg)
+        f.close() 
+    def onZoomIn(self):
+        #self.paperwidthMM  = self.paperwidthMM * 1.1
+        #self.paperheightMM = self.paperheightMM * 1.1
+        self.kast          = self.kast * 1.1
+        self.scale         = self.scale / 1.1
+        self.onRedraw()
+    def onZoomOut(self):
+        #self.paperwidthMM  = self.paperwidthMM / 1.1
+        #self.paperheightMM = self.paperheightMM / 1.1
+        self.kast          = self.kast / 1.1
+        self.scale         = self.scale * 1.1
+        self.onRedraw()
+
+    def open(self):
         # Read text file and assign content #
         with open(self.txtFilename, encoding="utf-8") as f:
             instr = ''
@@ -71,121 +132,81 @@ class MainWidget(QWidget):
         f.close()
 
         # Show SVG file #
-        if exists(self.svgFilename):
-            self.svgWidget.load(self.svgFilename)
-
-    def onRedraw(self):
-        # ----- Constants ----------------------------------------------------------------------- #
-        self.elems = []
-        self.picot = {}
-        self.scale = 25
-        self.grid = 'yes' # String!
-
-        # ----- Read and Write SVG File --------------------------------------------------------- #
-        content = self.textWidget.toPlainText()
-        lines = content.split('\n')
-        
-        self._create_meta(lines)
-        for line in lines:
-            self._add(line)
-        self._add_closure()
-
-        # Show SVG file #
-        if exists(self.svgFilename):
-            self.svgWidget.load(self.svgFilename)
-
-    def onSave(self):
-        content = self.textWidget.toPlainText()
-        
-        with open(self.txtFilename, 'w', encoding="utf-8") as f:
-            f.write(content)
-        f.close() 
-
+        self.onRedraw()
 
     # ===== PRIVATE PART OF CLASS =============================================================== #
     def _create_meta(self, lines):
-        # Search for Meta-Information
-        for line in lines:
-            if len(line) == 0 or line[0] == '#': continue
-            pos = line.find(':')
-            if pos == -1:
-                if line[:5] == 'grid=':
-                    self.grid = line[5:]
+        self.svg = self.svg + '<?xml version="1.0" encoding="UTF-8"?>\n' \
+                + '<svg xmlns="http://www.w3.org/2000/svg"\n' \
+                + '    xmlns:xlink="http://www.w3.org/1999/xlink"\n' \
+                + '    version="1.1" baseProfile="full"\n' \
+                + '    width="%dmm" height="%dmm"\n' % (self.paperwidthMM,self.paperheightMM) \
+                + '    viewBox="0 0 ' + str(self.pix_x) + ' ' + str(self.pix_y) + '">\n' \
+                + '    <rect width="' + str(self.pix_x) + '" height="' + str(self.pix_y) \
+                + '" style="fill:white;stroke-width:1;stroke:rgb(0,0,0)"/>\n' \
+                + '\n<!-- File Content -->\n'
 
-        with open(self.svgFilename, 'w', encoding="utf-8") as f:
-            f.write('<?xml version="1.0" encoding="UTF-8"?>\n')
-            f.write('<svg xmlns="http://www.w3.org/2000/svg"\n')
-            f.write('    xmlns:xlink="http://www.w3.org/1999/xlink"\n')
-            f.write('    version="1.1" baseProfile="full"\n')
-            f.write('    width="500mm" height="500mm"\n')
-            f.write('    viewBox="-20 -20 700 700">\n')
-            f.write('    <title>Titel der Datei</title>\n')
-            f.write('    <desc>Beschreibung/Textalternative zum Inhalt.</desc>\n')
-            f.write('\n<!--Inhalt der Datei -->\n')
-            f.write('\n<!-- Koordinatensystem -->\n')
-            f.write('<!-- Senkrechte -->\n')
+        # Draw Grid in whole "paper area" #
+        if self.grid == 'yes':
+            self.svg = self.svg + '\n<!-- Grid -->\n'
+            i = 0
+            while i <= self.pix_x:
+                self.svg = self.svg + '<line x1="' + str(i) + '" y1="0" x2="' + str(i) + '" y2="' \
+                    + str(self.pix_y) + '" stroke="lightgrey" stroke-width="1px" />\n'
+                i = i + self.kast
+            i = 0
+            while i <= self.pix_y:
+                self.svg = self.svg + '<line y1="' + str(i) + '" x1="0" y2="' + str(i) + '" x2="' \
+                    + str(self.pix_x) + '" stroke="lightgrey" stroke-width="1px" />\n'
+                i = i + self.kast
 
-            if self.grid == 'yes':
-                for i in range(100):
-                    f.write('<line x1="' + str(i*20) + '"   y1="0" x2="' + str(i*20) + '"   y2="2000" stroke="lightgrey" stroke-width="1px" />\n')
+        # Read basic elements from /config/basic_elements.svg file and replace it here
+        found = False
+        next_is_coord = False
+        fig_id = ''
+        self.svg = self.svg + '<!-- Basic Elements -->\n'
+        with open('config/basic_elements.svg', 'r', encoding="utf-8") as fr:                
+            for line in fr.readlines():
+                if line == '' or line == '\n':
+                    continue
 
-                f.write('<!-- Waagerechte -->\n')
-                for i in range(100):
-                    f.write('<line y1="' + str(i*20) + '"   x1="0" y2="' + str(i*20) + '"   x2="2000" stroke="lightgrey" stroke-width="1px" />\n')
+                if next_is_coord:
+                    line = line[+4:-4]
+                    coord_arr = line.split(' ')
+                    self.picot[fig_id] = []
+                    first = True
+                    for coord in coord_arr:
+                        coord = json.loads(coord)
+                        if first:
+                            dx = coord[0]
+                            dy = coord[1]
+                            element = {}
+                            element["id"] = fig_id
+                            element["dx"] = dx
+                            element["dy"] = dy
+                            element["nodes"] = 1
+                            self.elems.append(element)
+                            first = False
+                            continue
+                        self.picot[fig_id].append(coord)
+                    next_is_coord = False
+                    continue
 
-            # Read basic elements from /config/basic_elements.svg file and replace it here
-            found = False
-            next_is_coord = False
-            fig_id = ''
-            f.write('<!-- Grundelemente -->\n')
-            with open('config/basic_elements.svg', 'r', encoding="utf-8") as fr:                
-                for line in fr.readlines():
-                    if line == '' or line == '\n':
-                        continue
+                if line.startswith('<!-- ### START PART TO BE COPIED ### -->'):
+                    found = True
+                    continue
+                if line.startswith('<!-- ### END PART TO BE COPIED ### -->'):
+                    found = False
+                    continue
+                if not found: continue
+                self.svg = self.svg + line
+                reg = re.search('id=\"[^\"]*\"', line)
+                if reg == None: continue
+                fig_id = reg.group(0)
+                fig_id = fig_id[4:-1]
+                next_is_coord = True
 
-                    if next_is_coord:
-                        line = line[+4:-4]
-                        coord_arr = line.split(' ')
-                        self.picot[fig_id] = []
-                        first = True
-                        for coord in coord_arr:
-                            coord = json.loads(coord)
-                            if first:
-                                dx = coord[0]
-                                dy = coord[1]
-                                element = {}
-                                element["id"] = fig_id
-                                element["dx"] = dx
-                                element["dy"] = dy
-                                element["nodes"] = 1
-                                self.elems.append(element)
-                                first = False
-                                continue
-                            self.picot[fig_id].append(coord)
-                        next_is_coord = False
-                        continue
-
-                    if line.startswith('<!-- ### START PART TO BE COPIED ### -->'):
-                        found = True
-                        continue
-                    if line.startswith('<!-- ### END PART TO BE COPIED ### -->'):
-                        found = False
-                        continue
-                    if not found: continue
-                    f.write(line)
-                    reg = re.search('id=\"[^\"]*\"', line)
-                    if reg == None: continue
-                    fig_id = reg.group(0)
-                    fig_id = fig_id[4:-1]
-                    next_is_coord = True
-            fr.close()
-
-            f.write('\n<!-- Individueller Teil -->\n')
-        f.close()
-    def _add_closure(self):
-        with open(self.svgFilename, 'a', encoding="utf-8") as f:
-            f.write('</svg>')
-        f.close()            
+            self.svg = self.svg + '\n<!-- Individueller Teil -->\n'
     def _add(self,line):
         if len(line) == 0: return
         if line[0] == '#': return
@@ -195,6 +216,9 @@ class MainWidget(QWidget):
         regexp = '\{[-]*[0-9]+\}'
         coord_x = coord_y = -1
 
+        # Initial values
+        element["color"] = ''
+
         # Search for id, figure variant, definition, output coordinates
         pos = line.find(':')
 
@@ -202,7 +226,7 @@ class MainWidget(QWidget):
             return
 
         element["id"] = line[:pos].strip()
-        # Variant of ring or chain (a, b, c, ...)
+        # Variant of ring or chain (a, b, c, ...) in [..]
         pos1 = element["id"].find('[')
         pos2 = element["id"].find(']')
         if pos1 >= 0 and pos2 >= 0:
@@ -213,7 +237,22 @@ class MainWidget(QWidget):
                 element["variant"] = 'a'
         element["def"] = line[pos+1:].strip()
 
-        # Output coordinates if available
+        # Additional Instructions such as coloring in {..}
+        pos1 = element["id"].find('{')
+        pos2 = element["id"].find('}')
+        if pos1 >= 0 and pos2 >= 0:
+            instr = element["id"][pos1+1:pos2]
+            element["id"] = element["id"][:pos1]
+            instrList = instr.split(',')
+            for instrTxt in instrList:
+                pos3 = instrTxt.find('=')
+                if pos3 >= 0:
+                    key = instrTxt[:pos3]
+                    val = instrTxt[pos3+1:]
+                    if key == 'color':
+                        element["color"] = val          
+
+        # Output coordinates if available in (..)
         pos1 = element["id"].find('(')
         pos2 = element["id"].find(')')
         if pos1 >= 0 and pos2 >= 0:
@@ -243,17 +282,20 @@ class MainWidget(QWidget):
             exit()
        
         # Ring (start + end on top) or Chain with mid on top (start left) #
+        # Size of Rings and Chains must be scaled according to the number of nodes; elements 
+        # consisting of such scaled rings and chains do not need to be scaled
         if element["id"][0] in ('R', 'c', 'C'):
-            scale = element["nodes"] / self.scale # size of figure
-            figure = element["id"][0] + element["variant"]
+            scale  = element["nodes"] / self.scale          # figure scale factor
+            figure = element["id"][0] + element["variant"]  # figure name
             for el in self.elems:
                 if el["id"] == figure:
-                    element["dx"] = scale * int(el["dx"])
-                    element["dy"] = scale * int(el["dy"])
+                    element["dx"] = scale * int(el["dx"])   # figure width
+                    element["dy"] = scale * int(el["dy"])   # figure height
                     exit
 
-            line = '<g id="' + element["id"] + '" fill="none" stroke-linecap="round">\n' + \
-                    '   <use transform="scale(' + str(scale) + ' ' + str(scale) + ')" xlink:href="#' + figure + '"/>\n'
+            self.svg = self.svg + '<g id="' + element["id"] + '" fill="none" stroke-linecap="round">\n' \
+                                + '   <use xlink:href="#' + figure + '" ' \
+                                + 'transform="scale(' + str(scale) + ' ' + str(scale) + ')"/>\n'
             # Picots?
             seq = element["def"].split(' ')
             pos = 0
@@ -271,46 +313,60 @@ class MainWidget(QWidget):
                         scale_picot = scale / 2
                     x = scale * float(place[0])
                     y = scale * float(place[1])
-                    line = line + '   <use transform="translate(' + str(x) + ' ' + str(y) + \
-                        ') rotate(' + str(place[2]) + ') scale(' + str(scale_picot) + ' ' + str(scale_picot) + ')" xlink:href="#picot"/>\n'
+                    self.svg = self.svg + '   <use  xlink:href="#picot" ' \
+                                + 'transform="translate(' + str(x) + ' ' + str(y) + ') '\
+                                + 'rotate(' + str(place[2]) + ') ' \
+                                + 'scale(' + str(scale_picot) + ' ' + str(scale_picot) + ')"/>\n'
 
-            line = line + '</g>\n'
+            self.svg = self.svg + '</g>\n'
 
         # (Teil-) Figuren #
         else:
+            # Starting point for next element of the figure; in the end this is the end coordinate
             dx = 0
             dy = 0
-            line = '<g id="' + element["id"] + '" fill="none" stroke-linecap="round">'
+
+            # Start of figure
+            self.svg = self.svg + '<g id="' + element["id"] + '" fill="none" stroke-linecap="round">\n'
+
             lst = element["def"].split(" ")
-            for le in lst:
-                regex = re.search(regexp, le)
+            for figure in lst:
+                # Angle in form: {..} as degree-value >> if available, recalculate to radiant #
+                grad = 0
+                rad = 0
+                regex = re.search(regexp, figure)
                 if regex:
                     grad = float(regex.group(0)[1:-1])
                     rad = math.radians(grad)
-                else: 
-                    grad = 0
-                    rad = 0
-                le = re.sub(regexp, '', le, 0, 0)
-                line = line + '<use xlink:href="#' + le + '" transform="translate(' + str(dx) + ' ' + str(dy) + ')  rotate(' + str(grad) + ')"/>'
 
-                # Get le-Element for dx and dy calculation #
+                # Get figure = Name of element without angle in form: {..} #
+                figure = re.sub(regexp, '', figure, 0, 0)
+
+                # Draw element #
+                self.svg = self.svg + '   <use xlink:href="#' + figure + '" ' \
+                            + 'transform="translate(' + str(dx) + ' ' + str(dy) + ') '\
+                            + 'rotate(' + str(grad) + ')"/>\n'
+
+                # Calculate dx and dy for figure #
                 for el in self.elems:
-                    if el["id"] == le:
+                    if el["id"] == figure:
                         dx = dx + el["dx"] * math.cos(rad) - el["dy"] * math.sin(rad)
                         dy = dy + el["dx"] * math.sin(rad) + el["dy"] * math.cos(rad)
 
-            line = line + '</g>\n'
+            # End of figure and end coordinate
+            self.svg = self.svg + '</g>\n'
             element["dx"] = dx
             element["dy"] = dy
 
-        with open(self.svgFilename, 'a', encoding="utf-8") as f:
-            f.write(line)
-            # Final auszugebende Figur #
-            if coord_x >= 0 and coord_y >= 0: #element["id"][0] == 'Z':
-                f.write('<!-- Ausgabe -->\n')
-                f.write('<g stroke="black" fill="none" stroke-width="1" stroke-linecap="round">')
-                f.write('<use transform="translate(' + str(coord_x) + ' ' + str(coord_y) + ')" xlink:href="#' + element["id"] + '"/>')
-                f.write('</g>\n')
-        f.close() 
+        # Final auszugebende Figur #
+        if coord_x >= 0 and coord_y >= 0: #element["id"][0] == 'Z':
+            if element["color"] == '':
+                element["color"] = self.defaultColor
+            self.svg = self.svg + '<!-- Ausgabe -->\n'
+            self.svg = self.svg + '<g stroke="' + element["color"] + '" fill="none" stroke-width="1" stroke-linecap="round">\n'
+            self.svg = self.svg + '   <use xlink:href="#' + element["id"] \
+                                + '" transform="translate(' + str(coord_x*20/self.scale) + ' ' + str(coord_y*20/self.scale) + ')"/>\n'
+            self.svg = self.svg + '</g>\n'
+            self.svg = self.svg + '<circle cx="' + str(coord_x*20/self.scale) + '" cy="' + str(coord_y*20/self.scale) + '"  r="10" style="fill:red" />\n'
 
         self.elems.append(element)

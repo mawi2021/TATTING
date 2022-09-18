@@ -3,7 +3,7 @@ import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow
 from classes.MainWidget import MainWidget
 from classes.MainWindowMenu import MainWindowMenu
-from classes.MainWindowToolbars import MainWindowToolbars
+from classes.Process import Process
 
 # TODO:
 #   Picot-Positionen Koordinatenliste erstellen
@@ -30,9 +30,11 @@ class Main(QMainWindow):
         # ----- Menu and all Actions ------------------------------------------------------------ #
         self.menu = MainWindowMenu(self)
         self.setMenuBar(self.menu)
-        self.toolbars = MainWindowToolbars(self)
-        self.setWindowTitle("TADES (Tatting Design Studio)")  
-        self.setGeometry(self.widget.left, self.widget.top, self.widget.width, self.widget.height)
+        self.setWindowTitle('TADES (Tatting Design Studio)')
+        self.setGeometry(50, 50, 1500, 1000)
+
+        # ----- "Rest" -------------------------------------------------------------------------- #
+        self.process = Process(self)
         
     # ON ACTION #
     def onNew(self):
@@ -46,11 +48,15 @@ class Main(QMainWindow):
     def onSaveAs(self):
         pass
     def onExit(self):
-        # TODO: write data to config file
-        exit(self)
+        self.process.onExit()
     def onRedraw(self):
         self.widget.onRedraw()
-
+    def onZoomIn(self):
+        self.widget.onZoomIn()
+    def onZoomOut(self):
+        self.widget.onZoomOut()
+    def onGrid(self):
+        self.process.onGrid()
 
 def main():
     app = QApplication(sys.argv)
