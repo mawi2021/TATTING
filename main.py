@@ -5,18 +5,30 @@ from classes.MainWidget import MainWidget
 from classes.MainWindowMenu import MainWindowMenu
 from classes.Process import Process
 
-# TODO:
-#   Picot-Positionen Koordinatenliste erstellen
-#   Abfrage nach Dateiname statt statisch im Programm
-#   Parameter zum Aussehen, bspw. 
-#   - bei Ausgaben Farbe mitgeben
-#   - bei Ausgaben Strichstärke mitgeben
-#   - "Name" oder "Nummer" einer Figur mitgeben, die bei der Ausgabe in/nahe der Figur als Text ausgegeben wird
-#   - Anzahl Knoten in Figur-Abschnitte als Zahl eintragen
-#   Anpassung Bildgröße (xmax, ymax) entsprechend der ausgegebenen Objekte oder Eingabe der Länge/Breite durch den User
-#   Kommentare im Code in Englisch
-#   Grafische Oberfläche
-#   Gesamtanleitung pro Runde/Figur ausgeben
+# .:| TODO |:.
+# - File Handling
+#   + Delete (file) function 
+#   + Picot-Positions for each figure
+#   + Change handling of filenames => process such calls in a new method
+#   + Name of current filename in title
+#   + Add filter in file open/save dialogs (txt)
+#   + Change the way how to deal with picot coordinates (separate file for new figure extension
+#     of program users, too)
+# - SVG Panel
+#   + Paper size (xmax, ymax) / A4/A3/A2/A1/A0/individual size from User
+#   + Numbers and names of figures written
+#   + Graphical elements created by drag&drop via icons in toolbox-bar
+#   + Error with zooming with regards to papersize - not visible with huge papersize, but is there
+#   + Parameter for Output of SVG, e.g.:
+#     . stroke width
+#     . "Name" or "Number" of a figure
+#     . Number of nodes between picots/edges as text
+# - Text Panel
+#   + Zoom in Text Pane (larger font size), e.g. when using Ctrl+/Ctrl- depending on active pane
+#   + Text in formatted HTML instead of plain text
+#   + HTML formatting in config file (font size, font color, font family)
+# - Output for Publication in e.g. Internet
+#   + Text for Instruction per Round/Figur as written Text
 
 class Main(QMainWindow):
 
@@ -38,7 +50,7 @@ class Main(QMainWindow):
         
     # ON ACTION #
     def onNew(self):
-        pass
+        self.widget.onNew()
     def onOpen(self):
         self.widget.onOpen()
     def onDelete(self):
@@ -46,7 +58,7 @@ class Main(QMainWindow):
     def onSave(self):
         self.widget.onSave()
     def onSaveAs(self):
-        pass
+        self.widget.onSaveAs()
     def onExit(self):
         self.process.onExit()
     def onRedraw(self):

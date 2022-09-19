@@ -2,17 +2,11 @@ from PyQt5.QtWidgets import QWidget, QSplitter, QTextEdit, QHBoxLayout, QFileDia
 from PyQt5 import QtWidgets
 from PyQt5 import QtSvg
 from PyQt5.QtCore import Qt
-#from os.path import exists
+from os.path import exists
 import re  # regular expressions)"/> 
 import math
 import ctypes # for messages
 import json
-
-# TODO:
-# - Text in formatted HTML instead of plain text
-# - HTML formatting in config file (font size, font color, font family)
-# - Numbers and names of figures written
-# - Graphical elements created by drag&drop via icons in toolbox-bar
 
 class MainWidget(QWidget):
     def __init__(self, parent):
@@ -38,7 +32,7 @@ class MainWidget(QWidget):
         self.txtFilename = ''
 
         # Instruction as SVG Image #
-        self.svgWidget = QtSvg.QSvgWidget() #"samples/t_001.svg")
+        self.svgWidget = QtSvg.QSvgWidget()
         self.svgWidget.setGeometry(50,50,759,668)
         self.svgWidget.renderer().setAspectRatioMode(Qt.KeepAspectRatio)
         self.svgWidget.setSizePolicy(QtWidgets.QSizePolicy(0,0))
@@ -62,6 +56,28 @@ class MainWidget(QWidget):
         self.setLayout(self.layout)
 
     # ===== PUBLIC METHODS ====================================================================== #
+    def onNew(self):
+        fileDlg = QFileDialog()
+        fileStruc = fileDlg.getSaveFileName( 
+                        self.parent, 'Choose a directory and enter a new filename (text)', 
+                        "samples/"
+                    )
+
+        # Stop if nothing chosen #
+        if fileStruc[0] == "":
+            return
+
+        # Set filenames #
+        self.txtFilename = fileStruc[0]
+        pos = self.txtFilename.rfind('.')
+        if pos >= 0:
+            self.svgFilename = self.txtFilename[:pos+1] + 'svg'
+        else:
+            self.svgFilename = self.txtFilename + '.svg'
+
+        # Start with empty panes #
+        self.textWidget.clear()
+        self.onRedraw()
     def onOpen(self):
         # Reguest filename #
         fileDlg = QFileDialog()
@@ -109,27 +125,56 @@ class MainWidget(QWidget):
         with open(self.svgFilename, 'w', encoding="utf-8") as f:
             f.write(self.svg)
         f.close() 
+    def onSaveAs(self):
+        fileDlg = QFileDialog()
+        fileStruc = fileDlg.getSaveFileName( 
+                        self.parent, 'Choose a directory and enter a new filename (text)',
+                        "samples/"
+                    )
+
+        # Stop if nothing chosen #
+        if fileStruc[0] == "":
+            return
+
+        # Set filenames #
+        self.txtFilename = fileStruc[0]
+        pos = self.txtFilename.rfind('.')
+        if pos >= 0:
+            self.svgFilename = self.txtFilename[:pos+1] + 'svg'
+        else:
+            self.svgFilename = self.txtFilename + '.svg'
+
+        # Save current content #
+        content = self.textWidget.toPlainText()
+        
+        with open(self.txtFilename, 'w', encoding="utf-8") as f:
+            f.write(content)
+        f.close() 
+
+        with open(self.svgFilename, 'w', encoding="utf-8") as f:
+            f.write(self.svg)
+        f.close() 
     def onZoomIn(self):
-        #self.paperwidthMM  = self.paperwidthMM * 1.1
-        #self.paperheightMM = self.paperheightMM * 1.1
         self.kast          = self.kast * 1.1
         self.scale         = self.scale / 1.1
         self.onRedraw()
     def onZoomOut(self):
-        #self.paperwidthMM  = self.paperwidthMM / 1.1
-        #self.paperheightMM = self.paperheightMM / 1.1
         self.kast          = self.kast / 1.1
         self.scale         = self.scale * 1.1
         self.onRedraw()
 
     def open(self):
         # Read text file and assign content #
-        with open(self.txtFilename, encoding="utf-8") as f:
-            instr = ''
-            for line in f.readlines():
-                instr = instr + line
-            self.textWidget.setPlainText(instr)
-        f.close()
+        if exists(self.txtFilename):
+            with open(self.txtFilename, encoding="utf-8") as f:
+                instr = ''
+                for line in f.readlines():
+                    instr = instr + line
+                self.textWidget.setPlainText(instr)
+            f.close()
+        else:
+            self.txtFilename = ''
+            self.svgFilename = ''
 
         # Show SVG file #
         self.onRedraw()
@@ -358,8 +403,8 @@ class MainWidget(QWidget):
             element["dx"] = dx
             element["dy"] = dy
 
-        # Final auszugebende Figur #
-        if coord_x >= 0 and coord_y >= 0: #element["id"][0] == 'Z':
+        # Output of figure #
+        if coord_x >= 0 and coord_y >= 0:
             if element["color"] == '':
                 element["color"] = self.defaultColor
             self.svg = self.svg + '<!-- Ausgabe -->\n'
