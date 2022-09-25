@@ -1,9 +1,9 @@
-R1[b]:3 p 3 P 3 p 3 P 3 P 3
-R2[b]:3 p 3 P 3 P 3 P 3 p 3
-R3[b]:3 P 3 P 3 p 3 P 3 p 3
-R4[b]:3 P 3 P 3 p 3 P 3 p 3
-R5[b]:3 p 3 P 3 P 3 p 3 P 3
-R6[b]:3 P 3 p 3 P 3 P 3 p 3
+R1[60]:3 p 3 P 3 p 3 P 3 P 3
+R2[60]:3 p 3 P 3 P 3 P 3 p 3
+R3[60]:3 P 3 P 3 p 3 P 3 p 3
+R4[60]:3 P 3 P 3 p 3 P 3 p 3
+R5[60]:3 p 3 P 3 P 3 p 3 P 3
+R6[60]:3 P 3 p 3 P 3 P 3 p 3
 c1[b]:28
 c2[d]:17
 

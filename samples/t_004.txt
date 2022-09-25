@@ -1,7 +1,7 @@
-R1[a]: P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P
-R2[b]: P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P 
-R3[c]: P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P
+R1[60]: P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P
+R2[40]: P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P 
+R3[20]: P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P
 
-Z1(80,20):R1
-Z2(240,20):R2
-Z3(380,20):R3
+Z1(250,20):R1
+Z2(700,20):R2
+Z3(1100,20):R3

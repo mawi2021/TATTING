@@ -1,3 +1,4 @@
+#from curses.ascii import isdigit
 from PyQt5.QtWidgets import QWidget, QSplitter, QTextEdit, QHBoxLayout, QFileDialog, QScrollArea
 from PyQt5 import QtWidgets
 from PyQt5 import QtSvg
@@ -251,7 +252,7 @@ class MainWidget(QWidget):
                 fig_id = fig_id[4:-1]
                 next_is_coord = True
 
-            self.svg = self.svg + '\n<!-- Individueller Teil -->\n'
+            self.svg = self.svg + '\n<!-- Individual Part -->\n'
     def _add(self,line):
         if len(line) == 0: return
         if line[0] == '#': return
@@ -278,7 +279,9 @@ class MainWidget(QWidget):
             element["variant"] = element["id"][pos1+1:pos2]
             element["id"] = element["id"][:pos1]
         else:
-            if element["id"][0] in ('R', 'C', 'c'):
+            if element["id"][0] == 'R':
+                element["variant"] = '60'
+            elif element["id"][0] in ('C', 'c'):
                 element["variant"] = 'a'
         element["def"] = line[pos+1:].strip()
 
@@ -332,38 +335,127 @@ class MainWidget(QWidget):
         if element["id"][0] in ('R', 'c', 'C'):
             scale  = element["nodes"] / self.scale          # figure scale factor
             figure = element["id"][0] + element["variant"]  # figure name
-            for el in self.elems:
-                if el["id"] == figure:
-                    element["dx"] = scale * int(el["dx"])   # figure width
-                    element["dy"] = scale * int(el["dy"])   # figure height
-                    exit
+            if element["variant"].isdigit() and element["id"][0] == 'R':
+                winkel_grad = int(element["variant"])
+                winkel_rad = math.radians(winkel_grad)
+                element["dx"] = 0
+                element["dy"] = 0
+                # no clue why factor 500 :o( #
+                len_straight = 500 * scale / (2 * (1 + math.pi \
+                                * math.tan(winkel_rad/2) * (0.5 - winkel_rad/360)))
+                                #* scale 
+                x1 = -len_straight * math.sin(winkel_rad/2)
+                y1 = len_straight * math.cos(winkel_rad/2)
+                r  = len_straight * math.tan(winkel_rad/2)
+                ym = r  / math.sin(winkel_rad/2)
+                umfang_circle = 2 * math.pi * r * ((math.pi + winkel_rad) / (2 * math.pi) )
+                umfang = 2 * len_straight + umfang_circle
 
-            self.svg = self.svg + '<g id="' + element["id"] + '" fill="none" stroke-linecap="round">\n' \
-                                + '   <use xlink:href="#' + figure + '" ' \
-                                + 'transform="scale(' + str(scale) + ' ' + str(scale) + ')"/>\n'
-            # Picots?
-            seq = element["def"].split(' ')
-            pos = 0
-            for el in seq:
-                try:
-                    pos = pos + int(el)
-                except:
-                    # calculate coords, where to add
-                    pos = pos + 1
-                    idx = int(round((len(self.picot[figure])-2) * pos / element["nodes"])) - 1
-                    place = self.picot[figure][idx]
-                    if el == 'P':
-                        scale_picot = scale
-                    elif el == 'p':
-                        scale_picot = scale / 2
-                    x = scale * float(place[0])
-                    y = scale * float(place[1])
-                    self.svg = self.svg + '   <use  xlink:href="#picot" ' \
-                                + 'transform="translate(' + str(x) + ' ' + str(y) + ') '\
-                                + 'rotate(' + str(place[2]) + ') ' \
-                                + 'scale(' + str(scale_picot) + ' ' + str(scale_picot) + ')"/>\n'
+                self.svg = self.svg + '<g id="' + element["id"] + '" fill="none" stroke-linecap="round">\n' \
+                                    + '   <path d="M 0,0   L ' + str(x1) + ',' + str(y1) \
+                                    + '   A ' + str(r) + ',' + str(r) + ' 0, 1, 0 ' + str(-x1) + ',' + str(y1) \
+                                    + '   Z" />\n'
 
-            self.svg = self.svg + '</g>\n'
+                # Picots?
+                seq = element["def"].split(' ')
+                pos = 0
+                for el in seq:
+                    if el.isdigit():
+                        #pos = pos + int(el)
+                        for i in range(int(el)):
+                            pos = pos + 0.5
+                            verhaeltnis = pos / element["nodes"]
+                            part = umfang * verhaeltnis
+
+                            if part < len_straight:
+                                # Picot in first, straight part of ring #
+                                x = x1 * part / len_straight
+                                y = y1 * part / len_straight
+                                winkel_picot = 90 + winkel_grad / 2
+                            elif umfang - part < len_straight:
+                                # Picot in second, straight part of ring #
+                                x = -x1 * (umfang - part) / len_straight
+                                y =  y1 * (umfang - part) / len_straight
+                                winkel_picot = 270 - winkel_grad / 2
+                            else:
+                                # Picot in circle part of ring #
+                                part_circle = part - len_straight
+                                beta_grad = (180 + winkel_grad) * part_circle / umfang_circle
+                                x =      r * math.cos(math.radians((winkel_grad/2) - beta_grad))
+                                y = ym - r * math.sin(math.radians((winkel_grad/2) - beta_grad))
+                                winkel_picot = 270 - winkel_grad/2 + beta_grad
+                            pos = pos + 0.5
+                            self.svg = self.svg + '   <circle cx="' + str(x) + '" cy="' + str(y) + '"  r="5" />\n'
+                    else:
+                        # calculate coords, where to add
+                        pos = pos + 0.5
+                        if el == 'P':
+                            scale_picot = 40 / self.scale 
+                        elif el == 'p':
+                            scale_picot = 40 / (self.scale * 3)
+                            
+                        verhaeltnis = pos / element["nodes"]
+                        part = umfang * verhaeltnis
+
+                        if part < len_straight:
+                            # Picot in first, straight part of ring #
+                            x = x1 * part / len_straight
+                            y = y1 * part / len_straight
+                            winkel_picot = 90 + winkel_grad / 2
+                        elif umfang - part < len_straight:
+                            # Picot in second, straight part of ring #
+                            x = -x1 * (umfang - part) / len_straight
+                            y =  y1 * (umfang - part) / len_straight
+                            winkel_picot = 270 - winkel_grad / 2
+                        else:
+                            # Picot in circle part of ring #
+                            part_circle = part - len_straight
+                            beta_grad = (180 + winkel_grad) * part_circle / umfang_circle
+                            x =      r * math.cos(math.radians((winkel_grad/2) - beta_grad))
+                            y = ym - r * math.sin(math.radians((winkel_grad/2) - beta_grad))
+                            winkel_picot = 270 - winkel_grad/2 + beta_grad
+                        pos = pos + 0.5
+
+                        self.svg = self.svg + '   <use  xlink:href="#picot" ' \
+                                    + 'transform="translate(' + str(x) + ' ' + str(y) + ') '\
+                                    + 'rotate(' + str(winkel_picot) + ') ' \
+                                    + 'scale(' + str(scale_picot) + ' ' + str(scale_picot) + ')"/>\n'
+
+                self.svg = self.svg + '</g>\n'                        
+
+            else:
+                for el in self.elems:
+                    if el["id"] == figure:
+                        element["dx"] = scale * int(el["dx"])   # figure width
+                        element["dy"] = scale * int(el["dy"])   # figure height
+                        exit
+
+                self.svg = self.svg + '<g id="' + element["id"] + '" fill="none" stroke-linecap="round">\n' \
+                                    + '   <use xlink:href="#' + figure + '" ' \
+                                    + 'transform="scale(' + str(scale) + ' ' + str(scale) + ')"/>\n'
+                # Picots?
+                seq = element["def"].split(' ')
+                pos = 0
+                for el in seq:
+                    try:
+                        pos = pos + int(el)
+                    except:
+                        # calculate coords, where to add
+                        pos = pos + 1
+                        idx = int(round((len(self.picot[figure])-2) * pos / element["nodes"])) - 1
+                        place = self.picot[figure][idx]
+                        if el == 'P':
+                            scale_picot = scale
+                        elif el == 'p':
+                            scale_picot = scale / 2
+                        x = scale * float(place[0])
+                        y = scale * float(place[1])
+                        self.svg = self.svg + '   <use  xlink:href="#picot" ' \
+                                    + 'transform="translate(' + str(x) + ' ' + str(y) + ') '\
+                                    + 'rotate(' + str(place[2]) + ') ' \
+                                    + 'scale(' + str(scale_picot) + ' ' + str(scale_picot) + ')"/>\n'
+
+                self.svg = self.svg + '</g>\n'
 
         # (Teil-) Figuren #
         else:
@@ -407,11 +499,11 @@ class MainWidget(QWidget):
         if coord_x >= 0 and coord_y >= 0:
             if element["color"] == '':
                 element["color"] = self.defaultColor
-            self.svg = self.svg + '<!-- Ausgabe -->\n'
+            self.svg = self.svg + '<!-- Output -->\n'
             self.svg = self.svg + '<g stroke="' + element["color"] + '" fill="none" stroke-width="1" stroke-linecap="round">\n'
             self.svg = self.svg + '   <use xlink:href="#' + element["id"] \
                                 + '" transform="translate(' + str(coord_x*20/self.scale) + ' ' + str(coord_y*20/self.scale) + ')"/>\n'
             self.svg = self.svg + '</g>\n'
-            self.svg = self.svg + '<circle cx="' + str(coord_x*20/self.scale) + '" cy="' + str(coord_y*20/self.scale) + '"  r="10" style="fill:red" />\n'
+            #self.svg = self.svg + '<circle cx="' + str(coord_x*20/self.scale) + '" cy="' + str(coord_y*20/self.scale) + '"  r="10" style="fill:red" />\n'
 
         self.elems.append(element)
