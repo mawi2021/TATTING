@@ -1,6 +1,6 @@
 R1[60]: P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P
 R2[40]: P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P 
-R3[20]: P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P P
+R3[20]: P P P P P P P P P P P P
 
 Z1(250,20):R1
 Z2(700,20):R2

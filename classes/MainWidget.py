@@ -265,24 +265,33 @@ class MainWidget(QWidget):
         # Initial values
         element["color"] = ''
 
-        # Search for id, figure variant, definition, output coordinates
+        # Get identifier (name) of this object => element["id"]
         pos = line.find(':')
-
         if pos == -1:
+            ctypes.windll.user32.MessageBoxW(0, 'Error in line:\n   ' + line + 
+                '\nNo ":" in this line', 'Error', 0)
             return
-
         element["id"] = line[:pos].strip()
-        # Variant of ring or chain (a, b, c, ...) in [..]
+
+        # Degree of "opening angle" in a ring or ratio of a chain length:height in [..] 
+        # => element["degree"] or element["ratio"]
         pos1 = element["id"].find('[')
         pos2 = element["id"].find(']')
+
         if pos1 >= 0 and pos2 >= 0:
-            element["variant"] = element["id"][pos1+1:pos2]
-            element["id"] = element["id"][:pos1]
-        else:
             if element["id"][0] == 'R':
-                element["variant"] = '60'
-            elif element["id"][0] in ('C', 'c'):
-                element["variant"] = 'a'
+                element["degree"] = element["id"][pos1+1:pos2]
+            elif element["id"][0] == 'C':
+                element["ratio"] = element["id"][pos1+1:pos2]
+            element["id"] = element["id"][:pos1]
+
+        else: # Default Values
+            if element["id"][0] == 'R':
+                element["degree"] = '60'
+            elif element["id"][0] == 'C':
+                element["ratio"] = '5'
+
+        # Definition of element (everything after ":" => element["def"]
         element["def"] = line[pos+1:].strip()
 
         # Additional Instructions such as coloring in {..}
@@ -300,7 +309,7 @@ class MainWidget(QWidget):
                     if key == 'color':
                         element["color"] = val          
 
-        # Output coordinates if available in (..)
+        # Output coordinates if available in (..) => coord_x, coord_y
         pos1 = element["id"].find('(')
         pos2 = element["id"].find(')')
         if pos1 >= 0 and pos2 >= 0:
@@ -310,7 +319,7 @@ class MainWidget(QWidget):
             coord_x = int(coords[:pos])
             coord_y = int(coords[pos+1:])
         
-        # How many nodes (including picots)?
+        # How many nodes (including picots)? => element["nodes"]
         seq = element["def"]
         seq = seq.replace("p","1")
         seq = seq.replace("P","1")
@@ -323,35 +332,39 @@ class MainWidget(QWidget):
         except NameError:
             ctypes.windll.user32.MessageBoxW(0, 'Error in line:\n   ' + line + 
                 '\nAn expression in this line is not yet defined', 'Error', 0)
-            exit()
+            return
         except SyntaxError:
             ctypes.windll.user32.MessageBoxW(0, 'Error in line:\n   ' + line + 
                 '\nSyntax error, e.g. check space, colons and brackets', 'Error', 0)
-            exit()
+            return
        
         # Ring (start + end on top) or Chain with mid on top (start left) #
-        # Size of Rings and Chains must be scaled according to the number of nodes; elements 
-        # consisting of such scaled rings and chains do not need to be scaled
-        if element["id"][0] in ('R', 'c', 'C'):
-            scale  = element["nodes"] / self.scale          # figure scale factor
-            figure = element["id"][0] + element["variant"]  # figure name
-            if element["variant"].isdigit() and element["id"][0] == 'R':
-                winkel_grad = int(element["variant"])
+        # Size of Rings and Chains must be scaled according to the number of nodes
+        # elements consisting of such scaled rings and chains do not need to be scaled
+        scale = 500 * element["nodes"] / self.scale          # figure scale factor
+
+        if element["id"][0] == 'R':
+            if element["degree"].isdigit():
+                winkel_grad = int(element["degree"])
                 winkel_rad = math.radians(winkel_grad)
                 element["dx"] = 0
                 element["dy"] = 0
-                # no clue why factor 500 :o( #
-                len_straight = 500 * scale / (2 * (1 + math.pi \
-                                * math.tan(winkel_rad/2) * (0.5 - winkel_rad/360)))
-                                #* scale 
+                b = scale
+
+                # no clue why factor 500 :-( #
+                # len_straight = 500 * scale / (2 * (1 + math.pi \
+                #                 * math.tan(winkel_rad/2) * (0.5 - winkel_rad/360)))
+                # r  = len_straight * math.tan(winkel_rad/2)
+                # umfang_circle = 2 * math.pi * r * ((math.pi + winkel_rad) / (2 * math.pi) )
+                r = b / (math.pi * (1 + winkel_grad/180) + 2/math.tan(winkel_rad/2))
+                len_straight = r / math.tan(winkel_rad/2)
                 x1 = -len_straight * math.sin(winkel_rad/2)
-                y1 = len_straight * math.cos(winkel_rad/2)
-                r  = len_straight * math.tan(winkel_rad/2)
-                ym = r  / math.sin(winkel_rad/2)
-                umfang_circle = 2 * math.pi * r * ((math.pi + winkel_rad) / (2 * math.pi) )
+                y1 =  len_straight * math.cos(winkel_rad/2)
+                ym = r / math.sin(winkel_rad/2)
+                umfang_circle = math.pi * r * (1 + (winkel_grad / 180) )
                 umfang = 2 * len_straight + umfang_circle
 
-                self.svg = self.svg + '<g id="' + element["id"] + '" fill="none" stroke-linecap="round">\n' \
+                self.svg = self.svg + '<g id="' + element["id"] + '" fill="none" stroke-linecap="round" stroke-width="2">\n' \
                                     + '   <path d="M 0,0   L ' + str(x1) + ',' + str(y1) \
                                     + '   A ' + str(r) + ',' + str(r) + ' 0, 1, 0 ' + str(-x1) + ',' + str(y1) \
                                     + '   Z" />\n'
@@ -371,19 +384,19 @@ class MainWidget(QWidget):
                                 # Picot in first, straight part of ring #
                                 x = x1 * part / len_straight
                                 y = y1 * part / len_straight
-                                winkel_picot = 90 + winkel_grad / 2
+                                # winkel_picot = 90 + winkel_grad / 2
                             elif umfang - part < len_straight:
                                 # Picot in second, straight part of ring #
                                 x = -x1 * (umfang - part) / len_straight
                                 y =  y1 * (umfang - part) / len_straight
-                                winkel_picot = 270 - winkel_grad / 2
+                                # winkel_picot = 270 - winkel_grad / 2
                             else:
                                 # Picot in circle part of ring #
                                 part_circle = part - len_straight
                                 beta_grad = (180 + winkel_grad) * part_circle / umfang_circle
                                 x =      r * math.cos(math.radians((winkel_grad/2) - beta_grad))
                                 y = ym - r * math.sin(math.radians((winkel_grad/2) - beta_grad))
-                                winkel_picot = 270 - winkel_grad/2 + beta_grad
+                                # winkel_picot = 270 - winkel_grad/2 + beta_grad
                             pos = pos + 0.5
                             self.svg = self.svg + '   <circle cx="' + str(x) + '" cy="' + str(y) + '"  r="5" />\n'
                     else:
@@ -421,43 +434,74 @@ class MainWidget(QWidget):
                                     + 'rotate(' + str(winkel_picot) + ') ' \
                                     + 'scale(' + str(scale_picot) + ' ' + str(scale_picot) + ')"/>\n'
 
-                self.svg = self.svg + '</g>\n'                        
+                self.svg = self.svg + '</g>\n'  
 
-            else:
-                for el in self.elems:
-                    if el["id"] == figure:
-                        element["dx"] = scale * int(el["dx"])   # figure width
-                        element["dy"] = scale * int(el["dy"])   # figure height
-                        exit
+            else:                      
+                ctypes.windll.user32.MessageBoxW(0, 'Error in line:\n   ' + line + 
+                    '\nOpening degree in [..] is not a digit', 'Error', 0)
+                return
 
-                self.svg = self.svg + '<g id="' + element["id"] + '" fill="none" stroke-linecap="round">\n' \
-                                    + '   <use xlink:href="#' + figure + '" ' \
-                                    + 'transform="scale(' + str(scale) + ' ' + str(scale) + ')"/>\n'
+        # Chains C => 
+        elif element["id"][0] == 'C':
+            if element["ratio"].isdigit():
+                ratio = int(element["ratio"])
+                alpha_rad = math.acos( 1 - ( 8 / ( ratio * ratio + 4 ) ) )
+                b = scale 
+                r = b / ( 2 * alpha_rad )
+                x1 = 2 * r * math.sin(alpha_rad)
+                y1 = 0
+                element["dx"] = x1
+                element["dy"] = y1
+
+                self.svg = self.svg + '<g id="' + element["id"] + '" fill="none" stroke-linecap="round" stroke-width="2">\n' \
+                                    + '   <path d="M 0,0' \
+                                    + '   A ' + str(r) + ',' + str(r) + ' 0, 0, 1 ' + str(x1) + ',' + str(y1) + '" />\n'
+
                 # Picots?
                 seq = element["def"].split(' ')
                 pos = 0
+                gamma_rad = math.pi / 2 - alpha_rad # angle between horizontal diameter and start of chain
                 for el in seq:
-                    try:
-                        pos = pos + int(el)
-                    except:
+                    if el.isdigit():
+                        # for each node add a little circle
+                        for i in range(int(el)):
+                            pos = pos + 0.5
+                            verhaeltnis = pos / element["nodes"]
+                            beta_rad = 2 * alpha_rad * verhaeltnis
+                            x = x1 / 2 - r * math.cos(beta_rad + gamma_rad)
+                            y = -r * ( math.sin(beta_rad + gamma_rad) - math.cos(alpha_rad) )
+
+                            pos = pos + 0.5
+                            self.svg = self.svg + '   <circle cx="' + str(x) + '" cy="' + str(y) + '"  r="5" />\n'
+                    else:
                         # calculate coords, where to add
-                        pos = pos + 1
-                        idx = int(round((len(self.picot[figure])-2) * pos / element["nodes"])) - 1
-                        place = self.picot[figure][idx]
+                        pos = pos + 0.5
                         if el == 'P':
-                            scale_picot = scale
+                            scale_picot = 40 / self.scale 
                         elif el == 'p':
-                            scale_picot = scale / 2
-                        x = scale * float(place[0])
-                        y = scale * float(place[1])
+                            scale_picot = 40 / (self.scale * 3)
+                            
+                        verhaeltnis = pos / element["nodes"]
+                        beta_rad = 2 * alpha_rad * verhaeltnis
+                        x = x1 / 2 - r * math.cos(beta_rad + gamma_rad)
+                        y = -r * ( math.sin(beta_rad + gamma_rad) - math.cos(alpha_rad) )
+                        alpha_picot = 180 - math.degrees(alpha_rad/2) + math.degrees(beta_rad)
+
+                        pos = pos + 0.5
+                        # self.svg = self.svg + '   <circle cx="' + str(x) + '" cy="' + str(y) + '"  r="15" />\n'
                         self.svg = self.svg + '   <use  xlink:href="#picot" ' \
                                     + 'transform="translate(' + str(x) + ' ' + str(y) + ') '\
-                                    + 'rotate(' + str(place[2]) + ') ' \
+                                    + 'rotate(' + str(alpha_picot) + ') ' \
                                     + 'scale(' + str(scale_picot) + ' ' + str(scale_picot) + ')"/>\n'
 
-                self.svg = self.svg + '</g>\n'
+                self.svg = self.svg + '</g>\n'  
 
-        # (Teil-) Figuren #
+            else:
+                ctypes.windll.user32.MessageBoxW(0, 'Error in line:\n   ' + line + 
+                    '\nRatio of chains length : height in [..] is not a digit', 'Error', 0)
+                return
+
+        # Figures #
         else:
             # Starting point for next element of the figure; in the end this is the end coordinate
             dx = 0

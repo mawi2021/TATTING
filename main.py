@@ -6,6 +6,11 @@ from classes.MainWindowMenu import MainWindowMenu
 from classes.Process import Process
 
 # .:| TODO |:.
+# - Adaptation of usage of rings to chains
+#   + add confuiguration parameter to draw/hide such "markers"
+#   + instead of "markers" use a tiny node-image, laying on the line
+#   + picot on chains: correct angle
+#   + picots disappeared (reason in basic_figures?)
 # - File Handling
 #   + Delete (file) function 
 #   + Picot-Positions for each figure
