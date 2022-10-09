@@ -1,16 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg"
-    xmlns:xlink="http://www.w3.org/1999/xlink"
-    version="1.1" baseProfile="full"
-    width="500mm" height="500mm"
-    viewBox="-20 -20 700 700">
-    <title>Basic Elements</title>
-    <desc>Graphical Elements, which a tatted figure consists of. Can be extended.</desc>
-
-
-<!-- Grundelemente -->
-<!-- Wichtig ist, dass der Punkt, um den später gedreht wird, auf (0,0) liegt -->
-<g fill="none" stroke-linecap="round"><path id="picot"  d="M 0,0   Q -6,10 -6,16     A 6,6 0, 1, 0 6,16     Q 6,10 0,0"  /></g> <!-- Zierpicot, normal groß, Spitze oben -->
-<!-- ### END PART TO BE COPIED ### -->
-
-</svg>
+<g fill="none" stroke-linecap="round"><path id="picot"  d="M 0,0   Q -12,20 -12,32     A 12,12 0, 1, 0 12,32    Q 12,20 0,0"  /></g> <!-- Zierpicot, normal groß, Spitze oben -->

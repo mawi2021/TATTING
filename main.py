@@ -7,10 +7,8 @@ from classes.Process import Process
 
 # .:| TODO |:.
 # - Adaptation of usage of rings to chains
-#   + add confuiguration parameter to draw/hide such "markers"
+#   + add configuration parameter to draw/hide such "markers"
 #   + instead of "markers" use a tiny node-image, laying on the line
-#   + picot on chains: correct angle
-#   + picots disappeared (reason in basic_figures?)
 # - File Handling
 #   + Delete (file) function 
 #   + Picot-Positions for each figure
@@ -22,18 +20,20 @@ from classes.Process import Process
 # - SVG Panel
 #   + Paper size (xmax, ymax) / A4/A3/A2/A1/A0/individual size from User
 #   + Numbers and names of figures written
-#   + Graphical elements created by drag&drop via icons in toolbox-bar
-#   + Error with zooming with regards to papersize - not visible with huge papersize, but is there
+#   + Individual text everywhere
+#   + Graphical elements and Text created by drag&drop via icons in toolbox-bar
+#   + Error with zooming with regards to papersize - not visible with huge papersize
 #   + Parameter for Output of SVG, e.g.:
 #     . stroke width
 #     . "Name" or "Number" of a figure
 #     . Number of nodes between picots/edges as text
+#     . Text for Instruction per Round/Figur as written Text
 # - Text Panel
 #   + Zoom in Text Pane (larger font size), e.g. when using Ctrl+/Ctrl- depending on active pane
 #   + Text in formatted HTML instead of plain text
 #   + HTML formatting in config file (font size, font color, font family)
-# - Output for Publication in e.g. Internet
-#   + Text for Instruction per Round/Figur as written Text
+# - Hints for Output for Publication in e.g. Internet
+
 
 class Main(QMainWindow):
 

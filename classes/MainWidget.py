@@ -182,6 +182,7 @@ class MainWidget(QWidget):
 
     # ===== PRIVATE PART OF CLASS =============================================================== #
     def _create_meta(self, lines):
+        # Header Part #
         self.svg = self.svg + '<?xml version="1.0" encoding="UTF-8"?>\n' \
                 + '<svg xmlns="http://www.w3.org/2000/svg"\n' \
                 + '    xmlns:xlink="http://www.w3.org/1999/xlink"\n' \
@@ -207,8 +208,6 @@ class MainWidget(QWidget):
                 i = i + self.kast
 
         # Read basic elements from /config/basic_elements.svg file and replace it here
-        found = False
-        next_is_coord = False
         fig_id = ''
         self.svg = self.svg + '<!-- Basic Elements -->\n'
         with open('config/basic_elements.svg', 'r', encoding="utf-8") as fr:                
@@ -216,43 +215,13 @@ class MainWidget(QWidget):
                 if line == '' or line == '\n':
                     continue
 
-                if next_is_coord:
-                    line = line[+4:-4]
-                    coord_arr = line.split(' ')
-                    self.picot[fig_id] = []
-                    first = True
-                    for coord in coord_arr:
-                        coord = json.loads(coord)
-                        if first:
-                            dx = coord[0]
-                            dy = coord[1]
-                            element = {}
-                            element["id"] = fig_id
-                            element["dx"] = dx
-                            element["dy"] = dy
-                            element["nodes"] = 1
-                            self.elems.append(element)
-                            first = False
-                            continue
-                        self.picot[fig_id].append(coord)
-                    next_is_coord = False
-                    continue
-
-                if line.startswith('<!-- ### START PART TO BE COPIED ### -->'):
-                    found = True
-                    continue
-                if line.startswith('<!-- ### END PART TO BE COPIED ### -->'):
-                    found = False
-                    continue
-                if not found: continue
                 self.svg = self.svg + line
                 reg = re.search('id=\"[^\"]*\"', line)
                 if reg == None: continue
                 fig_id = reg.group(0)
                 fig_id = fig_id[4:-1]
-                next_is_coord = True
 
-            self.svg = self.svg + '\n<!-- Individual Part -->\n'
+        self.svg = self.svg + '\n<!-- Individual Part -->\n'
     def _add(self,line):
         if len(line) == 0: return
         if line[0] == '#': return
@@ -320,30 +289,35 @@ class MainWidget(QWidget):
             coord_y = int(coords[pos+1:])
         
         # How many nodes (including picots)? => element["nodes"]
-        seq = element["def"]
-        seq = seq.replace("p","1")
-        seq = seq.replace("P","1")
-        seq = seq.replace(" ","+")
-        for e in self.elems:
-            seq = seq.replace(e["id"],str(e["nodes"]))
-        seq = re.sub(regexp, '', seq, 0, 0)
-        try:
-            element["nodes"] = eval(seq)
-        except NameError:
-            ctypes.windll.user32.MessageBoxW(0, 'Error in line:\n   ' + line + 
-                '\nAn expression in this line is not yet defined', 'Error', 0)
-            return
-        except SyntaxError:
-            ctypes.windll.user32.MessageBoxW(0, 'Error in line:\n   ' + line + 
-                '\nSyntax error, e.g. check space, colons and brackets', 'Error', 0)
-            return
+        if element["id"] != 'TEXT':
+            seq = element["def"]
+            seq = seq.replace("p","1")
+            seq = seq.replace("P","1")
+            seq = seq.replace(" ","+")
+            for e in self.elems:
+                seq = seq.replace(e["id"],str(e["nodes"]))
+            seq = re.sub(regexp, '', seq, 0, 0)
+            try:
+                element["nodes"] = eval(seq)
+            except NameError:
+                ctypes.windll.user32.MessageBoxW(0, 'Error in line:\n   ' + line + 
+                    '\nAn expression in this line is not yet defined', 'Error', 0)
+                return
+            except SyntaxError:
+                ctypes.windll.user32.MessageBoxW(0, 'Error in line:\n   ' + line + 
+                    '\nSyntax error, e.g. check space, colons and brackets', 'Error', 0)
+                return
        
-        # Ring (start + end on top) or Chain with mid on top (start left) #
-        # Size of Rings and Chains must be scaled according to the number of nodes
-        # elements consisting of such scaled rings and chains do not need to be scaled
-        scale = 500 * element["nodes"] / self.scale          # figure scale factor
+            # Ring (start + end on top) or Chain with mid on top (start left) #
+            # Size of Rings and Chains must be scaled according to the number of nodes
+            # elements consisting of such scaled rings and chains do not need to be scaled
+            scale = 500 * element["nodes"] / self.scale          # figure scale factor
 
-        if element["id"][0] == 'R':
+        if  element["id"] == 'TEXT':
+            scale = 500 / self.scale      
+            self.svg = self.svg + '<text id="TEXT" style="font: italic 80px serif;">' + element["def"] + '</text>\n'
+            # self.svg = self.svg + '<text id="TEXT" style="font: italic 80px serif;">' + element["def"] + '</text>\n'
+        elif element["id"][0] == 'R':
             if element["degree"].isdigit():
                 winkel_grad = int(element["degree"])
                 winkel_rad = math.radians(winkel_grad)
@@ -384,28 +358,25 @@ class MainWidget(QWidget):
                                 # Picot in first, straight part of ring #
                                 x = x1 * part / len_straight
                                 y = y1 * part / len_straight
-                                # winkel_picot = 90 + winkel_grad / 2
                             elif umfang - part < len_straight:
                                 # Picot in second, straight part of ring #
                                 x = -x1 * (umfang - part) / len_straight
                                 y =  y1 * (umfang - part) / len_straight
-                                # winkel_picot = 270 - winkel_grad / 2
                             else:
                                 # Picot in circle part of ring #
                                 part_circle = part - len_straight
                                 beta_grad = (180 + winkel_grad) * part_circle / umfang_circle
                                 x =      r * math.cos(math.radians((winkel_grad/2) - beta_grad))
                                 y = ym - r * math.sin(math.radians((winkel_grad/2) - beta_grad))
-                                # winkel_picot = 270 - winkel_grad/2 + beta_grad
                             pos = pos + 0.5
                             self.svg = self.svg + '   <circle cx="' + str(x) + '" cy="' + str(y) + '"  r="5" />\n'
                     else:
                         # calculate coords, where to add
                         pos = pos + 0.5
                         if el == 'P':
-                            scale_picot = 40 / self.scale 
+                            scale_picot = 20 / self.scale 
                         elif el == 'p':
-                            scale_picot = 40 / (self.scale * 3)
+                            scale_picot = 10 / self.scale
                             
                         verhaeltnis = pos / element["nodes"]
                         part = umfang * verhaeltnis
@@ -477,15 +448,15 @@ class MainWidget(QWidget):
                         # calculate coords, where to add
                         pos = pos + 0.5
                         if el == 'P':
-                            scale_picot = 40 / self.scale 
+                            scale_picot = 20 / self.scale 
                         elif el == 'p':
-                            scale_picot = 40 / (self.scale * 3)
+                            scale_picot = 10 / self.scale
                             
                         verhaeltnis = pos / element["nodes"]
                         beta_rad = 2 * alpha_rad * verhaeltnis
                         x = x1 / 2 - r * math.cos(beta_rad + gamma_rad)
                         y = -r * ( math.sin(beta_rad + gamma_rad) - math.cos(alpha_rad) )
-                        alpha_picot = 180 - math.degrees(alpha_rad/2) + math.degrees(beta_rad)
+                        alpha_picot = 180 + math.degrees(beta_rad) - math.degrees(alpha_rad)
 
                         pos = pos + 0.5
                         # self.svg = self.svg + '   <circle cx="' + str(x) + '" cy="' + str(y) + '"  r="15" />\n'
