@@ -7,7 +7,7 @@ from os.path import exists
 import re  # regular expressions)"/> 
 import math
 import ctypes # for messages
-import json
+# import json
 
 class MainWidget(QWidget):
     def __init__(self, parent):
@@ -356,12 +356,12 @@ class MainWidget(QWidget):
 
                             if part < len_straight:
                                 # Picot in first, straight part of ring #
-                                x = x1 * part / len_straight
-                                y = y1 * part / len_straight
+                                x = -x1 * part / len_straight
+                                y =  y1 * part / len_straight
                             elif umfang - part < len_straight:
                                 # Picot in second, straight part of ring #
-                                x = -x1 * (umfang - part) / len_straight
-                                y =  y1 * (umfang - part) / len_straight
+                                x = x1 * (umfang - part) / len_straight
+                                y = y1 * (umfang - part) / len_straight
                             else:
                                 # Picot in circle part of ring #
                                 part_circle = part - len_straight
@@ -383,14 +383,14 @@ class MainWidget(QWidget):
 
                         if part < len_straight:
                             # Picot in first, straight part of ring #
-                            x = x1 * part / len_straight
-                            y = y1 * part / len_straight
-                            winkel_picot = 90 + winkel_grad / 2
+                            x = -x1 * part / len_straight
+                            y =  y1 * part / len_straight
+                            winkel_picot = 270 - winkel_grad / 2
                         elif umfang - part < len_straight:
                             # Picot in second, straight part of ring #
-                            x = -x1 * (umfang - part) / len_straight
-                            y =  y1 * (umfang - part) / len_straight
-                            winkel_picot = 270 - winkel_grad / 2
+                            x = x1 * (umfang - part) / len_straight
+                            y = y1 * (umfang - part) / len_straight
+                            winkel_picot = 90 + winkel_grad / 2
                         else:
                             # Picot in circle part of ring #
                             part_circle = part - len_straight
@@ -444,6 +444,8 @@ class MainWidget(QWidget):
 
                             pos = pos + 0.5
                             self.svg = self.svg + '   <circle cx="' + str(x) + '" cy="' + str(y) + '"  r="5" />\n'
+                            # self.svg = self.svg + '   <image x="' + str(x) + '" y="' + str(y) \
+                            #            + '"  width="25" href="../config/ds.jpeg"></image>\n'
                     else:
                         # calculate coords, where to add
                         pos = pos + 0.5

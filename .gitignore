@@ -1,2 +1,4 @@
+.gitignore
 config/config.json
 .vscode/launch.json
+classes/__pycache__
