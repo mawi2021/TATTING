@@ -20,6 +20,7 @@ class MainWidget(QWidget):
         self.picot = {}
         self.scale = 20    # realistic view with A4 paper in background an 5mm grid lines
         self.grid  = 'yes' # String!
+        self.node_circles = 'yes' # String!
         self.svg   = ''    # Content of SVG data
         self.paperwidthMM = 3000
         self.paperheightMM = 3000
@@ -369,7 +370,8 @@ class MainWidget(QWidget):
                                 x =      r * math.cos(math.radians((winkel_grad/2) - beta_grad))
                                 y = ym - r * math.sin(math.radians((winkel_grad/2) - beta_grad))
                             pos = pos + 0.5
-                            self.svg = self.svg + '   <circle cx="' + str(x) + '" cy="' + str(y) + '"  r="5" />\n'
+                            if self.node_circles == "yes":
+                                self.svg = self.svg + '   <circle cx="' + str(x) + '" cy="' + str(y) + '"  r="5" />\n'
                     else:
                         # calculate coords, where to add
                         pos = pos + 0.5
@@ -443,9 +445,10 @@ class MainWidget(QWidget):
                             y = -r * ( math.sin(beta_rad + gamma_rad) - math.cos(alpha_rad) )
 
                             pos = pos + 0.5
-                            self.svg = self.svg + '   <circle cx="' + str(x) + '" cy="' + str(y) + '"  r="5" />\n'
-                            # self.svg = self.svg + '   <image x="' + str(x) + '" y="' + str(y) \
-                            #            + '"  width="25" href="../config/ds.jpeg"></image>\n'
+                            if self.node_circles == "yes":
+                                self.svg = self.svg + '   <circle cx="' + str(x) + '" cy="' + str(y) + '"  r="5" />\n'
+                                # self.svg = self.svg + '   <image x="' + str(x) + '" y="' + str(y) \
+                                #             + '"  width="25" href="../config/ds.jpeg"></image>\n'
                     else:
                         # calculate coords, where to add
                         pos = pos + 0.5

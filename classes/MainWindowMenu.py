@@ -66,3 +66,8 @@ class MainWindowMenu(QMenuBar):
         self.gridAction.triggered.connect(parent.onGrid)
         self.gridAction.setShortcut(QKeySequence("Ctrl+G"))
         viewMenu.addAction(self.gridAction)
+
+        self.nodeCircleAction = QAction(QIcon("icons/..."), "Toggle Dots for Nodes", self)
+        self.nodeCircleAction.triggered.connect(parent.onNodeCircle)
+        self.nodeCircleAction.setShortcut(QKeySequence("Ctrl+N"))
+        viewMenu.addAction(self.nodeCircleAction)

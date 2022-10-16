@@ -38,3 +38,10 @@ class Process():
         else:
             self.parent.widget.grid = 'no'
         self.parent.widget.onRedraw()
+
+    def onNodeCircle(self):
+        if self.parent.widget.node_circles in ('no', ''):
+            self.parent.widget.node_circles = 'yes'
+        else:
+            self.parent.widget.node_circles = 'no'
+        self.parent.widget.onRedraw()        

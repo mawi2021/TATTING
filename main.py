@@ -33,6 +33,7 @@ from classes.Process import Process
 #   + Text in formatted HTML instead of plain text
 #   + HTML formatting in config file (font size, font color, font family)
 # - Hints for Output for Publication in e.g. Internet
+# - Add foto of work to insert in svg file
 
 
 class Main(QMainWindow):
@@ -74,6 +75,8 @@ class Main(QMainWindow):
         self.widget.onZoomOut()
     def onGrid(self):
         self.process.onGrid()
+    def onNodeCircle(self):
+        self.process.onNodeCircle()
 
 def main():
     app = QApplication(sys.argv)
