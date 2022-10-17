@@ -6,17 +6,11 @@ from classes.MainWindowMenu import MainWindowMenu
 from classes.Process import Process
 
 # .:| TODO |:.
-# - Adaptation of usage of rings to chains
-#   + add configuration parameter to draw/hide such "markers"
-#   + instead of "markers" use a tiny node-image, laying on the line
 # - File Handling
 #   + Delete (file) function 
-#   + Picot-Positions for each figure
 #   + Change handling of filenames => process such calls in a new method
 #   + Name of current filename in title
 #   + Add filter in file open/save dialogs (txt)
-#   + Change the way how to deal with picot coordinates (separate file for new figure extension
-#     of program users, too)
 # - SVG Panel
 #   + Paper size (xmax, ymax) / A4/A3/A2/A1/A0/individual size from User
 #   + Numbers and names of figures written
@@ -32,8 +26,11 @@ from classes.Process import Process
 #   + Zoom in Text Pane (larger font size), e.g. when using Ctrl+/Ctrl- depending on active pane
 #   + Text in formatted HTML instead of plain text
 #   + HTML formatting in config file (font size, font color, font family)
+#   + When clicking on text, show element colored or bold in drawing
 # - Hints for Output for Publication in e.g. Internet
 # - Add foto of work to insert in svg file
+# - Use QGraphicsWebView() instead of QtSvg: 
+#     https://stackoverflow.com/questions/11070490/pyside-qsvgwidget-renders-embedded-svg-files-incorrectly
 
 
 class Main(QMainWindow):

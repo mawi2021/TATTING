@@ -1,8 +1,9 @@
 #from curses.ascii import isdigit
-from PyQt5.QtWidgets import QWidget, QSplitter, QTextEdit, QHBoxLayout, QFileDialog, QScrollArea
-from PyQt5 import QtWidgets
-from PyQt5 import QtSvg
+from PyQt5.QtWidgets import QWidget, QSplitter, QTextEdit, QHBoxLayout, QFileDialog, QScrollArea, \
+                            QSizePolicy
+from PyQt5.QtSvg import QSvgWidget
 from PyQt5.QtCore import Qt
+#from PySide.QtGui import QGraphicsView
 from os.path import exists
 import re  # regular expressions)"/> 
 import math
@@ -22,8 +23,8 @@ class MainWidget(QWidget):
         self.grid  = 'yes' # String!
         self.node_circles = 'yes' # String!
         self.svg   = ''    # Content of SVG data
-        self.paperwidthMM = 3000
-        self.paperheightMM = 3000
+        self.paperwidthMM = 300
+        self.paperheightMM = 300
         self.pix_x = self.paperwidthMM * 10
         self.pix_y = self.paperheightMM * 10
         self.kast = 50 # => 5mm = 1 Kästchen (when ViewBox has 10 times pixel as mm of "paper" size)
@@ -34,10 +35,10 @@ class MainWidget(QWidget):
         self.txtFilename = ''
 
         # Instruction as SVG Image #
-        self.svgWidget = QtSvg.QSvgWidget()
+        self.svgWidget = QSvgWidget()
         self.svgWidget.setGeometry(50,50,759,668)
         self.svgWidget.renderer().setAspectRatioMode(Qt.KeepAspectRatio)
-        self.svgWidget.setSizePolicy(QtWidgets.QSizePolicy(0,0))
+        self.svgWidget.setSizePolicy(QSizePolicy(0,0))
         self.svgFilename = ''
 
         self.scrollArea = QScrollArea()
@@ -277,7 +278,15 @@ class MainWidget(QWidget):
                     key = instrTxt[:pos3]
                     val = instrTxt[pos3+1:]
                     if key == 'color':
-                        element["color"] = val          
+                        element["color"] = val     
+                    elif key == 'font-size':
+                        element["font-size"] = val
+                    elif key == 'font-weight':
+                        element["font-weight"] = val
+                    elif key == 'font-style':
+                        element["font-style"] = val
+                    elif key == 'fill':
+                        element["fill"] = val
 
         # Output coordinates if available in (..) => coord_x, coord_y
         pos1 = element["id"].find('(')
@@ -315,9 +324,24 @@ class MainWidget(QWidget):
             scale = 500 * element["nodes"] / self.scale          # figure scale factor
 
         if  element["id"] == 'TEXT':
-            scale = 500 / self.scale      
-            self.svg = self.svg + '<text id="TEXT" style="font: italic 80px serif;">' + element["def"] + '</text>\n'
-            # self.svg = self.svg + '<text id="TEXT" style="font: italic 80px serif;">' + element["def"] + '</text>\n'
+            # <text id="TEXT" x="100" y="100" style="font-size:100px;font-style:italic;font-weight:bold;fill:green">blabla</text>
+            # scale = 500 / self.scale
+            if 'font-size' in element: font_size = element["font-size"]
+            else:                      font_size = '100px'
+            if coord_x < 0: coord_x = 100
+            if coord_y < 0: coord_y = 100
+            if 'font-style' in element: font_style = 'font-style:' + element["font-style"] + ';'
+            else:                       font_style = ''
+            if 'font-weight' in element: font_weight = 'font-weight:' + element["font-weight"] + ';'
+            else:                        font_weight = ''
+            if 'fill' in element: fill = 'fill:' + element["fill"] + ';'
+            else:                 fill = ''
+
+            self.svg = self.svg + '<text id="TEXT" x="' + str(coord_x) + '" y="' + str(coord_y) + '" ' \
+                       + 'style="font-size:' + font_size + ';' + font_style + font_weight + fill \
+                       + '">' + element["def"] + '</text>\n'
+            return
+
         elif element["id"][0] == 'R':
             if element["degree"].isdigit():
                 winkel_grad = int(element["degree"])
@@ -326,11 +350,6 @@ class MainWidget(QWidget):
                 element["dy"] = 0
                 b = scale
 
-                # no clue why factor 500 :-( #
-                # len_straight = 500 * scale / (2 * (1 + math.pi \
-                #                 * math.tan(winkel_rad/2) * (0.5 - winkel_rad/360)))
-                # r  = len_straight * math.tan(winkel_rad/2)
-                # umfang_circle = 2 * math.pi * r * ((math.pi + winkel_rad) / (2 * math.pi) )
                 r = b / (math.pi * (1 + winkel_grad/180) + 2/math.tan(winkel_rad/2))
                 len_straight = r / math.tan(winkel_rad/2)
                 x1 = -len_straight * math.sin(winkel_rad/2)

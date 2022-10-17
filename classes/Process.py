@@ -16,6 +16,7 @@ class Process():
             f.close()        
 
             self.parent.widget.grid = data["grid"]
+            self.parent.widget.node_circles = data["dots"]
             self.parent.widget.txtFilename = data["lastTxtFile"]
             self.parent.widget.svgFilename = data["lastSvgFile"]
             self.parent.widget.open()
@@ -23,6 +24,7 @@ class Process():
     def onExit(self):
         data = {}
         data["grid"]          = self.parent.widget.grid
+        data["dots"]          = self.parent.widget.node_circles
         data["lastTxtFile"]   = self.parent.widget.txtFilename
         data["lastSvgFile"]   = self.parent.widget.svgFilename
 
