@@ -1,34 +1,19 @@
-R0[50]:5 p 5 p 5 p 5
-
-R1[50]:5 p 6 p 6 p 5
-R2[50]:5 P 6 p 6 p 5
-R3[50]:5 p 6 p 6 P 5
-R4[50]:5 p 6 P 6 p 5
+RA[50]:5 p 5 p 5 p 5
+RB[50]:5 p 6 p 6 P 5
+RC[50]:5 p 6 p 6 p 5
+RD[50]:5 P 6 p 6 p 5
+RE[50]:5 p 6 P 6 p 5
 
 C1[100]:5 p
 C2[100]:p 5
 C3:3 P 3 P 3 p 5
 C4:5 p 3 P 3 P 3
 
+F1:RB{60} RC RD{-60} C1{275} C3 RE{150} RE{210} RE{270} C4{60} C2{145}
+OUTF1:OUTB{60} OUTC OUTD{-60} C1{275} C3 OUTE{150} OUTE{210} OUTE{270} C4{60} C2{145}
 
-F1:R3{60} R1 R2{-60} C1{275} C3 R4{150} R4{210} R4{270} C4{60} C2{145}
+Z1(1500,1500):RA{180} RA{240} RA{300} RA RA{60} RA{120}
+OUTZ1(1500,1500){color=red}:OUTA{180}
 
-
-Z1(1500,1500):R0 R0{60} R0{120} R0{180} R0{240} R0{300}
-Z4(1500,1500){color=red}:R0{180}
 Z2(1500,960):F1 F1{60} F1{120} F1{180} F1{240} F1{300}
-Z3(1500,960){color=red}:F1
-
-TEXT(1475,1370){font-size=80,font-style=italic}:A
-TEXT(1320,1080){font-size=80,font-style=italic}:B
-TEXT(1475,1170){font-size=80,font-style=italic}:C
-TEXT(1620,1080){font-size=80,font-style=italic}:D
-TEXT(1790,680){font-size=80,font-style=italic}:E
-TEXT(1965,680){font-size=80,font-style=italic}:F
-TEXT(2050,840){font-size=80,font-style=italic}:G
-
-TEXT(100,100){font-size=80,font-style=italic}:A: 5-p-5-p-5-p-5
-TEXT(100,250){font-size=80,font-style=italic}:B: 5-p-6-p-6-P-5
-TEXT(100,350){font-size=80,font-style=italic}:C: 5-p-6-p-6-p-5
-TEXT(100,450){font-size=80,font-style=italic}:D: 5-P-6-p-6-p-5
-TEXT(800,100){font-size=80,font-style=italic}:E = F = G: 5-p-6-P-6-p-5
+OUTZ2(1500,960){color=red}:OUTF1

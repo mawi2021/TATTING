@@ -29,6 +29,7 @@ class MainWidget(QWidget):
         self.pix_y = self.paperheightMM * 10
         self.kast = 50 # => 5mm = 1 Kästchen (when ViewBox has 10 times pixel as mm of "paper" size)
         self.defaultColor = 'black'
+        self.textline = 1
 
         # Instruction as Text #
         self.textWidget = QTextEdit()
@@ -108,9 +109,14 @@ class MainWidget(QWidget):
         self.svg = ''
         self.elems = []
         self.picot = {}
+        self.textline = 1
+
+        self._create_meta(lines)
+
+        # Pre-"compile": add lines for special output of one single repeating part and text #
+        lines = self._precompile(lines)
 
         # Recalculate svg string #
-        self._create_meta(lines)
         for line in lines:
             self._add(line)
         self.svg = self.svg + '</svg>'
@@ -235,6 +241,10 @@ class MainWidget(QWidget):
 
         # Initial values
         element["color"] = ''
+        font_size   = '50px'
+        font_style  = ''
+        font_weight = ''
+        fill        = ''
 
         # Get identifier (name) of this object => element["id"]
         pos = line.find(':')
@@ -276,17 +286,8 @@ class MainWidget(QWidget):
                 pos3 = instrTxt.find('=')
                 if pos3 >= 0:
                     key = instrTxt[:pos3]
-                    val = instrTxt[pos3+1:]
-                    if key == 'color':
-                        element["color"] = val     
-                    elif key == 'font-size':
-                        element["font-size"] = val
-                    elif key == 'font-weight':
-                        element["font-weight"] = val
-                    elif key == 'font-style':
-                        element["font-style"] = val
-                    elif key == 'fill':
-                        element["fill"] = val
+                    if key in ('color', 'fill', 'font-size', 'font-weight', 'font-style', 'name'):
+                        element[key] = instrTxt[pos3+1:]
 
         # Output coordinates if available in (..) => coord_x, coord_y
         pos1 = element["id"].find('(')
@@ -299,7 +300,7 @@ class MainWidget(QWidget):
             coord_y = int(coords[pos+1:])
         
         # How many nodes (including picots)? => element["nodes"]
-        if element["id"] != 'TEXT':
+        if element["id"][0] in ('R', 'C'):
             seq = element["def"]
             seq = seq.replace("p","1")
             seq = seq.replace("P","1")
@@ -327,15 +328,11 @@ class MainWidget(QWidget):
             # <text id="TEXT" x="100" y="100" style="font-size:100px;font-style:italic;font-weight:bold;fill:green">blabla</text>
             # scale = 500 / self.scale
             if 'font-size' in element: font_size = element["font-size"]
-            else:                      font_size = '100px'
             if coord_x < 0: coord_x = 100
             if coord_y < 0: coord_y = 100
-            if 'font-style' in element: font_style = 'font-style:' + element["font-style"] + ';'
-            else:                       font_style = ''
+            if 'font-style'  in element: font_style = 'font-style:' + element["font-style"] + ';'                     
             if 'font-weight' in element: font_weight = 'font-weight:' + element["font-weight"] + ';'
-            else:                        font_weight = ''
-            if 'fill' in element: fill = 'fill:' + element["fill"] + ';'
-            else:                 fill = ''
+            if 'fill'        in element: fill = 'fill:' + element["fill"] + ';'
 
             self.svg = self.svg + '<text id="TEXT" x="' + str(coord_x) + '" y="' + str(coord_y) + '" ' \
                        + 'style="font-size:' + font_size + ';' + font_style + font_weight + fill \
@@ -358,10 +355,10 @@ class MainWidget(QWidget):
                 umfang_circle = math.pi * r * (1 + (winkel_grad / 180) )
                 umfang = 2 * len_straight + umfang_circle
 
-                self.svg = self.svg + '<g id="' + element["id"] + '" fill="none" stroke-linecap="round" stroke-width="2">\n' \
-                                    + '   <path d="M 0,0   L ' + str(x1) + ',' + str(y1) \
-                                    + '   A ' + str(r) + ',' + str(r) + ' 0, 1, 0 ' + str(-x1) + ',' + str(y1) \
-                                    + '   Z" />\n'
+                text_ring = '" fill="none" stroke-linecap="round" stroke-width="2">\n' \
+                          + '   <path d="M 0,0   L ' + str(x1) + ',' + str(y1) \
+                          + '   A ' + str(r) + ',' + str(r) + ' 0, 1, 0 ' + str(-x1) + ',' + str(y1) \
+                          + '   Z" />\n'
 
                 # Picots?
                 seq = element["def"].split(' ')
@@ -390,7 +387,7 @@ class MainWidget(QWidget):
                                 y = ym - r * math.sin(math.radians((winkel_grad/2) - beta_grad))
                             pos = pos + 0.5
                             if self.node_circles == "yes":
-                                self.svg = self.svg + '   <circle cx="' + str(x) + '" cy="' + str(y) + '"  r="5" />\n'
+                                text_ring = text_ring + '   <circle cx="' + str(x) + '" cy="' + str(y) + '"  r="5" />\n'
                     else:
                         # calculate coords, where to add
                         pos = pos + 0.5
@@ -421,12 +418,30 @@ class MainWidget(QWidget):
                             winkel_picot = 270 - winkel_grad/2 + beta_grad
                         pos = pos + 0.5
 
-                        self.svg = self.svg + '   <use  xlink:href="#picot" ' \
+                        text_ring = text_ring + '   <use  xlink:href="#picot" ' \
                                     + 'transform="translate(' + str(x) + ' ' + str(y) + ') '\
                                     + 'rotate(' + str(winkel_picot) + ') ' \
                                     + 'scale(' + str(scale_picot) + ' ' + str(scale_picot) + ')"/>\n'
 
-                self.svg = self.svg + '</g>\n'  
+                self.svg = self.svg + '<g id="' + element["id"] + text_ring + '</g>\n'
+
+                # Output preparation for text: ring name inside the ring #
+                element2 = {}
+                for key in element:
+                    element2[key] = element[key]
+                element2["id"] = 'OUT' + element["id"][1:]
+                element2["def"] = element2["def"].replace(' ', ' - ')
+
+                self.elems.append(element2)
+                self.svg = self.svg + '<g id="' + element2["id"] + text_ring \
+                           + '   <text x="' + str(0) + '" y="' + str(ym) + '" ' \
+                           + 'style="font-size:' + font_size + ';' + font_style + font_weight + fill \
+                           + '">' + element["id"][1:] + '</text>\n' \
+                           + '</g>\n' \
+                           + '<text x="' + str(100) + '" y="' + str(self.textline * 100) + '" ' \
+                           + 'style="font-size:' + font_size + ';' + font_style + font_weight + fill \
+                           + '">' + element["id"][1:] + ': ' + element2["def"] + '</text>\n'
+                self.textline = self.textline + 1
 
             else:                      
                 ctypes.windll.user32.MessageBoxW(0, 'Error in line:\n   ' + line + 
@@ -462,27 +477,25 @@ class MainWidget(QWidget):
                             beta_rad = 2 * alpha_rad * verhaeltnis
                             x = x1 / 2 - r * math.cos(beta_rad + gamma_rad)
                             y = -r * ( math.sin(beta_rad + gamma_rad) - math.cos(alpha_rad) )
-
                             pos = pos + 0.5
+
                             if self.node_circles == "yes":
                                 self.svg = self.svg + '   <circle cx="' + str(x) + '" cy="' + str(y) + '"  r="5" />\n'
-                                # self.svg = self.svg + '   <image x="' + str(x) + '" y="' + str(y) \
-                                #             + '"  width="25" href="../config/ds.jpeg"></image>\n'
                     else:
                         # calculate coords, where to add
-                        pos = pos + 0.5
                         if el == 'P':
                             scale_picot = 20 / self.scale 
                         elif el == 'p':
                             scale_picot = 10 / self.scale
                             
+                        pos = pos + 0.5
                         verhaeltnis = pos / element["nodes"]
                         beta_rad = 2 * alpha_rad * verhaeltnis
                         x = x1 / 2 - r * math.cos(beta_rad + gamma_rad)
                         y = -r * ( math.sin(beta_rad + gamma_rad) - math.cos(alpha_rad) )
                         alpha_picot = 180 + math.degrees(beta_rad) - math.degrees(alpha_rad)
-
                         pos = pos + 0.5
+
                         # self.svg = self.svg + '   <circle cx="' + str(x) + '" cy="' + str(y) + '"  r="15" />\n'
                         self.svg = self.svg + '   <use  xlink:href="#picot" ' \
                                     + 'transform="translate(' + str(x) + ' ' + str(y) + ') '\
@@ -546,3 +559,6 @@ class MainWidget(QWidget):
             #self.svg = self.svg + '<circle cx="' + str(coord_x*20/self.scale) + '" cy="' + str(coord_y*20/self.scale) + '"  r="10" style="fill:red" />\n'
 
         self.elems.append(element)
+
+    def _precompile(self, lines):
+        return lines
