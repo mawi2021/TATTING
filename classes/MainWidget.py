@@ -1,14 +1,14 @@
 #from curses.ascii import isdigit
+from pickle import FALSE, TRUE
 from PyQt5.QtWidgets import QWidget, QSplitter, QTextEdit, QHBoxLayout, QFileDialog, QScrollArea, \
                             QSizePolicy
 from PyQt5.QtSvg import QSvgWidget
 from PyQt5.QtCore import Qt
-#from PySide.QtGui import QGraphicsView
 from os.path import exists
 import re  # regular expressions)"/> 
 import math
 import ctypes # for messages
-# import json
+
 
 class MainWidget(QWidget):
     def __init__(self, parent):
@@ -19,16 +19,17 @@ class MainWidget(QWidget):
         # TODO: read values from config file
         self.elems = []
         self.picot = {}
-        self.scale = 20    # realistic view with A4 paper in background an 5mm grid lines
+        self.scale = 22    # realistic view with A4 paper in background and 5mm grid lines
         self.grid  = 'yes' # String!
         self.node_circles = 'yes' # String!
         self.svg   = ''    # Content of SVG data
-        self.paperwidthMM = 300
-        self.paperheightMM = 300
+        self.paperwidthMM = 210
+        self.paperheightMM = 297
         self.pix_x = self.paperwidthMM * 10
         self.pix_y = self.paperheightMM * 10
         self.kast = 50 # => 5mm = 1 Kästchen (when ViewBox has 10 times pixel as mm of "paper" size)
-        self.defaultColor = 'black'
+        self.defaultColor = '#4287f5' #'#86ebeb'
+        self.manualColor = '#fa6b05'
         self.textline = 1
 
         # Instruction as Text #
@@ -198,8 +199,11 @@ class MainWidget(QWidget):
                 + '    width="%dmm" height="%dmm"\n' % (self.paperwidthMM,self.paperheightMM) \
                 + '    viewBox="0 0 ' + str(self.pix_x) + ' ' + str(self.pix_y) + '">\n' \
                 + '    <rect width="' + str(self.pix_x) + '" height="' + str(self.pix_y) \
-                + '" style="fill:white;stroke-width:1;stroke:rgb(0,0,0)"/>\n' \
-                + '\n<!-- File Content -->\n'
+                + '" style="fill:white;stroke:rgb(0,0,0)"/>\n' \
+                + '\n<!-- File Content -->\n' \
+                + '<text id="TEXT" x="100" y="2950" ' \
+                       + 'style="font-size:42;' \
+                       + '">Manual created with TaDes, see https://github.com/mawi2021/TATTING</text>\n'
 
         # Draw Grid in whole "paper area" #
         if self.grid == 'yes':
@@ -242,9 +246,13 @@ class MainWidget(QWidget):
         # Initial values
         element["color"] = ''
         font_size   = '50px'
+        font_size_half = 20
+        font_width_half = 10
         font_style  = ''
         font_weight = ''
         fill        = ''
+        img_height  = ''
+        img_width   = ''
 
         # Get identifier (name) of this object => element["id"]
         pos = line.find(':')
@@ -324,21 +332,39 @@ class MainWidget(QWidget):
             # elements consisting of such scaled rings and chains do not need to be scaled
             scale = 500 * element["nodes"] / self.scale          # figure scale factor
 
-        if  element["id"] == 'TEXT':
+        # ========================= #
+        # =====    T E X T    ===== #
+        # ========================= #
+        if element["id"] == 'TEXT':
             # <text id="TEXT" x="100" y="100" style="font-size:100px;font-style:italic;font-weight:bold;fill:green">blabla</text>
             # scale = 500 / self.scale
             if 'font-size' in element: font_size = element["font-size"]
             if coord_x < 0: coord_x = 100
             if coord_y < 0: coord_y = 100
-            if 'font-style'  in element: font_style = 'font-style:' + element["font-style"] + ';'                     
+            if 'font-style'  in element: font_style  = 'font-style:' + element["font-style"] + ';'                     
             if 'font-weight' in element: font_weight = 'font-weight:' + element["font-weight"] + ';'
-            if 'fill'        in element: fill = 'fill:' + element["fill"] + ';'
+            if 'fill'        in element: fill        = 'fill:' + element["fill"] + ';'
 
             self.svg = self.svg + '<text id="TEXT" x="' + str(coord_x) + '" y="' + str(coord_y) + '" ' \
                        + 'style="font-size:' + font_size + ';' + font_style + font_weight + fill \
                        + '">' + element["def"] + '</text>\n'
             return
 
+        # ========================= #
+        # =====   I M A G E   ===== #
+        # ========================= #
+        elif element["id"] == 'IMAGE':
+            if 'height' in element: img_height = ' height="' + element["height"] + '"'
+            if 'width'  in element: img_width  = ' width="'  + element["width"]  + '"'
+            self.svg = self.svg + '<image xlink:href="' + element["def"] \
+                     + '" x="' + str(coord_x) + '" y="' + str(coord_y) + '"' \
+                     + img_height + img_width + '/>\n'
+            # ctypes.windll.user32.MessageBoxW(0, 'image file: ' + element["def"], 'Information', 0)
+            return
+
+        # ========================= #
+        # =====    R I N G    ===== #
+        # ========================= #
         elif element["id"][0] == 'R':
             if element["degree"].isdigit():
                 winkel_grad = int(element["degree"])
@@ -355,7 +381,7 @@ class MainWidget(QWidget):
                 umfang_circle = math.pi * r * (1 + (winkel_grad / 180) )
                 umfang = 2 * len_straight + umfang_circle
 
-                text_ring = '" fill="none" stroke-linecap="round" stroke-width="2">\n' \
+                text_figure = '" fill="none" stroke-linecap="round">\n' \
                           + '   <path d="M 0,0   L ' + str(x1) + ',' + str(y1) \
                           + '   A ' + str(r) + ',' + str(r) + ' 0, 1, 0 ' + str(-x1) + ',' + str(y1) \
                           + '   Z" />\n'
@@ -387,7 +413,7 @@ class MainWidget(QWidget):
                                 y = ym - r * math.sin(math.radians((winkel_grad/2) - beta_grad))
                             pos = pos + 0.5
                             if self.node_circles == "yes":
-                                text_ring = text_ring + '   <circle cx="' + str(x) + '" cy="' + str(y) + '"  r="5" />\n'
+                                text_figure = text_figure + '   <circle cx="' + str(x) + '" cy="' + str(y) + '"  r="5" />\n'
                     else:
                         # calculate coords, where to add
                         pos = pos + 0.5
@@ -418,29 +444,29 @@ class MainWidget(QWidget):
                             winkel_picot = 270 - winkel_grad/2 + beta_grad
                         pos = pos + 0.5
 
-                        text_ring = text_ring + '   <use  xlink:href="#picot" ' \
+                        text_figure = text_figure + '   <use  xlink:href="#picot" ' \
                                     + 'transform="translate(' + str(x) + ' ' + str(y) + ') '\
                                     + 'rotate(' + str(winkel_picot) + ') ' \
                                     + 'scale(' + str(scale_picot) + ' ' + str(scale_picot) + ')"/>\n'
 
-                self.svg = self.svg + '<g id="' + element["id"] + text_ring + '</g>\n'
+                self.svg = self.svg + '<g id="' + element["id"] + text_figure + '</g>\n'
 
                 # Output preparation for text: ring name inside the ring #
                 element2 = {}
                 for key in element:
                     element2[key] = element[key]
-                element2["id"] = 'OUT' + element["id"][1:]
+                element2["id"] = 'OUT' + element["id"]
                 element2["def"] = element2["def"].replace(' ', ' - ')
-
                 self.elems.append(element2)
-                self.svg = self.svg + '<g id="' + element2["id"] + text_ring \
-                           + '   <text x="' + str(0) + '" y="' + str(ym) + '" ' \
+
+                self.svg = self.svg + '<g id="' + element2["id"] + text_figure \
+                           + '   <text x="' + str(-font_width_half) + '" y="' + str(ym) + '" ' \
                            + 'style="font-size:' + font_size + ';' + font_style + font_weight + fill \
                            + '">' + element["id"][1:] + '</text>\n' \
                            + '</g>\n' \
-                           + '<text x="' + str(100) + '" y="' + str(self.textline * 100) + '" ' \
+                           + '<text x="' + str(100) + '" y="' + str(150 + self.textline * 70) + '" ' \
                            + 'style="font-size:' + font_size + ';' + font_style + font_weight + fill \
-                           + '">' + element["id"][1:] + ': ' + element2["def"] + '</text>\n'
+                           + '">' + element["id"][1:] + ': ' + element2["def"] + ' (Ring)</text>\n'
                 self.textline = self.textline + 1
 
             else:                      
@@ -448,7 +474,9 @@ class MainWidget(QWidget):
                     '\nOpening degree in [..] is not a digit', 'Error', 0)
                 return
 
-        # Chains C => 
+        # ========================= #
+        # =====   C H A I N   ===== #
+        # ========================= #
         elif element["id"][0] == 'C':
             if element["ratio"].isdigit():
                 ratio = int(element["ratio"])
@@ -460,9 +488,9 @@ class MainWidget(QWidget):
                 element["dx"] = x1
                 element["dy"] = y1
 
-                self.svg = self.svg + '<g id="' + element["id"] + '" fill="none" stroke-linecap="round" stroke-width="2">\n' \
-                                    + '   <path d="M 0,0' \
-                                    + '   A ' + str(r) + ',' + str(r) + ' 0, 0, 1 ' + str(x1) + ',' + str(y1) + '" />\n'
+                text_figure = '" fill="none" stroke-linecap="round">\n' \
+                            + '   <path d="M 0,0' \
+                            + '   A ' + str(r) + ',' + str(r) + ' 0, 0, 1 ' + str(x1) + ',' + str(y1) + '" />\n'
 
                 # Picots?
                 seq = element["def"].split(' ')
@@ -480,7 +508,7 @@ class MainWidget(QWidget):
                             pos = pos + 0.5
 
                             if self.node_circles == "yes":
-                                self.svg = self.svg + '   <circle cx="' + str(x) + '" cy="' + str(y) + '"  r="5" />\n'
+                                text_figure = text_figure + '   <circle cx="' + str(x) + '" cy="' + str(y) + '"  r="5" />\n'
                     else:
                         # calculate coords, where to add
                         if el == 'P':
@@ -497,12 +525,30 @@ class MainWidget(QWidget):
                         pos = pos + 0.5
 
                         # self.svg = self.svg + '   <circle cx="' + str(x) + '" cy="' + str(y) + '"  r="15" />\n'
-                        self.svg = self.svg + '   <use  xlink:href="#picot" ' \
+                        text_figure = text_figure + '   <use  xlink:href="#picot" ' \
                                     + 'transform="translate(' + str(x) + ' ' + str(y) + ') '\
                                     + 'rotate(' + str(alpha_picot) + ') ' \
                                     + 'scale(' + str(scale_picot) + ' ' + str(scale_picot) + ')"/>\n'
 
-                self.svg = self.svg + '</g>\n'  
+                self.svg = self.svg + '<g id="' + element["id"] + text_figure + '</g>\n'  
+
+                # Output preparation for text: chain name besides the chain #
+                element2 = {}
+                for key in element:
+                    element2[key] = element[key]
+                element2["id"] = 'OUT' + element["id"]
+                element2["def"] = element2["def"].replace(' ', ' - ')
+                self.elems.append(element2)
+
+                self.svg = self.svg + '<g id="' + element2["id"] + text_figure \
+                           + '   <text x="' + str(element["dx"]/2) + '" y="' + str(element["dy"]/2 - font_size_half) + '" ' \
+                           + 'style="font-size:' + font_size + ';' + font_style + font_weight + fill \
+                           + '">' + element["id"][1:] + '</text>\n' \
+                           + '</g>\n' \
+                           + '<text x="' + str(100) + '" y="' + str(150 + self.textline * 70) + '" ' \
+                           + 'style="font-size:' + font_size + ';' + font_style + font_weight + fill \
+                           + '">' + element["id"][1:] + ': ' + element2["def"] + ' (Chain)</text>\n'
+                self.textline = self.textline + 1
 
             else:
                 ctypes.windll.user32.MessageBoxW(0, 'Error in line:\n   ' + line + 
@@ -516,9 +562,11 @@ class MainWidget(QWidget):
             dy = 0
 
             # Start of figure
-            self.svg = self.svg + '<g id="' + element["id"] + '" fill="none" stroke-linecap="round">\n'
+            text_figure1 = '<g id="'    + element["id"] + '" fill="none" stroke-linecap="round">\n'
+            text_figure2 = '<g id="OUT' + element["id"] + '" fill="none" stroke-linecap="round">\n'
 
             lst = element["def"].split(" ")
+            first = TRUE
             for figure in lst:
                 # Angle in form: {..} as degree-value >> if available, recalculate to radiant #
                 grad = 0
@@ -530,11 +578,19 @@ class MainWidget(QWidget):
 
                 # Get figure = Name of element without angle in form: {..} #
                 figure = re.sub(regexp, '', figure, 0, 0)
+                figure2 = 'OUT' + figure
 
                 # Draw element #
-                self.svg = self.svg + '   <use xlink:href="#' + figure + '" ' \
+                text_figure1 = text_figure1 + '   <use xlink:href="#' + figure + '" ' \
                             + 'transform="translate(' + str(dx) + ' ' + str(dy) + ') '\
                             + 'rotate(' + str(grad) + ')"/>\n'
+
+                if first == TRUE:
+                    text_figure2 = text_figure2 + '   <use xlink:href="#' + figure2 + '" ' \
+                                + 'transform="translate(' + str(dx) + ' ' + str(dy) + ') '\
+                                + 'rotate(' + str(grad) + ')"/>\n'
+                    if coord_x >= 0 and coord_y >= 0:
+                        first = FALSE
 
                 # Calculate dx and dy for figure #
                 for el in self.elems:
@@ -543,20 +599,44 @@ class MainWidget(QWidget):
                         dy = dy + el["dx"] * math.sin(rad) + el["dy"] * math.cos(rad)
 
             # End of figure and end coordinate
-            self.svg = self.svg + '</g>\n'
+            self.svg = self.svg + text_figure1 + '</g>\n'
             element["dx"] = dx
             element["dy"] = dy
+
+            # Output preparation for text: figure name besides it #
+            if element["id"][:3] != 'OUT': 
+                self.svg = self.svg + text_figure2 + '</g>\n'
+                element2 = {}
+                for key in element:
+                    element2[key] = element[key]
+                element2["id"] = 'OUT' + element["id"]
+                element2["def"] = element2["def"].replace(' R', ' OUT')
+                element2["def"] = element2["def"].replace(':R', ' OUT')
+                self.elems.append(element2)
+
 
         # Output of figure #
         if coord_x >= 0 and coord_y >= 0:
             if element["color"] == '':
                 element["color"] = self.defaultColor
-            self.svg = self.svg + '<!-- Output -->\n'
-            self.svg = self.svg + '<g stroke="' + element["color"] + '" fill="none" stroke-width="1" stroke-linecap="round">\n'
-            self.svg = self.svg + '   <use xlink:href="#' + element["id"] \
-                                + '" transform="translate(' + str(coord_x*20/self.scale) + ' ' + str(coord_y*20/self.scale) + ')"/>\n'
-            self.svg = self.svg + '</g>\n'
-            #self.svg = self.svg + '<circle cx="' + str(coord_x*20/self.scale) + '" cy="' + str(coord_y*20/self.scale) + '"  r="10" style="fill:red" />\n'
+
+            self.svg = self.svg \
+                        + '<!-- Output -->\n' \
+                        + '<g stroke="' + element["color"] \
+                        + '" fill="none" stroke-width="3" stroke-linecap="round">\n' \
+                        + '   <use xlink:href="#' + element["id"] \
+                        + '" transform="translate(' + str(coord_x*20/self.scale) \
+                        + ' ' + str(coord_y*20/self.scale) + ')"/>\n' \
+                        + '</g>\n'
+            
+            # OUT.. figure output, first element in cycle only
+            self.svg = self.svg \
+                        + '<g stroke="' + self.manualColor \
+                        + '" fill="none" stroke-width="4" stroke-linecap="round">\n' \
+                        + '   <use xlink:href="#OUT' + element["id"] \
+                        + '" transform="translate(' + str(coord_x*20/self.scale) + ' ' \
+                        + str(coord_y*20/self.scale) + ')"/>\n' \
+                        + '</g>\n'
 
         self.elems.append(element)
 
