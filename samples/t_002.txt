@@ -1,9 +1,9 @@
 # https://melincot.wordpress.com/tag/free-pattern/
-R1[80]:4 p 12 p 4
+RA[80]:4 p 12 p 4
 C1[3]:2 p 10
-R2[80]: 8 p 4 p 8
+RB[80]: 8 p 4 p 8
 C2[3]:10 p 2
 
-F1:R1 C1{-10} R2{30} C2{70}
+F1:RA C1{-10} RB{30} C2{70}
 
 Z1(900,600)[color=blue]:F1 F1{60} F1{120} F1{180} F1{240} F1{300}
