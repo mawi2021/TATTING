@@ -71,3 +71,8 @@ class MainWindowMenu(QMenuBar):
         self.nodeCircleAction.triggered.connect(parent.onNodeCircle)
         self.nodeCircleAction.setShortcut(QKeySequence("Ctrl+N"))
         viewMenu.addAction(self.nodeCircleAction)
+
+        self.imageFrameAction = QAction(QIcon("icons/..."), "Toggle Frame of Images", self)
+        self.imageFrameAction.triggered.connect(parent.onImageFrame)
+        self.imageFrameAction.setShortcut(QKeySequence("Ctrl+F"))
+        viewMenu.addAction(self.imageFrameAction)

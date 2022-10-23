@@ -47,3 +47,10 @@ class Process():
         else:
             self.parent.widget.node_circles = 'no'
         self.parent.widget.onRedraw()        
+
+    def onImageFrame(self):
+        if self.parent.widget.image_frame in ('no', ''):
+            self.parent.widget.image_frame = 'yes'
+        else:
+            self.parent.widget.image_frame = 'no'
+        self.parent.widget.onRedraw()                

@@ -1,0 +1,9 @@
+RA[70]:7 p 5 P 5 p 7
+CB1[100]:3
+CB2[3]:2 P 2 P 2 P 2 P 2 P 2
+
+F1:RA CB1{295} CB2{23} CB1{110}
+
+Z(750,800):F1 F1{45}  F1{90} F1{135} F1{180} F1{225} F1{270} F1{315} 
+
+IMAGE(1300,150){width=670,height=700}:samples\snowflake009.jpeg

@@ -1,9 +1,8 @@
 #from curses.ascii import isdigit
 from pickle import FALSE, TRUE
-from PyQt5.QtWidgets import QWidget, QSplitter, QTextEdit, QHBoxLayout, QFileDialog, QScrollArea, \
-                            QSizePolicy
-from PyQt5.QtSvg import QSvgWidget
-from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QWidget, QSplitter, QTextEdit, QHBoxLayout, QFileDialog, QScrollArea
+from PyQt5.QtWebEngineWidgets import QWebEngineView
+from PyQt5.QtCore import Qt, QUrl
 from os.path import exists
 import re  # regular expressions)"/> 
 import math
@@ -14,14 +13,16 @@ class MainWidget(QWidget):
     def __init__(self, parent):
         super().__init__()
         self.parent = parent
+        self.titleConst = 'TaDes (Tatting Design Studio)'
 
         # ----- Constants ----------------------------------------------------------------------- #
         # TODO: read values from config file
         self.elems = []
         self.picot = {}
         self.scale = 22    # realistic view with A4 paper in background and 5mm grid lines
-        self.grid  = 'yes' # String!
+        self.grid         = 'yes' # String!
         self.node_circles = 'yes' # String!
+        self.image_frame  = 'yes' # String!
         self.svg   = ''    # Content of SVG data
         self.paperwidthMM = 210
         self.paperheightMM = 297
@@ -37,10 +38,7 @@ class MainWidget(QWidget):
         self.txtFilename = ''
 
         # Instruction as SVG Image #
-        self.svgWidget = QSvgWidget()
-        self.svgWidget.setGeometry(50,50,759,668)
-        self.svgWidget.renderer().setAspectRatioMode(Qt.KeepAspectRatio)
-        self.svgWidget.setSizePolicy(QSizePolicy(0,0))
+        self.svgWidget = QWebEngineView()
         self.svgFilename = ''
 
         self.scrollArea = QScrollArea()
@@ -114,17 +112,15 @@ class MainWidget(QWidget):
 
         self._create_meta(lines)
 
-        # Pre-"compile": add lines for special output of one single repeating part and text #
-        lines = self._precompile(lines)
-
         # Recalculate svg string #
         for line in lines:
             self._add(line)
         self.svg = self.svg + '</svg>'
 
         # Show SVG string #
-        self.svgWidget.load(bytearray(self.svg, encoding='utf-8'))
+        self.svgWidget.setHtml(self.svg, QUrl('file://'))
         self.svgWidget.resize(round(self.paperwidthMM * 10), round(self.paperheightMM * 10))
+        self.parent.setWindowTitle(self.titleConst + ' - ' + self.svgFilename)
     def onSave(self):
         content = self.textWidget.toPlainText()
         
@@ -201,8 +197,8 @@ class MainWidget(QWidget):
                 + '    <rect width="' + str(self.pix_x) + '" height="' + str(self.pix_y) \
                 + '" style="fill:white;stroke:rgb(0,0,0)"/>\n' \
                 + '\n<!-- File Content -->\n' \
-                + '<text id="TEXT" x="100" y="2950" ' \
-                       + 'style="font-size:42;' \
+                + '<text id="TEXT" x="100" y="100" ' \
+                       + 'style="font-size:42;fill:lightgrey' \
                        + '">Manual created with TaDes, see https://github.com/mawi2021/TATTING</text>\n'
 
         # Draw Grid in whole "paper area" #
@@ -294,8 +290,7 @@ class MainWidget(QWidget):
                 pos3 = instrTxt.find('=')
                 if pos3 >= 0:
                     key = instrTxt[:pos3]
-                    if key in ('color', 'fill', 'font-size', 'font-weight', 'font-style', 'name'):
-                        element[key] = instrTxt[pos3+1:]
+                    element[key] = instrTxt[pos3+1:]
 
         # Output coordinates if available in (..) => coord_x, coord_y
         pos1 = element["id"].find('(')
@@ -354,12 +349,25 @@ class MainWidget(QWidget):
         # =====   I M A G E   ===== #
         # ========================= #
         elif element["id"] == 'IMAGE':
-            if 'height' in element: img_height = ' height="' + element["height"] + '"'
-            if 'width'  in element: img_width  = ' width="'  + element["width"]  + '"'
+            if 'height' in element: 
+                img_height = ' height="' + element["height"] + '"'
+            else: 
+                img_height = ' height="500"'
+            if 'width'  in element: 
+                img_width  = ' width="'  + element["width"]  + '"'
+            else: 
+                img_width  = ' width="500"'
+
+            # Frame
+            if self.image_frame == 'yes':
+                self.svg = self.svg + '<!-- Image with Frame -->\n' \
+                        + '<svg><rect ' \
+                        + 'x="' + str(coord_x) + '" y="' + str(coord_y) + '"' + img_height + img_width \
+                        + ' style="fill:white;stroke-width:1;stroke:black" /></svg>\n'
+            # Embedded Image
             self.svg = self.svg + '<image xlink:href="' + element["def"] \
                      + '" x="' + str(coord_x) + '" y="' + str(coord_y) + '"' \
                      + img_height + img_width + '/>\n'
-            # ctypes.windll.user32.MessageBoxW(0, 'image file: ' + element["def"], 'Information', 0)
             return
 
         # ========================= #
@@ -639,6 +647,3 @@ class MainWidget(QWidget):
                         + '</g>\n'
 
         self.elems.append(element)
-
-    def _precompile(self, lines):
-        return lines

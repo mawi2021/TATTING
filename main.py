@@ -9,7 +9,6 @@ from classes.Process import Process
 # - File Handling
 #   + Delete (file) function 
 #   + Change handling of filenames => process such calls in a new method
-#   + Name of current filename in title
 #   + Add filter in file open/save dialogs (txt)
 # - SVG Panel
 #   + Paper size (xmax, ymax) / A4/A3/A2/A1/A0/individual size from User
@@ -45,7 +44,6 @@ class Main(QMainWindow):
         # ----- Menu and all Actions ------------------------------------------------------------ #
         self.menu = MainWindowMenu(self)
         self.setMenuBar(self.menu)
-        self.setWindowTitle('TADES (Tatting Design Studio)')
         self.setGeometry(50, 50, 1500, 1000)
 
         # ----- "Rest" -------------------------------------------------------------------------- #
@@ -74,6 +72,8 @@ class Main(QMainWindow):
         self.process.onGrid()
     def onNodeCircle(self):
         self.process.onNodeCircle()
+    def onImageFrame(self):
+        self.process.onImageFrame()
 
 def main():
     app = QApplication(sys.argv)
