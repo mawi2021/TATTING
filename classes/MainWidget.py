@@ -115,7 +115,11 @@ class MainWidget(QWidget):
         # Recalculate svg string #
         for line in lines:
             self._add(line)
-        self.svg = self.svg + '</svg>'
+        self.textline = self.textline + 0.5
+        self.svg = self.svg \
+                 + '<text x="100" y="' + str(150 + self.textline * 70) \
+                 + '" style="font-size:50px" text-decoration="underline">Image Manual:</text>\n' \
+                 + '</svg>'
 
         # Show SVG string #
         self.svgWidget.setHtml(self.svg, QUrl('file://'))
@@ -195,11 +199,11 @@ class MainWidget(QWidget):
                 + '    width="%dmm" height="%dmm"\n' % (self.paperwidthMM,self.paperheightMM) \
                 + '    viewBox="0 0 ' + str(self.pix_x) + ' ' + str(self.pix_y) + '">\n' \
                 + '    <rect width="' + str(self.pix_x) + '" height="' + str(self.pix_y) \
-                + '" style="fill:white;stroke:rgb(0,0,0)"/>\n' \
+                + '" style="stroke:rgb(0,0,0)" fill="#f5fdff"/>\n' \
                 + '\n<!-- File Content -->\n' \
                 + '<text id="TEXT" x="100" y="100" ' \
-                       + 'style="font-size:42;fill:lightgrey' \
-                       + '">Manual created with TaDes, see https://github.com/mawi2021/TATTING</text>\n'
+                       + 'style="font-size:42;font-weight:bold;fill:#c0c0c0' \
+                       + '">Manual created with TADES, see https://github.com/mawi2021/TATTING</text>\n'
 
         # Draw Grid in whole "paper area" #
         if self.grid == 'yes':
@@ -229,7 +233,12 @@ class MainWidget(QWidget):
                 fig_id = reg.group(0)
                 fig_id = fig_id[4:-1]
 
-        self.svg = self.svg + '\n<!-- Individual Part -->\n'
+        self.svg = self.svg \
+                 + '<text x="100" y="' + str(150 + self.textline * 70) \
+                 + '" style="font-size:50px" text-decoration="underline">Text Manual:</text>\n' \
+                 + '\n<!-- Individual Part -->\n'
+        self.textline = self.textline + 1
+
     def _add(self,line):
         if len(line) == 0: return
         if line[0] == '#': return
@@ -249,6 +258,7 @@ class MainWidget(QWidget):
         fill        = ''
         img_height  = ''
         img_width   = ''
+        text_decoration = ''
 
         # Get identifier (name) of this object => element["id"]
         pos = line.find(':')
@@ -309,7 +319,8 @@ class MainWidget(QWidget):
             seq = seq.replace("P","1")
             seq = seq.replace(" ","+")
             for e in self.elems:
-                seq = seq.replace(e["id"],str(e["nodes"]))
+                if "nodes" in e:
+                    seq = seq.replace(e["id"],str(e["nodes"]))
             seq = re.sub(regexp, '', seq, 0, 0)
             try:
                 element["nodes"] = eval(seq)
@@ -339,10 +350,12 @@ class MainWidget(QWidget):
             if 'font-style'  in element: font_style  = 'font-style:' + element["font-style"] + ';'                     
             if 'font-weight' in element: font_weight = 'font-weight:' + element["font-weight"] + ';'
             if 'fill'        in element: fill        = 'fill:' + element["fill"] + ';'
+            if 'text-decoration' in element: 
+                text_decoration = 'text-decoration="' + element["text-decoration"] + '" '
 
             self.svg = self.svg + '<text id="TEXT" x="' + str(coord_x) + '" y="' + str(coord_y) + '" ' \
                        + 'style="font-size:' + font_size + ';' + font_style + font_weight + fill \
-                       + '">' + element["def"] + '</text>\n'
+                       + '" ' + text_decoration + '>' + element["def"] + '</text>\n'
             return
 
         # ========================= #
@@ -361,9 +374,10 @@ class MainWidget(QWidget):
             # Frame
             if self.image_frame == 'yes':
                 self.svg = self.svg + '<!-- Image with Frame -->\n' \
-                        + '<svg><rect ' \
+                        + '<svg>\n<filter id="dropshadow"><feDropShadow dx="20" dy="20" stdDeviation="3" flood-opacity="0.3" /></filter>' \
+                        + '<rect ' \
                         + 'x="' + str(coord_x) + '" y="' + str(coord_y) + '"' + img_height + img_width \
-                        + ' style="fill:white;stroke-width:1;stroke:black" /></svg>\n'
+                        + ' style="fill:white;stroke-width:1;stroke:black;filter:url(#dropshadow)" /></svg>\n'
             # Embedded Image
             self.svg = self.svg + '<image xlink:href="' + element["def"] \
                      + '" x="' + str(coord_x) + '" y="' + str(coord_y) + '"' \
@@ -472,7 +486,7 @@ class MainWidget(QWidget):
                            + 'style="font-size:' + font_size + ';' + font_style + font_weight + fill \
                            + '">' + element["id"][1:] + '</text>\n' \
                            + '</g>\n' \
-                           + '<text x="' + str(100) + '" y="' + str(150 + self.textline * 70) + '" ' \
+                           + '<text x="150" y="' + str(150 + self.textline * 70) + '" ' \
                            + 'style="font-size:' + font_size + ';' + font_style + font_weight + fill \
                            + '">' + element["id"][1:] + ': ' + element2["def"] + ' (Ring)</text>\n'
                 self.textline = self.textline + 1
@@ -553,7 +567,7 @@ class MainWidget(QWidget):
                            + 'style="font-size:' + font_size + ';' + font_style + font_weight + fill \
                            + '">' + element["id"][1:] + '</text>\n' \
                            + '</g>\n' \
-                           + '<text x="' + str(100) + '" y="' + str(150 + self.textline * 70) + '" ' \
+                           + '<text x="150" y="' + str(150 + self.textline * 70) + '" ' \
                            + 'style="font-size:' + font_size + ';' + font_style + font_weight + fill \
                            + '">' + element["id"][1:] + ': ' + element2["def"] + ' (Chain)</text>\n'
                 self.textline = self.textline + 1
