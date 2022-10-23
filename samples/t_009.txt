@@ -4,21 +4,21 @@ Cc[3]:2 P 2 P 2 P 2 P 2 P 2
 
 F1:RA Cb{295} Cc{23} Cb{110}
 
-Z(730,800):F1 F1{45}  F1{90} F1{135} F1{180} F1{225} F1{270} F1{315} 
+Z(720,810):F1 F1{45}  F1{90} F1{135} F1{180} F1{225} F1{270} F1{315} 
 
 IMAGE(1300,180){width=670,height=700}:samples\snowflake009.jpeg
 
-TEXT(580,800):7
-TEXT(590,990):5
-TEXT(710,990):5
-TEXT(720,800):7
-TEXT(700,710):5
-TEXT(760,670):2
-TEXT(820,670):2
-TEXT(880,690):2
-TEXT(910,730):2
-TEXT(930,800):5
+TEXT(645,870):7
+TEXT(650,1100):5
+TEXT(760,1100):5
+TEXT(775,870):7
+TEXT(760,780):5
+TEXT(830,740):2
+TEXT(890,740):2
+TEXT(950,760):2
+TEXT(995,810):2
+TEXT(1015,880):5
 
-TEXT(100,1800){text-decoration=underline}:Comments:
-TEXT(100,1870):Connect several such figures and create a small or big tablecloth. You can play around with 
-TEXT(100,1940):colors as well.
+TEXT(100,1900){text-decoration=underline}:Comments:
+TEXT(100,1970):Connect several such figures and create a small or big tablecloth. You can play around with 
+TEXT(100,2040):colors as well.

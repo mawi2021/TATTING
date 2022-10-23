@@ -54,3 +54,22 @@ class Process():
         else:
             self.parent.widget.image_frame = 'no'
         self.parent.widget.onRedraw()                
+
+    def onPaperSize(self, format):
+        if format == 'A4':
+            self.parent.widget.paperwidthMM = 210
+            self.parent.widget.paperheightMM = 297
+        elif format == 'A3':
+            self.parent.widget.paperwidthMM = 297
+            self.parent.widget.paperheightMM = 420
+        elif format == 'A2':
+            self.parent.widget.paperwidthMM = 420
+            self.parent.widget.paperheightMM = 594
+        elif format == 'A1':
+            self.parent.widget.paperwidthMM = 594
+            self.parent.widget.paperheightMM = 840
+        elif format == 'A0':
+            self.parent.widget.paperwidthMM = 840
+            self.parent.widget.paperheightMM = 1188
+
+        self.parent.widget.onRedraw()                        

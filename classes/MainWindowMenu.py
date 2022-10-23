@@ -1,6 +1,6 @@
 # Sorces
 #   https://iconarchive.com/show/oxygen-icons-by-oxygen-icons.org.1.html
-from PyQt5.QtWidgets import QMenuBar, QAction
+from PyQt5.QtWidgets import QMenuBar, QAction, QMenu
 from PyQt5.QtGui import QIcon, QKeySequence
 
 class MainWindowMenu(QMenuBar):
@@ -52,16 +52,6 @@ class MainWindowMenu(QMenuBar):
         # ----- V I E W ------------------------------------------------------------------------- #
         viewMenu = self.addMenu("View")
 
-        self.zoomInAction = QAction(QIcon("icons/zoom_in2.png"), "Zoom In", self)
-        self.zoomInAction.triggered.connect(parent.onZoomIn)
-        self.zoomInAction.setShortcut(QKeySequence("Ctrl++"))
-        viewMenu.addAction(self.zoomInAction)
-
-        self.zoomOutAction = QAction(QIcon("icons/zoom_out2.png"), "Zoom Out", self)
-        self.zoomOutAction.triggered.connect(parent.onZoomOut)
-        self.zoomOutAction.setShortcut(QKeySequence("Ctrl+-"))
-        viewMenu.addAction(self.zoomOutAction)
-
         self.gridAction = QAction(QIcon("icons/..."), "Toggle Gridlines", self)
         self.gridAction.triggered.connect(parent.onGrid)
         self.gridAction.setShortcut(QKeySequence("Ctrl+G"))
@@ -76,3 +66,28 @@ class MainWindowMenu(QMenuBar):
         self.imageFrameAction.triggered.connect(parent.onImageFrame)
         self.imageFrameAction.setShortcut(QKeySequence("Ctrl+F"))
         viewMenu.addAction(self.imageFrameAction)
+
+        # Paper Size: A4, A3, ...
+        self.paperSizeMenu = QMenu('Paper Size', self)
+
+        self.paperSizeA4Action = QAction(QIcon("icons/..."), "A4", self)
+        self.paperSizeA4Action.triggered.connect(parent.onPaperSizeA4)
+        self.paperSizeMenu.addAction(self.paperSizeA4Action)
+
+        self.paperSizeA3Action = QAction(QIcon("icons/..."), "A3", self)
+        self.paperSizeA3Action.triggered.connect(parent.onPaperSizeA3)
+        self.paperSizeMenu.addAction(self.paperSizeA3Action)
+
+        self.paperSizeA2Action = QAction(QIcon("icons/..."), "A2", self)
+        self.paperSizeA2Action.triggered.connect(parent.onPaperSizeA2)
+        self.paperSizeMenu.addAction(self.paperSizeA2Action)
+
+        self.paperSizeA1Action = QAction(QIcon("icons/..."), "A1", self)
+        self.paperSizeA1Action.triggered.connect(parent.onPaperSizeA1)
+        self.paperSizeMenu.addAction(self.paperSizeA1Action)
+
+        self.paperSizeA0Action = QAction(QIcon("icons/..."), "A0", self)
+        self.paperSizeA0Action.triggered.connect(parent.onPaperSizeA0)
+        self.paperSizeMenu.addAction(self.paperSizeA0Action)
+
+        viewMenu.addMenu(self.paperSizeMenu)

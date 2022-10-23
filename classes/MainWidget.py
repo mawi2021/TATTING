@@ -1,4 +1,3 @@
-#from curses.ascii import isdigit
 from pickle import FALSE, TRUE
 from PyQt5.QtWidgets import QWidget, QSplitter, QTextEdit, QHBoxLayout, QFileDialog, QScrollArea
 from PyQt5.QtWebEngineWidgets import QWebEngineView
@@ -8,6 +7,7 @@ import re  # regular expressions)"/>
 import math
 import ctypes # for messages
 
+# Info-Messages: self.parent.statusBar().showMessage("Hallo Welt")
 
 class MainWidget(QWidget):
     def __init__(self, parent):
@@ -18,20 +18,17 @@ class MainWidget(QWidget):
         # ----- Constants ----------------------------------------------------------------------- #
         # TODO: read values from config file
         self.elems = []
-        self.picot = {}
-        self.scale = 22    # realistic view with A4 paper in background and 5mm grid lines
-        self.grid         = 'yes' # String!
-        self.node_circles = 'yes' # String!
-        self.image_frame  = 'yes' # String!
         self.svg   = ''    # Content of SVG data
         self.paperwidthMM = 210
         self.paperheightMM = 297
-        self.pix_x = self.paperwidthMM * 10
-        self.pix_y = self.paperheightMM * 10
-        self.kast = 50 # => 5mm = 1 Kästchen (when ViewBox has 10 times pixel as mm of "paper" size)
-        self.defaultColor = '#4287f5' #'#86ebeb'
+        self.defaultColor = '#4287f5'
         self.manualColor = '#fa6b05'
         self.textline = 1
+        
+        # Values, that can be toggled via Menu
+        self.grid         = 'yes' # String!
+        self.node_circles = 'yes' # String!
+        self.image_frame  = 'yes' # String!
 
         # Instruction as Text #
         self.textWidget = QTextEdit()
@@ -107,7 +104,6 @@ class MainWidget(QWidget):
         lines = content.split('\n')
         self.svg = ''
         self.elems = []
-        self.picot = {}
         self.textline = 1
 
         self._create_meta(lines)
@@ -164,14 +160,6 @@ class MainWidget(QWidget):
         with open(self.svgFilename, 'w', encoding="utf-8") as f:
             f.write(self.svg)
         f.close() 
-    def onZoomIn(self):
-        self.kast          = self.kast * 1.1
-        self.scale         = self.scale / 1.1
-        self.onRedraw()
-    def onZoomOut(self):
-        self.kast          = self.kast / 1.1
-        self.scale         = self.scale * 1.1
-        self.onRedraw()
 
     def open(self):
         # Read text file and assign content #
@@ -190,6 +178,24 @@ class MainWidget(QWidget):
         self.onRedraw()
 
     # ===== PRIVATE PART OF CLASS =============================================================== #
+    def _drawGrid(self):
+        if self.grid == 'yes':
+            self.svg = self.svg + '\n<!-- Grid -->\n'
+
+            # vertical lines
+            i = 0
+            while i <= self.paperwidthMM * 10:
+                self.svg = self.svg + '<line x1="' + str(i) + '" y1="0" x2="' + str(i) + '" y2="' \
+                    + str(self.paperheightMM * 10) + '" stroke="lightgrey" stroke-width="1px" />\n'
+                i = i + 50 # 50 pixel = 5 mm = 1 box on paper
+
+            # horizontal lines
+            i = 0
+            while i <= self.paperheightMM * 10:
+                self.svg = self.svg + '<line y1="' + str(i) + '" x1="0" y2="' + str(i) + '" x2="' \
+                    + str(self.paperwidthMM * 10) + '" stroke="lightgrey" stroke-width="1px" />\n'
+                i = i + 50 # 50 pixel = 5 mm = 1 box on paper
+        
     def _create_meta(self, lines):
         # Header Part #
         self.svg = self.svg + '<?xml version="1.0" encoding="UTF-8"?>\n' \
@@ -197,8 +203,8 @@ class MainWidget(QWidget):
                 + '    xmlns:xlink="http://www.w3.org/1999/xlink"\n' \
                 + '    version="1.1" baseProfile="full"\n' \
                 + '    width="%dmm" height="%dmm"\n' % (self.paperwidthMM,self.paperheightMM) \
-                + '    viewBox="0 0 ' + str(self.pix_x) + ' ' + str(self.pix_y) + '">\n' \
-                + '    <rect width="' + str(self.pix_x) + '" height="' + str(self.pix_y) \
+                + '    viewBox="0 0 ' + str(self.paperwidthMM * 10) + ' ' + str(self.paperheightMM * 10) + '">\n' \
+                + '    <rect width="' + str(self.paperwidthMM * 10) + '" height="' + str(self.paperheightMM * 10) \
                 + '" style="stroke:rgb(0,0,0)" fill="#f5fdff"/>\n' \
                 + '\n<!-- File Content -->\n' \
                 + '<text id="TEXT" x="100" y="100" ' \
@@ -206,18 +212,7 @@ class MainWidget(QWidget):
                        + '">Manual created with TADES, see https://github.com/mawi2021/TATTING</text>\n'
 
         # Draw Grid in whole "paper area" #
-        if self.grid == 'yes':
-            self.svg = self.svg + '\n<!-- Grid -->\n'
-            i = 0
-            while i <= self.pix_x:
-                self.svg = self.svg + '<line x1="' + str(i) + '" y1="0" x2="' + str(i) + '" y2="' \
-                    + str(self.pix_y) + '" stroke="lightgrey" stroke-width="1px" />\n'
-                i = i + self.kast
-            i = 0
-            while i <= self.pix_y:
-                self.svg = self.svg + '<line y1="' + str(i) + '" x1="0" y2="' + str(i) + '" x2="' \
-                    + str(self.pix_x) + '" stroke="lightgrey" stroke-width="1px" />\n'
-                i = i + self.kast
+        self._drawGrid()
 
         # Read basic elements from /config/basic_elements.svg file and replace it here
         fig_id = ''
@@ -336,14 +331,12 @@ class MainWidget(QWidget):
             # Ring (start + end on top) or Chain with mid on top (start left) #
             # Size of Rings and Chains must be scaled according to the number of nodes
             # elements consisting of such scaled rings and chains do not need to be scaled
-            scale = 500 * element["nodes"] / self.scale          # figure scale factor
+            scale = 25 * element["nodes"]   # one node is 25px wide
 
         # ========================= #
         # =====    T E X T    ===== #
         # ========================= #
         if element["id"] == 'TEXT':
-            # <text id="TEXT" x="100" y="100" style="font-size:100px;font-style:italic;font-weight:bold;fill:green">blabla</text>
-            # scale = 500 / self.scale
             if 'font-size' in element: font_size = element["font-size"]
             if coord_x < 0: coord_x = 100
             if coord_y < 0: coord_y = 100
@@ -393,9 +386,8 @@ class MainWidget(QWidget):
                 winkel_rad = math.radians(winkel_grad)
                 element["dx"] = 0
                 element["dy"] = 0
-                b = scale
 
-                r = b / (math.pi * (1 + winkel_grad/180) + 2/math.tan(winkel_rad/2))
+                r = scale / (math.pi * (1 + winkel_grad/180) + 2/math.tan(winkel_rad/2))
                 len_straight = r / math.tan(winkel_rad/2)
                 x1 = -len_straight * math.sin(winkel_rad/2)
                 y1 =  len_straight * math.cos(winkel_rad/2)
@@ -440,9 +432,9 @@ class MainWidget(QWidget):
                         # calculate coords, where to add
                         pos = pos + 0.5
                         if el == 'P':
-                            scale_picot = 20 / self.scale 
+                            scale_picot = 1
                         elif el == 'p':
-                            scale_picot = 10 / self.scale
+                            scale_picot = 0.5
                             
                         verhaeltnis = pos / element["nodes"]
                         part = umfang * verhaeltnis
@@ -503,8 +495,7 @@ class MainWidget(QWidget):
             if element["ratio"].isdigit():
                 ratio = int(element["ratio"])
                 alpha_rad = math.acos( 1 - ( 8 / ( ratio * ratio + 4 ) ) )
-                b = scale 
-                r = b / ( 2 * alpha_rad )
+                r = scale / ( 2 * alpha_rad )
                 x1 = 2 * r * math.sin(alpha_rad)
                 y1 = 0
                 element["dx"] = x1
@@ -534,9 +525,9 @@ class MainWidget(QWidget):
                     else:
                         # calculate coords, where to add
                         if el == 'P':
-                            scale_picot = 20 / self.scale 
+                            scale_picot = 1
                         elif el == 'p':
-                            scale_picot = 10 / self.scale
+                            scale_picot = 0.5
                             
                         pos = pos + 0.5
                         verhaeltnis = pos / element["nodes"]
@@ -647,8 +638,8 @@ class MainWidget(QWidget):
                         + '<g stroke="' + element["color"] \
                         + '" fill="none" stroke-width="3" stroke-linecap="round">\n' \
                         + '   <use xlink:href="#' + element["id"] \
-                        + '" transform="translate(' + str(coord_x*20/self.scale) \
-                        + ' ' + str(coord_y*20/self.scale) + ')"/>\n' \
+                        + '" transform="translate(' + str(coord_x) \
+                        + ' ' + str(coord_y) + ')"/>\n' \
                         + '</g>\n'
             
             # OUT.. figure output, first element in cycle only
@@ -656,8 +647,8 @@ class MainWidget(QWidget):
                         + '<g stroke="' + self.manualColor \
                         + '" fill="none" stroke-width="4" stroke-linecap="round">\n' \
                         + '   <use xlink:href="#OUT' + element["id"] \
-                        + '" transform="translate(' + str(coord_x*20/self.scale) + ' ' \
-                        + str(coord_y*20/self.scale) + ')"/>\n' \
+                        + '" transform="translate(' + str(coord_x) + ' ' \
+                        + str(coord_y) + ')"/>\n' \
                         + '</g>\n'
 
         self.elems.append(element)
