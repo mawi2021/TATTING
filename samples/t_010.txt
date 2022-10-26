@@ -1,0 +1,20 @@
+# https://www.pinterest.de/pin/927178642011473030/
+# https://www.pinterest.de/pin/927178642011450392/
+
+RA[75]:3 p 3 P 3 P 3 P 3 p 3 P 3 P 3 P 3 p 3
+RB[40]:3 P 3 P 3 p 3 P 3 P 3
+Cc1[100]:3 p 3 p 3 p
+Cc2[10]:3 P 3 P 3 P 3 P 3
+RD:3 p 3 P 3 P 3 P 3 p 3
+Ce1[10]:3 P 3 P 3 P 3 P 3 
+Ce2[100]:p 3 p 3 p 3
+Cf1[100]:3 p 3 p
+Cf2[8]:3 p 3
+Cf3[100]:p 3 p 4
+Cg[4]:3 p 3 P 3 P 3 p 3 P 3 P 3 p 3
+
+
+F2:RD Ce1{240} Ce2{285} RB{270} Cf1{280} Cf2{-2} Cf3{75} Cc1{65} Cc2{120} Cg{193}
+
+Z1(1990,3680):RA RA{90} RA{180} RA{270}
+Z2(1955,2395):F2{180} F2{210} F2{240} F2{270} F2{300} F2{330} F2 F2{30} F2{60} F2{90} F2{120} F2{150} 

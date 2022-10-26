@@ -492,6 +492,13 @@ class MainWidget(QWidget):
         # =====   C H A I N   ===== #
         # ========================= #
         elif element["id"][0] == 'C':
+            if element["ratio"][0] == '-':
+                element["reversed"] = True
+                element["ratio"] = element["ratio"][1:]
+                rev_str = '0'
+            else:
+                element["reversed"] = False
+                rev_str = '1'
             if element["ratio"].isdigit():
                 ratio = int(element["ratio"])
                 alpha_rad = math.acos( 1 - ( 8 / ( ratio * ratio + 4 ) ) )
@@ -503,7 +510,8 @@ class MainWidget(QWidget):
 
                 text_figure = '" fill="none" stroke-linecap="round">\n' \
                             + '   <path d="M 0,0' \
-                            + '   A ' + str(r) + ',' + str(r) + ' 0, 0, 1 ' + str(x1) + ',' + str(y1) + '" />\n'
+                            + '   A ' + str(r) + ',' + str(r) + ' 0, 0, ' + rev_str \
+                            + ' ' + str(x1) + ',' + str(y1) + '" />\n'
 
                 # Picots?
                 seq = element["def"].split(' ')
@@ -520,6 +528,9 @@ class MainWidget(QWidget):
                             y = -r * ( math.sin(beta_rad + gamma_rad) - math.cos(alpha_rad) )
                             pos = pos + 0.5
 
+                            if element["reversed"]:
+                                y = -y
+
                             if self.node_circles == "yes":
                                 text_figure = text_figure + '   <circle cx="' + str(x) + '" cy="' + str(y) + '"  r="5" />\n'
                     else:
@@ -528,7 +539,7 @@ class MainWidget(QWidget):
                             scale_picot = 1
                         elif el == 'p':
                             scale_picot = 0.5
-                            
+
                         pos = pos + 0.5
                         verhaeltnis = pos / element["nodes"]
                         beta_rad = 2 * alpha_rad * verhaeltnis
@@ -536,6 +547,10 @@ class MainWidget(QWidget):
                         y = -r * ( math.sin(beta_rad + gamma_rad) - math.cos(alpha_rad) )
                         alpha_picot = 180 + math.degrees(beta_rad) - math.degrees(alpha_rad)
                         pos = pos + 0.5
+
+                        if element["reversed"]:
+                            y = -y
+                            alpha_picot = 180 - alpha_picot
 
                         # self.svg = self.svg + '   <circle cx="' + str(x) + '" cy="' + str(y) + '"  r="15" />\n'
                         text_figure = text_figure + '   <use  xlink:href="#picot" ' \

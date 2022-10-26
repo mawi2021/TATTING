@@ -10,11 +10,17 @@ from classes.Process import Process
 #   + Delete (file) function 
 #   + Change handling of filenames => process such calls in a new method
 #   + Add filter in file open/save dialogs (txt)
+#   + Save paper size, toggle options per file, not only in global configuration
+#     - When new file, take current values and print on text panel. Read from such values in future
+#   + Toggle Text Manual
+#   + Toggle OUTxxx
 # - SVG Panel
 #   + Graphical elements and Text created by drag&drop via icons in toolbox-bar
 #   + Parameter for Output of SVG: Number of nodes between picots/edges as text
-#   + "reversed" chain
+#   + Chains with [x] and x < 2 being concatenated out of 3 parts: line + semicircle + line
 #   + Split code _add (MainWidget) into several methods
+#   + Scale image
+#   + Redraw resets the view position - always need to scroll if big picture to check the changes
 # - Text Panel
 #   + Zoom in Text Pane (larger font size), e.g. when using Ctrl+/Ctrl- depending on active pane
 #   + Text in formatted HTML instead of plain text
